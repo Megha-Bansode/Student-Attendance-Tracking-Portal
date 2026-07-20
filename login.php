@@ -1,130 +1,250 @@
 <?php include 'includes/header.php'; ?>
 
-<!-- Login Page Content -->
-<section class="section-padding d-flex align-items-center" style="min-height: 90vh; padding-top: 10rem;">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-lg-5 col-md-8">
-                <!-- Glassmorphism Login Card -->
-                <div class="dashboard-preview p-4 p-md-5" id="login-container-card">
-                    <div class="text-center mb-4">
-                        <img src="assets/images/logo.svg" alt="Portal Logo" width="48" height="48" class="mb-3">
-                        <h2 class="h3 text-white fw-bold mb-1">Welcome Back</h2>
-                        <p class="text-muted small">Access the Student Attendance Portal</p>
+<!-- Custom Modular Styles & Scripts for Split Login (Zero impact on index.php) -->
+<link rel="stylesheet" href="assets/css/login.css">
+
+<!-- Scoped Split Login Section -->
+<section class="split-login-section">
+
+    <!-- Interactive Motion Dots / Starfield Canvas Background -->
+    <canvas id="loginInteractiveBgCanvas"></canvas>
+
+    <!-- Toast Alert Notification -->
+    <div class="login-toast-notification" id="loginToastNotification">
+        <i class="bi bi-check-circle-fill"></i>
+        <span id="loginToastMsg">Credentials auto-filled!</span>
+    </div>
+
+    <!-- Main Split Login Container Card -->
+    <div class="split-login-card">
+
+        <!-- LEFT PANEL: Dark Creative Interactive Section -->
+        <div class="split-left-panel">
+            <!-- Animated Ambient Glow Blobs -->
+            <div class="left-panel-orb left-panel-orb-1"></div>
+            <div class="left-panel-orb left-panel-orb-2"></div>
+            <div class="left-panel-orb left-panel-orb-3"></div>
+
+            <div class="left-panel-content">
+                <!-- Brand Header -->
+                <div class="panel-brand-header">
+                    <div class="brand-icon-box">
+                        <i class="bi bi-mortarboard-fill"></i>
                     </div>
-
-                    <!-- Role Tab Buttons -->
-                    <ul class="nav nav-pills nav-fill mb-4 p-1 bg-dark bg-opacity-50 rounded-pill border border-secondary" id="loginRoleTabs" role="tablist" style="border-width: 1px !important;">
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link active py-2 rounded-pill small" id="student-tab" data-bs-toggle="tab" data-bs-target="#student-form" type="button" role="tab" aria-controls="student-form" aria-selected="true" style="font-size:0.85rem;">
-                                <i class="bi bi-person-fill"></i> Student
-                            </button>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link py-2 rounded-pill small" id="faculty-tab" data-bs-toggle="tab" data-bs-target="#faculty-form" type="button" role="tab" aria-controls="faculty-form" aria-selected="false" style="font-size:0.85rem;">
-                                <i class="bi bi-briefcase-fill"></i> Faculty
-                            </button>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link py-2 rounded-pill small" id="admin-tab" data-bs-toggle="tab" data-bs-target="#admin-form" type="button" role="tab" aria-controls="admin-form" aria-selected="false" style="font-size:0.85rem;">
-                                <i class="bi bi-shield-lock-fill"></i> Admin
-                            </button>
-                        </li>
-                    </ul>
-
-                    <!-- Form Contents -->
-                    <div class="tab-content" id="loginRoleTabContents">
-                        
-                        <!-- 1. Student Login Form -->
-                        <div class="tab-pane fade show active" id="student-form" role="tabpanel" aria-labelledby="student-tab">
-                            <form action="#" method="POST" id="form-student-login">
-                                <div class="mb-3">
-                                    <label for="studentPrn" class="form-label text-white small fw-semibold">PRN / Roll Number</label>
-                                    <div class="input-group">
-                                        <span class="input-group-text bg-dark border-secondary text-muted"><i class="bi bi-hash"></i></span>
-                                        <input type="text" class="form-control bg-dark text-white border-secondary" id="studentPrn" placeholder="e.g. 20241004" required style="outline: none; box-shadow: none;">
-                                    </div>
-                                </div>
-                                <div class="mb-4">
-                                    <label for="studentPassword" class="form-label text-white small fw-semibold">Password</label>
-                                    <div class="input-group">
-                                        <span class="input-group-text bg-dark border-secondary text-muted"><i class="bi bi-lock-fill"></i></span>
-                                        <input type="password" class="form-control bg-dark text-white border-secondary" id="studentPassword" placeholder="••••••••" required style="outline: none; box-shadow: none;">
-                                    </div>
-                                    <div class="text-end mt-1">
-                                        <a href="#" class="text-accent small text-decoration-none" style="font-size: 0.8rem;">Forgot Password?</a>
-                                    </div>
-                                </div>
-                                <button type="submit" class="btn-premium w-100 justify-content-center py-2.5" id="btn-student-submit">
-                                    Student Login <i class="bi bi-box-arrow-in-right"></i>
-                                </button>
-                            </form>
-                        </div>
-
-                        <!-- 2. Faculty Login Form -->
-                        <div class="tab-pane fade" id="faculty-form" role="tabpanel" aria-labelledby="faculty-tab">
-                            <form action="#" method="POST" id="form-faculty-login">
-                                <div class="mb-3">
-                                    <label for="facultyId" class="form-label text-white small fw-semibold">Faculty ID / Email</label>
-                                    <div class="input-group">
-                                        <span class="input-group-text bg-dark border-secondary text-muted"><i class="bi bi-envelope-fill"></i></span>
-                                        <input type="text" class="form-control bg-dark text-white border-secondary" id="facultyId" placeholder="e.g. prof.sharma@attendease.edu" required style="outline: none; box-shadow: none;">
-                                    </div>
-                                </div>
-                                <div class="mb-4">
-                                    <label for="facultyPassword" class="form-label text-white small fw-semibold">Password</label>
-                                    <div class="input-group">
-                                        <span class="input-group-text bg-dark border-secondary text-muted"><i class="bi bi-lock-fill"></i></span>
-                                        <input type="password" class="form-control bg-dark text-white border-secondary" id="facultyPassword" placeholder="••••••••" required style="outline: none; box-shadow: none;">
-                                    </div>
-                                    <div class="text-end mt-1">
-                                        <a href="#" class="text-accent small text-decoration-none" style="font-size: 0.8rem;">Forgot Password?</a>
-                                    </div>
-                                </div>
-                                <button type="submit" class="btn-premium w-100 justify-content-center py-2.5" id="btn-faculty-submit">
-                                    Faculty Login <i class="bi bi-box-arrow-in-right"></i>
-                                </button>
-                            </form>
-                        </div>
-
-                        <!-- 3. Admin Login Form -->
-                        <div class="tab-pane fade" id="admin-form" role="tabpanel" aria-labelledby="admin-tab">
-                            <form action="#" method="POST" id="form-admin-login">
-                                <div class="mb-3">
-                                    <label for="adminEmail" class="form-label text-white small fw-semibold">Administrator Email</label>
-                                    <div class="input-group">
-                                        <span class="input-group-text bg-dark border-secondary text-muted"><i class="bi bi-shield-fill"></i></span>
-                                        <input type="email" class="form-control bg-dark text-white border-secondary" id="adminEmail" placeholder="admin@attendease.edu" required style="outline: none; box-shadow: none;">
-                                    </div>
-                                </div>
-                                <div class="mb-4">
-                                    <label for="adminPassword" class="form-label text-white small fw-semibold">Password</label>
-                                    <div class="input-group">
-                                        <span class="input-group-text bg-dark border-secondary text-muted"><i class="bi bi-lock-fill"></i></span>
-                                        <input type="password" class="form-control bg-dark text-white border-secondary" id="adminPassword" placeholder="••••••••" required style="outline: none; box-shadow: none;">
-                                    </div>
-                                    <div class="text-end mt-1">
-                                        <a href="#" class="text-accent small text-decoration-none" style="font-size: 0.8rem;">Forgot Password?</a>
-                                    </div>
-                                </div>
-                                <button type="submit" class="btn-premium w-100 justify-content-center py-2.5" id="btn-admin-submit">
-                                    Admin Login <i class="bi bi-box-arrow-in-right"></i>
-                                </button>
-                            </form>
-                        </div>
-
+                    <div>
+                        <div class="brand-text-title">Student Attendance</div>
+                        <div class="brand-text-subtitle">Tracking Portal</div>
                     </div>
+                </div>
 
-                    <!-- Return to Landing Page -->
-                    <div class="text-center mt-4">
-                        <a href="index.php" class="text-muted small text-decoration-none" id="login-back-home">
-                            <i class="bi bi-arrow-left"></i> Back to Homepage
-                        </a>
-                    </div>
+                <!-- Main Hero Headline -->
+                <h1 class="panel-hero-title">
+                    Manage Attendance <br>
+                    <span class="gradient-title-accent">Effortlessly</span>
+                </h1>
+
+                <!-- Subtitle Description -->
+                <p class="panel-hero-desc">
+                    A comprehensive college management system for tracking attendance, managing departments, courses, faculty, and students.
+                </p>
+
+                <!-- Interactive Floating Pill Badges -->
+                <div class="panel-pills-wrapper">
+                    <span class="panel-pill"><i class="bi bi-diagram-3-fill"></i> Department Management</span>
+                    <span class="panel-pill"><i class="bi bi-person-plus-fill"></i> Student Registration</span>
+                    <span class="panel-pill"><i class="bi bi-person-workspace"></i> Faculty Portal</span>
+                    <span class="panel-pill"><i class="bi bi-bar-chart-line-fill"></i> Attendance Reports</span>
+                    <span class="panel-pill"><i class="bi bi-shield-check"></i> Role-Based Access</span>
+                </div>
+            </div>
+
+            <!-- Bottom Stats Counter Row -->
+            <div class="panel-stats-row">
+                <div>
+                    <div class="stat-item-val">1,340+</div>
+                    <div class="stat-item-lbl">Students</div>
+                </div>
+                <div>
+                    <div class="stat-item-val">70+</div>
+                    <div class="stat-item-lbl">Faculty</div>
+                </div>
+                <div>
+                    <div class="stat-item-val">7</div>
+                    <div class="stat-item-lbl">Departments</div>
                 </div>
             </div>
         </div>
+
+        <!-- RIGHT PANEL: White Compact Login Container -->
+        <div class="split-right-panel">
+
+            <!-- Interactive Role Selector Tabs (Swapped: Student first, Super Admin third) -->
+            <div class="role-pills-container">
+                <button type="button" class="role-pill-btn active" data-role="student">
+                    <i class="bi bi-mortarboard-fill"></i> Student
+                </button>
+                <button type="button" class="role-pill-btn" data-role="faculty">
+                    <i class="bi bi-briefcase-fill"></i> Faculty
+                </button>
+                <button type="button" class="role-pill-btn" data-role="admin">
+                    <i class="bi bi-shield-check"></i> Super Admin
+                </button>
+            </div>
+
+            <!-- Active Role Tag & Form Header (Default Student) -->
+            <div>
+                <span class="role-badge-tag" id="roleBadgeTag">
+                    <i class="bi bi-mortarboard-fill me-1"></i> STUDENT PORTAL
+                </span>
+                <h2 class="form-header-title">Welcome back 👋</h2>
+                <p class="form-header-subtitle">Sign in to access the management portal.</p>
+            </div>
+
+            <!-- Demo Credentials Interactive Box (Default Student) -->
+            <div class="demo-banner-box">
+                <span class="demo-banner-text" id="demoBannerText">Demo: 20241004 / Student@123</span>
+                <button type="button" class="btn-autofill-demo" id="btnAutofillDemo" title="Click to auto-fill input fields">
+                    <i class="bi bi-magic"></i> Auto-fill
+                </button>
+            </div>
+
+            <!-- Form Content Tabs -->
+            <div class="tab-content">
+
+                <!-- 1. STUDENT FORM (DEFAULT) -->
+                <div class="tab-fade-pane active" id="pane-student">
+                    <form action="#" method="POST" class="split-login-form" id="form-student-login">
+                        <div class="compact-form-group">
+                            <label for="studentPrn" class="compact-label">PRN / Roll Number</label>
+                            <div class="input-with-icon">
+                                <i class="bi bi-hash input-icon-left"></i>
+                                <input type="text" class="custom-compact-input" id="studentPrn" placeholder="20241004" required>
+                            </div>
+                        </div>
+
+                        <div class="compact-form-group">
+                            <div class="compact-label">
+                                <span>Password</span>
+                                <a href="#" class="forgot-link-text">Forgot password?</a>
+                            </div>
+                            <div class="input-with-icon">
+                                <i class="bi bi-lock-fill input-icon-left"></i>
+                                <input type="password" class="custom-compact-input" id="studentPassword" placeholder="••••••••" required>
+                                <button type="button" class="btn-toggle-eye" data-target="studentPassword" aria-label="Toggle password visibility">
+                                    <i class="bi bi-eye"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="form-options-row">
+                            <div class="form-check m-0">
+                                <input class="form-check-input" type="checkbox" id="rememberStudent" checked>
+                                <label class="form-check-label custom-check-lbl" for="rememberStudent">
+                                    Remember me for 30 days
+                                </label>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn-split-submit" id="btn-student-submit">
+                            Sign In <i class="bi bi-arrow-right"></i>
+                        </button>
+                    </form>
+                </div>
+
+                <!-- 2. FACULTY FORM -->
+                <div class="tab-fade-pane" id="pane-faculty">
+                    <form action="#" method="POST" class="split-login-form" id="form-faculty-login">
+                        <div class="compact-form-group">
+                            <label for="facultyId" class="compact-label">Faculty ID / Email</label>
+                            <div class="input-with-icon">
+                                <i class="bi bi-briefcase-fill input-icon-left"></i>
+                                <input type="text" class="custom-compact-input" id="facultyId" placeholder="faculty@college.edu.in" required>
+                            </div>
+                        </div>
+
+                        <div class="compact-form-group">
+                            <div class="compact-label">
+                                <span>Password</span>
+                                <a href="#" class="forgot-link-text">Forgot password?</a>
+                            </div>
+                            <div class="input-with-icon">
+                                <i class="bi bi-lock-fill input-icon-left"></i>
+                                <input type="password" class="custom-compact-input" id="facultyPassword" placeholder="••••••••" required>
+                                <button type="button" class="btn-toggle-eye" data-target="facultyPassword" aria-label="Toggle password visibility">
+                                    <i class="bi bi-eye"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="form-options-row">
+                            <div class="form-check m-0">
+                                <input class="form-check-input" type="checkbox" id="rememberFaculty" checked>
+                                <label class="form-check-label custom-check-lbl" for="rememberFaculty">
+                                    Remember me for 30 days
+                                </label>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn-split-submit" id="btn-faculty-submit">
+                            Sign In <i class="bi bi-arrow-right"></i>
+                        </button>
+                    </form>
+                </div>
+
+                <!-- 3. ADMIN FORM -->
+                <div class="tab-fade-pane" id="pane-admin">
+                    <form action="#" method="POST" class="split-login-form" id="form-admin-login">
+                        <div class="compact-form-group">
+                            <label for="adminEmail" class="compact-label">Email Address</label>
+                            <div class="input-with-icon">
+                                <i class="bi bi-envelope-fill input-icon-left"></i>
+                                <input type="email" class="custom-compact-input" id="adminEmail" placeholder="admin@college.edu.in" required>
+                            </div>
+                        </div>
+
+                        <div class="compact-form-group">
+                            <div class="compact-label">
+                                <span>Password</span>
+                                <a href="#" class="forgot-link-text">Forgot password?</a>
+                            </div>
+                            <div class="input-with-icon">
+                                <i class="bi bi-lock-fill input-icon-left"></i>
+                                <input type="password" class="custom-compact-input" id="adminPassword" placeholder="••••••••" required>
+                                <button type="button" class="btn-toggle-eye" data-target="adminPassword" aria-label="Toggle password visibility">
+                                    <i class="bi bi-eye"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="form-options-row">
+                            <div class="form-check m-0">
+                                <input class="form-check-input" type="checkbox" id="rememberAdmin" checked>
+                                <label class="form-check-label custom-check-lbl" for="rememberAdmin">
+                                    Remember me for 30 days
+                                </label>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn-split-submit" id="btn-admin-submit">
+                            Sign In <i class="bi bi-arrow-right"></i>
+                        </button>
+                    </form>
+                </div>
+
+            </div>
+
+            <!-- Footer Link back home -->
+            <div class="split-form-footer">
+                Protected by role-based access control • <a href="index.php" id="login-back-home">Home</a>
+            </div>
+
+        </div>
+
     </div>
+
 </section>
+
+<!-- Scoped Interactivity JavaScript -->
+<script src="assets/js/login.js"></script>
 
 <?php include 'includes/footer.php'; ?>
