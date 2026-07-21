@@ -1,0 +1,717 @@
+/* ==========================================================================
+   AttendEase - Faculty Portal Scoped Styles
+   Scoped under .faculty-portal wrapper to ensure zero style leakage
+   Paths relative to assets/css/ — loaded from faculty/ subdir via ../
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. Faculty Layout Shell
+   -------------------------------------------------------------------------- */
+.faculty-portal-body {
+    background: linear-gradient(160deg, #0f172a 0%, #131e35 45%, #0b1426 100%);
+    min-height: 100vh;
+}
+
+/* Outer wrapper that sits below the fixed global navbar */
+.faculty-portal-wrapper {
+    display: flex;
+    min-height: 100vh;
+    padding-top: 80px; /* clear fixed global navbar */
+}
+
+/* --------------------------------------------------------------------------
+   2. Faculty Sidebar Navigation
+   -------------------------------------------------------------------------- */
+.faculty-sidebar {
+    width: 260px;
+    background: linear-gradient(180deg, rgba(15, 23, 42, 0.95) 0%, rgba(11, 20, 38, 0.98) 100%);
+    border-right: 1px solid rgba(99, 102, 241, 0.15);
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 80px; /* below fixed navbar */
+    bottom: 0;
+    left: 0;
+    z-index: 1035;
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    overflow-y: auto;
+}
+
+/* Sidebar top accent stripe — inspired by faculty login blue gradient */
+.faculty-sidebar::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #6366f1, #2563eb, #38bdf8);
+}
+
+/* Profile Card inside Sidebar */
+.faculty-profile-card {
+    margin: 1rem 0 0.5rem 0;
+    padding: 1rem 20px;
+    background: linear-gradient(135deg, rgba(37, 99, 235, 0.15) 0%, rgba(99, 102, 241, 0.1) 100%);
+    border-top: 1px solid rgba(37, 99, 235, 0.25);
+    border-bottom: 1px solid rgba(37, 99, 235, 0.25);
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.faculty-avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #2563eb 0%, #6366f1 100%);
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1rem;
+    border: 2px solid rgba(96, 165, 250, 0.4);
+    flex-shrink: 0;
+    box-shadow: 0 4px 14px rgba(37, 99, 235, 0.4);
+}
+
+.faculty-profile-info { overflow: hidden; }
+
+.faculty-profile-name {
+    font-weight: 600;
+    font-size: 0.875rem;
+    color: #f8fafc;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin: 0;
+    font-family: 'Outfit', sans-serif;
+}
+
+.faculty-profile-dept {
+    font-size: 0.75rem;
+    color: #93c5fd;
+    margin: 0;
+}
+
+/* Sidebar Nav Menu */
+.faculty-nav-menu {
+    padding: 0;
+    list-style: none;
+    margin: 0;
+    flex-grow: 1;
+}
+
+.faculty-nav-section-label {
+    font-size: 0.68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    color: #475569;
+    padding: 0.85rem 0 0.35rem 30px;
+}
+
+.faculty-nav-item { margin-bottom: 0.2rem; }
+
+.faculty-nav-link {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 0.75rem 30px;
+    color: #94a3b8;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.9rem;
+    border-radius: 0;
+    transition: all 0.2s ease;
+    font-family: 'Inter', sans-serif;
+}
+
+.faculty-nav-link i {
+    font-size: 1.15rem;
+    color: #475569;
+    transition: color 0.2s ease;
+    width: 20px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.faculty-nav-link:hover {
+    color: #e2e8f0;
+    background: rgba(255, 255, 255, 0.06);
+}
+
+.faculty-nav-link:hover i { color: #93c5fd; }
+
+.faculty-nav-link.active {
+    color: #ffffff;
+    background: linear-gradient(135deg, rgba(37, 99, 235, 0.3) 0%, rgba(99, 102, 241, 0.2) 100%);
+    border: 1px solid rgba(96, 165, 250, 0.3);
+    font-weight: 600;
+}
+
+.faculty-nav-link.active i { color: #60a5fa; }
+
+/* Sidebar Footer Logout */
+.faculty-sidebar-footer {
+    padding: 1rem 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.faculty-logout-btn {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 15px;
+    width: 100%;
+    padding: 0.75rem 30px;
+    color: #f87171;
+    background: transparent;
+    border: none;
+    font-weight: 600;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+}
+
+.faculty-logout-btn i {
+    width: 20px;
+    text-align: center;
+    font-size: 1.15rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.faculty-logout-btn:hover {
+    background: rgba(239, 68, 68, 0.08);
+    color: #ef4444;
+}
+
+/* Sidebar Collapsed State (Desktop) */
+.faculty-sidebar.collapsed {
+    width: 80px;
+}
+.faculty-sidebar.collapsed .faculty-profile-info,
+.faculty-sidebar.collapsed .faculty-nav-section-label,
+.faculty-sidebar.collapsed .faculty-nav-link span,
+.faculty-sidebar.collapsed .faculty-logout-btn span {
+    display: none;
+}
+.faculty-sidebar.collapsed .faculty-profile-card {
+    background: transparent;
+    border-color: transparent;
+}
+
+/* Hover expansion for collapsed sidebar */
+@media (min-width: 992px) {
+    .faculty-sidebar.collapsed:hover {
+        width: 260px;
+        box-shadow: 5px 0 25px rgba(0, 0, 0, 0.4);
+    }
+    .faculty-sidebar.collapsed:hover .faculty-profile-info,
+    .faculty-sidebar.collapsed:hover .faculty-nav-section-label,
+    .faculty-sidebar.collapsed:hover .faculty-nav-link span,
+    .faculty-sidebar.collapsed:hover .faculty-logout-btn span {
+        display: block;
+    }
+    .faculty-sidebar.collapsed:hover .faculty-profile-card {
+        border-top: 1px solid rgba(37, 99, 235, 0.25);
+        border-bottom: 1px solid rgba(37, 99, 235, 0.25);
+        background: linear-gradient(135deg, rgba(37, 99, 235, 0.15) 0%, rgba(99, 102, 241, 0.1) 100%);
+    }
+}
+
+/* Preload state to prevent FOUC */
+html.preload-collapsed .faculty-sidebar {
+    width: 80px !important;
+    transition: none !important;
+}
+html.preload-collapsed .faculty-sidebar .faculty-profile-info,
+html.preload-collapsed .faculty-sidebar .faculty-nav-section-label,
+html.preload-collapsed .faculty-sidebar .faculty-nav-link span,
+html.preload-collapsed .faculty-sidebar .faculty-logout-btn span {
+    display: none !important;
+}
+html.preload-collapsed .faculty-sidebar .faculty-profile-card {
+    border-color: transparent !important;
+    background: transparent !important;
+}
+html.preload-collapsed .faculty-main-content {
+    margin-left: 80px !important;
+    transition: none !important;
+}
+
+
+/* --------------------------------------------------------------------------
+   3. Main Content Area
+   -------------------------------------------------------------------------- */
+.faculty-main-content {
+    flex-grow: 1;
+    margin-left: 260px;
+    display: flex;
+    flex-direction: column;
+    min-height: calc(100vh - 80px);
+    transition: margin-left 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.faculty-main-content.expanded {
+    margin-left: 80px;
+}
+
+/* Page Title Band — lighter, inspired by faculty login blue accent */
+.faculty-page-band {
+    background: linear-gradient(135deg, rgba(37, 99, 235, 0.12) 0%, rgba(99, 102, 241, 0.08) 50%, rgba(15, 23, 42, 0.6) 100%);
+    border-bottom: 1px solid rgba(96, 165, 250, 0.2);
+    padding: 1.1rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    backdrop-filter: blur(8px);
+}
+
+.faculty-page-band-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: #f8fafc;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.faculty-page-band-title i {
+    color: #60a5fa;
+}
+
+.faculty-page-band-breadcrumb {
+    font-size: 0.8rem;
+    color: #64748b;
+    margin: 0 0 0 2rem;
+    font-family: 'Inter', sans-serif;
+}
+
+.faculty-page-band-right {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.topbar-date-pill {
+    background: rgba(30, 41, 59, 0.6);
+    border: 1px solid rgba(96, 165, 250, 0.2);
+    padding: 0.4rem 0.9rem;
+    border-radius: 50px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: #93c5fd;
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+}
+
+/* Sidebar Toggle Button (Desktop & Mobile) */
+.faculty-sidebar-toggler {
+    background: rgba(30, 41, 59, 0.7);
+    border: 1px solid rgba(96, 165, 250, 0.2);
+    color: #93c5fd;
+    padding: 0.4rem 0.6rem;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.faculty-sidebar-toggler:hover {
+    background: rgba(37, 99, 235, 0.2);
+    color: #60a5fa;
+}
+
+.faculty-content-body {
+    padding: 1.75rem 2rem;
+    flex-grow: 1;
+}
+
+/* --------------------------------------------------------------------------
+   4. Cards — lighter with blue accent glow, glass feel
+   -------------------------------------------------------------------------- */
+.faculty-card {
+    background: linear-gradient(145deg, rgba(20, 30, 55, 0.7) 0%, rgba(15, 23, 42, 0.85) 100%);
+    border: 1px solid rgba(96, 165, 250, 0.15);
+    border-radius: 16px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15), 0 1px 0 rgba(255, 255, 255, 0.04) inset;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.faculty-card:hover {
+    border-color: rgba(96, 165, 250, 0.28);
+    box-shadow: 0 8px 32px rgba(37, 99, 235, 0.12);
+}
+
+.faculty-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.85rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.faculty-card-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin: 0;
+    color: #f1f5f9;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.faculty-card-subtitle {
+    font-size: 0.8rem;
+    color: #64748b;
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+}
+
+/* Stat Cards — lighter blue glass */
+.faculty-stat-card {
+    background: linear-gradient(145deg, rgba(20, 30, 55, 0.75) 0%, rgba(15, 23, 42, 0.9) 100%);
+    border: 1px solid rgba(96, 165, 250, 0.18);
+    border-radius: 16px;
+    padding: 1.35rem;
+    display: flex;
+    align-items: center;
+    gap: 1.1rem;
+    transition: all 0.25s ease;
+    backdrop-filter: blur(8px);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Subtle left accent line on stat cards */
+.faculty-stat-card::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 3px;
+    border-radius: 3px 0 0 3px;
+    background: linear-gradient(180deg, #2563eb, #6366f1);
+}
+
+.faculty-stat-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(96, 165, 250, 0.35);
+    box-shadow: 0 12px 30px rgba(37, 99, 235, 0.2);
+}
+
+.faculty-stat-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    flex-shrink: 0;
+}
+
+.icon-purple {
+    background: rgba(99, 102, 241, 0.18);
+    color: #818cf8;
+    border: 1px solid rgba(99, 102, 241, 0.3);
+}
+.icon-cyan {
+    background: rgba(14, 165, 233, 0.18);
+    color: #38bdf8;
+    border: 1px solid rgba(14, 165, 233, 0.3);
+}
+.icon-emerald {
+    background: rgba(16, 185, 129, 0.18);
+    color: #34d399;
+    border: 1px solid rgba(16, 185, 129, 0.3);
+}
+.icon-amber {
+    background: rgba(245, 158, 11, 0.18);
+    color: #fbbf24;
+    border: 1px solid rgba(245, 158, 11, 0.3);
+}
+.icon-blue {
+    background: rgba(37, 99, 235, 0.18);
+    color: #60a5fa;
+    border: 1px solid rgba(96, 165, 250, 0.3);
+}
+
+.faculty-stat-val {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: #f8fafc;
+    line-height: 1.1;
+}
+
+.faculty-stat-lbl {
+    font-size: 0.8rem;
+    color: #64748b;
+    font-weight: 500;
+    margin-top: 0.15rem;
+    font-family: 'Inter', sans-serif;
+}
+
+/* --------------------------------------------------------------------------
+   5. Tables
+   -------------------------------------------------------------------------- */
+.faculty-table-responsive {
+    border-radius: 12px;
+    overflow-x: auto;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.faculty-table {
+    width: 100%;
+    margin-bottom: 0;
+    color: #cbd5e1;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.faculty-table th {
+    background: rgba(15, 23, 42, 0.9);
+    color: #94a3b8;
+    font-weight: 600;
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    padding: 0.9rem 1.2rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    font-family: 'Inter', sans-serif;
+}
+
+.faculty-table td {
+    padding: 0.85rem 1.2rem;
+    vertical-align: middle;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    background: rgba(15, 23, 42, 0.4);
+    font-size: 0.875rem;
+    font-family: 'Inter', sans-serif;
+    transition: background 0.15s ease;
+}
+
+.faculty-table tbody tr:hover td {
+    background: rgba(37, 99, 235, 0.08);
+}
+
+.faculty-table tbody tr:last-child td { border-bottom: none; }
+
+/* --------------------------------------------------------------------------
+   6. Attendance Toggle Controls
+   -------------------------------------------------------------------------- */
+.attendance-toggle-group {
+    display: inline-flex;
+    background: rgba(15, 23, 42, 0.7);
+    padding: 3px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.attendance-toggle-btn {
+    padding: 0.3rem 0.75rem;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    background: transparent;
+    color: #64748b;
+    transition: all 0.18s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-family: 'Inter', sans-serif;
+}
+
+.attendance-toggle-btn.btn-present.active {
+    background: linear-gradient(135deg, #059669, #10b981);
+    color: #ffffff;
+    box-shadow: 0 2px 8px rgba(16, 185, 129, 0.4);
+}
+
+.attendance-toggle-btn.btn-absent.active {
+    background: linear-gradient(135deg, #dc2626, #ef4444);
+    color: #ffffff;
+    box-shadow: 0 2px 8px rgba(239, 68, 68, 0.4);
+}
+
+/* --------------------------------------------------------------------------
+   7. Scoped Form Controls
+   -------------------------------------------------------------------------- */
+.faculty-form-label {
+    font-size: 0.825rem;
+    font-weight: 600;
+    color: #cbd5e1;
+    margin-bottom: 0.4rem;
+    display: block;
+    font-family: 'Inter', sans-serif;
+}
+
+.faculty-select, .faculty-input {
+    background: rgba(15, 23, 42, 0.7);
+    border: 1px solid rgba(96, 165, 250, 0.2);
+    color: #e2e8f0;
+    border-radius: 10px;
+    padding: 0.6rem 0.95rem;
+    font-size: 0.875rem;
+    width: 100%;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    font-family: 'Inter', sans-serif;
+}
+
+.faculty-select:focus, .faculty-input:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+    background: rgba(20, 30, 55, 0.9);
+    color: #f1f5f9;
+}
+
+.faculty-select option {
+    background: #0f172a;
+    color: #e2e8f0;
+}
+
+.faculty-select:disabled, .faculty-input:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* --------------------------------------------------------------------------
+   8. Badge Tags
+   -------------------------------------------------------------------------- */
+.faculty-badge {
+    padding: 0.3rem 0.7rem;
+    border-radius: 50px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-family: 'Inter', sans-serif;
+}
+
+.badge-success-subtle {
+    background: rgba(16, 185, 129, 0.12);
+    color: #34d399;
+    border: 1px solid rgba(16, 185, 129, 0.28);
+}
+
+.badge-warning-subtle {
+    background: rgba(245, 158, 11, 0.12);
+    color: #fbbf24;
+    border: 1px solid rgba(245, 158, 11, 0.28);
+}
+
+.badge-danger-subtle {
+    background: rgba(239, 68, 68, 0.12);
+    color: #f87171;
+    border: 1px solid rgba(239, 68, 68, 0.28);
+}
+
+.badge-info-subtle {
+    background: rgba(96, 165, 250, 0.12);
+    color: #60a5fa;
+    border: 1px solid rgba(96, 165, 250, 0.28);
+}
+
+.badge-secondary-subtle {
+    background: rgba(148, 163, 184, 0.12);
+    color: #94a3b8;
+    border: 1px solid rgba(148, 163, 184, 0.2);
+}
+
+.badge-blue-subtle {
+    background: rgba(37, 99, 235, 0.15);
+    color: #93c5fd;
+    border: 1px solid rgba(96, 165, 250, 0.3);
+}
+
+/* --------------------------------------------------------------------------
+   9. Live Counter Pills (Attendance Sheet)
+   -------------------------------------------------------------------------- */
+.counter-box-group {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    flex-wrap: wrap;
+}
+
+.counter-pill {
+    padding: 0.45rem 0.9rem;
+    border-radius: 10px;
+    background: rgba(15, 23, 42, 0.7);
+    border: 1px solid rgba(96, 165, 250, 0.15);
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-size: 0.82rem;
+    font-weight: 600;
+    font-family: 'Inter', sans-serif;
+}
+
+.counter-pill-val {
+    font-size: 1.05rem;
+    font-weight: 700;
+    font-family: 'Outfit', sans-serif;
+}
+
+/* --------------------------------------------------------------------------
+   10. Responsive Breakpoints
+   -------------------------------------------------------------------------- */
+@media (max-width: 991.98px) {
+    .faculty-sidebar {
+        transform: translateX(-100%);
+    }
+
+    .faculty-sidebar.show {
+        transform: translateX(0);
+        box-shadow: 0 0 60px rgba(0, 0, 0, 0.7);
+    }
+
+    .faculty-main-content {
+        margin-left: 0;
+    }
+
+    .faculty-content-body {
+        padding: 1.25rem 1rem;
+    }
+
+    .faculty-page-band {
+        padding: 0.85rem 1rem;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .counter-box-group {
+        width: 100%;
+    }
+
+    .counter-pill {
+        flex: 1;
+        justify-content: center;
+    }
+
+    .faculty-content-body {
+        padding: 1rem;
+    }
+}

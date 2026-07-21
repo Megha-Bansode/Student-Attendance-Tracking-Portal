@@ -3,7 +3,7 @@
  * Does not affect index.php or other pages
  */
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     // 1. Role Left Panel & Details Map
     const roleDetails = {
         student: {
@@ -94,7 +94,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Role Switching
     roleTabBtns.forEach(btn => {
-        btn.addEventListener('click', function() {
+        btn.addEventListener('click', function () {
             const selectedRole = this.getAttribute('data-role');
             if (!selectedRole || selectedRole === activeRole) return;
 
@@ -133,14 +133,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
                     // Update Pills
                     if (pillsWrapper) {
-                        pillsWrapper.innerHTML = config.pills.map(pill => 
+                        pillsWrapper.innerHTML = config.pills.map(pill =>
                             `<span class="panel-pill"><i class="bi ${pill.icon}"></i> ${pill.text}</span>`
                         ).join('');
                     }
 
                     // Update Stats
                     if (statsRow) {
-                        statsRow.innerHTML = config.stats.map(stat => 
+                        statsRow.innerHTML = config.stats.map(stat =>
                             `<div>
                                 <div class="stat-item-val">${stat.value}</div>
                                 <div class="stat-item-lbl">${stat.label}</div>
@@ -162,7 +162,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Password Visibility Toggles
     const toggleEyeBtns = document.querySelectorAll('.btn-toggle-eye');
     toggleEyeBtns.forEach(btn => {
-        btn.addEventListener('click', function() {
+        btn.addEventListener('click', function () {
             const targetId = this.getAttribute('data-target');
             const inputField = document.getElementById(targetId);
             const icon = this.querySelector('i');
@@ -184,7 +184,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Form Submit handling (For backend readiness - log role and prevent default for mock demo, but let submit proceed if needed)
     const forms = document.querySelectorAll('.split-login-form');
     forms.forEach(form => {
-        form.addEventListener('submit', function(e) {
+        form.addEventListener('submit', function (e) {
             // Note: In real backend integration, this event listener can be removed or used for async login.
             // For now, we simulate authentication transition.
             e.preventDefault();
@@ -198,15 +198,38 @@ document.addEventListener('DOMContentLoaded', function() {
             setTimeout(() => {
                 submitBtn.disabled = false;
                 submitBtn.innerHTML = origHtml;
-                showToast(`🎉 Ready for backend integration! Submitting ${activeRole.toUpperCase()} credentials.`);
+
+                if (activeRole === 'faculty') {
+                    const idInput = document.getElementById('facultyId');
+                    const passInput = document.getElementById('facultyPassword');
+                    const idVal = idInput ? idInput.value.trim().toLowerCase() : '';
+                    const passVal = passInput ? passInput.value.trim() : '';
+
+                    if (idVal === 'faculty@login' && (passVal === 'faculty@123' || passVal === 'faculty123' || passVal === 'faculty@123')) {
+                        window.location.href = 'faculty-dashboard.php';
+                    } else {
+                        showToast(`❌ Invalid Faculty credentials. Please try again.`, true);
+                    }
+                } else if (activeRole === 'student') {
+                    showToast(`❌ Invalid Student ZPRN or Password.`, true);
+                }
             }, 1000);
         });
     });
 
     // Helper Toast function
-    function showToast(message) {
+    function showToast(message, isError = false) {
         if (!toastElem) return;
         if (toastMsg) toastMsg.textContent = message;
+
+        if (isError) {
+            toastElem.style.background = '#ef4444';
+            toastElem.style.boxShadow = '0 10px 25px rgba(239, 68, 68, 0.3)';
+        } else {
+            toastElem.style.background = '#10b981';
+            toastElem.style.boxShadow = '0 10px 25px rgba(16, 185, 129, 0.3)';
+        }
+
         toastElem.classList.add('show');
         setTimeout(() => {
             toastElem.classList.remove('show');

@@ -1,6 +1,8 @@
 <?php
 $current_page = basename($_SERVER['PHP_SELF']);
 $is_index = ($current_page == 'index.php' || $current_page == '' || $current_page == '/');
+$is_logged_in = !($is_index || $current_page == 'login.php');
+
 $home_link = $is_index ? '#home' : 'index.php#home';
 $about_link = $is_index ? '#about' : 'index.php#about';
 $features_link = $is_index ? '#features' : 'index.php#features';
@@ -57,11 +59,17 @@ $contact_link = $is_index ? '#contact' : 'index.php#contact';
                         <li class="nav-item">
                             <a class="nav-link" href="<?php echo $contact_link; ?>" id="nav-link-contact">Contact</a>
                         </li>
-                        <!-- Login Button -->
+                        <!-- Login/Logout Button -->
                         <li class="nav-item ms-lg-3 mt-3 mt-lg-0">
-                            <a href="login.php" class="btn-premium px-4" id="nav-login-btn">
-                                <i class="bi bi-box-arrow-in-right"></i> Login
-                            </a>
+                            <?php if ($is_logged_in): ?>
+                                <a href="login.php" class="btn-premium px-4" id="nav-logout-btn" style="background: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.3); color: #f87171;">
+                                    <i class="bi bi-box-arrow-right"></i> Logout
+                                </a>
+                            <?php else: ?>
+                                <a href="login.php" class="btn-premium px-4" id="nav-login-btn">
+                                    <i class="bi bi-box-arrow-in-right"></i> Login
+                                </a>
+                            <?php endif; ?>
                         </li>
                     </ul>
                 </div>

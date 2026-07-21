@@ -152,7 +152,7 @@
                             <label for="facultyId" class="compact-label">Faculty ID / Email</label>
                             <div class="input-with-icon">
                                 <i class="bi bi-briefcase-fill input-icon-left"></i>
-                                <input type="text" name="faculty_id" class="custom-compact-input" id="facultyId" placeholder="FAC2026101" required>
+                                <input type="text" name="faculty_id" class="custom-compact-input" id="facultyId" placeholder="faculty@login" value="faculty@login" required>
                             </div>
                         </div>
 
