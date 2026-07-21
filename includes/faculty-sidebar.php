@@ -28,7 +28,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
     <ul class="faculty-nav-menu" role="list">
 
         <li class="faculty-nav-item">
-            <a href="faculty-dashboard.php"
+            <a href="<?php echo $base_path; ?>modules/dashboard/faculty-dashboard.php"
                class="faculty-nav-link <?php echo ($current_page === 'faculty-dashboard.php') ? 'active' : ''; ?>"
                <?php echo ($current_page === 'faculty-dashboard.php') ? 'aria-current="page"' : ''; ?>>
                 <i class="bi bi-grid-1x2-fill"></i>
@@ -37,7 +37,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
         </li>
 
         <li class="faculty-nav-item">
-            <a href="faculty-subject-allocation.php"
+            <a href="<?php echo $base_path; ?>modules/subjects/faculty-subject-allocation.php"
                class="faculty-nav-link <?php echo ($current_page === 'faculty-subject-allocation.php') ? 'active' : ''; ?>"
                <?php echo ($current_page === 'faculty-subject-allocation.php') ? 'aria-current="page"' : ''; ?>>
                 <i class="bi bi-diagram-3-fill"></i>
@@ -46,7 +46,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
         </li>
 
         <li class="faculty-nav-item">
-            <a href="faculty-mark-attendance.php"
+            <a href="<?php echo $base_path; ?>modules/attendance/faculty-mark-attendance.php"
                class="faculty-nav-link <?php echo ($current_page === 'faculty-mark-attendance.php') ? 'active' : ''; ?>"
                <?php echo ($current_page === 'faculty-mark-attendance.php') ? 'aria-current="page"' : ''; ?>>
                 <i class="bi bi-check-circle-fill"></i>
@@ -55,7 +55,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
         </li>
 
         <li class="faculty-nav-item">
-            <a href="faculty-edit-attendance.php"
+            <a href="<?php echo $base_path; ?>modules/attendance/faculty-edit-attendance.php"
                class="faculty-nav-link <?php echo ($current_page === 'faculty-edit-attendance.php') ? 'active' : ''; ?>"
                <?php echo ($current_page === 'faculty-edit-attendance.php') ? 'aria-current="page"' : ''; ?>>
                 <i class="bi bi-pencil-square"></i>
@@ -63,19 +63,11 @@ $current_page = basename($_SERVER['PHP_SELF']);
             </a>
         </li>
 
-        <li class="faculty-nav-item">
-            <a href="admin-dashboard.php"
-               class="faculty-nav-link">
-                <i class="bi bi-shield-check"></i>
-                <span>Super Admin</span>
-            </a>
-        </li>
-
     </ul>
 
     <!-- Sign Out -->
     <div class="faculty-sidebar-footer">
-        <a href="login.php" class="faculty-logout-btn" title="Return to Login">
+        <a href="<?php echo $base_path; ?>modules/authentication/login.php" class="faculty-logout-btn" title="Return to Login">
             <i class="bi bi-box-arrow-right"></i>
             <span>Sign Out</span>
         </a>

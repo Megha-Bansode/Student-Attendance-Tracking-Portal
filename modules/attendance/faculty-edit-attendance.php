@@ -7,9 +7,9 @@ $page_title = 'Edit Attendance';
 $selected_subject = isset($_GET['subject']) ? $_GET['subject'] : '';
 $selected_div     = isset($_GET['div'])     ? $_GET['div']     : '';
 $selected_date    = isset($_GET['date'])    ? $_GET['date']    : date('Y-m-d');
-$selected_slot    = isset($_GET['slot'])    ? $_GET['slot']    : '';
+$selected_slot    = '';
 
-$is_search_active = (!empty($selected_subject) && !empty($selected_div) && !empty($selected_slot));
+$is_search_active = (!empty($selected_subject) && !empty($selected_div));
 
 /* ── Mock Students (replace with DB query) ── */
 $mock_students = [
@@ -27,9 +27,9 @@ $mock_students = [
     ['roll'=>'112','prn'=>'2023CSE0112','name'=>'Tanvi Patil',     'status'=>'present','remarks'=>''],
 ];
 
-include 'includes/header.php';
+include '../../includes/header.php';
 ?>
-<link rel="stylesheet" href="assets/css/faculty.css">
+<link rel="stylesheet" href="<?php echo $base_path; ?>assets/css/dashboard.css">
 <script>
 document.body.classList.add('faculty-portal-body');
 if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') === 'true') {
@@ -39,7 +39,7 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
 
 <div class="faculty-portal">
 <div class="faculty-portal-wrapper">
-    <?php include 'includes/faculty-sidebar.php'; ?>
+    <?php include '../../includes/faculty-sidebar.php'; ?>
 
     <div class="faculty-main-content">
 
@@ -72,17 +72,17 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
             </div>
 
             <!-- Search Form -->
-            <form action="edit-attendance.php" method="GET" class="mb-4">
+            <form action="<?php echo $base_path; ?>modules/attendance/faculty-edit-attendance.php" method="GET" class="mb-4">
                 <div class="faculty-card">
                     <div class="faculty-card-header mb-3 pb-2">
                         <h3 class="faculty-card-title"><i class="bi bi-search" style="color:#818cf8;"></i> Find Submitted Record</h3>
                     </div>
                     <div class="row g-3 align-items-end">
-                        <div class="col-xl-3 col-md-6">
+                        <div class="col-xl-4 col-md-6">
                             <label for="editDateInput" class="faculty-form-label"><i class="bi bi-calendar3 me-1" style="color:#60a5fa;"></i> Date</label>
                             <input type="date" id="editDateInput" name="date" class="faculty-input" value="<?php echo htmlspecialchars($selected_date); ?>" max="<?php echo date('Y-m-d'); ?>" required>
                         </div>
-                        <div class="col-xl-3 col-md-6">
+                        <div class="col-xl-4 col-md-6">
                             <label for="editSubjectSelect" class="faculty-form-label"><i class="bi bi-journal-text me-1" style="color:#60a5fa;"></i> Subject</label>
                             <select id="editSubjectSelect" name="subject" class="faculty-select" required>
                                 <option value="">-- Select Subject --</option>
@@ -91,7 +91,7 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
                                 <option value="CS503" <?php echo ($selected_subject==='CS503')?'selected':''; ?>>CS503 – Web Tech Lab</option>
                             </select>
                         </div>
-                        <div class="col-xl-2 col-md-4">
+                        <div class="col-xl-2 col-md-6">
                             <label for="editDivisionSelect" class="faculty-form-label"><i class="bi bi-building me-1" style="color:#60a5fa;"></i> Division</label>
                             <select id="editDivisionSelect" name="div" class="faculty-select" required>
                                 <option value="">-- Div --</option>
@@ -100,17 +100,7 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
                                 <option value="C" <?php echo ($selected_div==='C')?'selected':''; ?>>Div C</option>
                             </select>
                         </div>
-                        <div class="col-xl-2 col-md-4">
-                            <label for="editLectureSelect" class="faculty-form-label"><i class="bi bi-clock me-1" style="color:#60a5fa;"></i> Slot</label>
-                            <select id="editLectureSelect" name="slot" class="faculty-select" required>
-                                <option value="">-- Slot --</option>
-                                <option value="1" <?php echo ($selected_slot==='1')?'selected':''; ?>>Slot 1</option>
-                                <option value="2" <?php echo ($selected_slot==='2')?'selected':''; ?>>Slot 2</option>
-                                <option value="3" <?php echo ($selected_slot==='3')?'selected':''; ?>>Slot 3</option>
-                                <option value="4" <?php echo ($selected_slot==='4')?'selected':''; ?>>Slot 4</option>
-                            </select>
-                        </div>
-                        <div class="col-xl-2 col-md-4">
+                        <div class="col-xl-2 col-md-6">
                             <button type="submit" class="btn btn-premium w-100"><i class="bi bi-search me-1"></i> Fetch</button>
                         </div>
                     </div>
@@ -119,13 +109,13 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
 
             <?php if ($is_search_active): ?>
             <!-- Edit Form -->
-            <form id="markAttendanceForm" action="edit-attendance.php" method="POST" novalidate>
+            <form id="markAttendanceForm" action="<?php echo $base_path; ?>modules/attendance/faculty-edit-attendance.php" method="POST" novalidate>
                 <div class="faculty-card">
                     <!-- Sheet header with live counters -->
                     <div class="d-flex flex-column flex-lg-row align-items-lg-center justify-content-between gap-3 mb-4 pb-3" style="border-bottom:1px solid rgba(255,255,255,.06);">
                         <div>
                             <h3 class="faculty-card-title mb-1"><i class="bi bi-pencil-square" style="color:#38bdf8;"></i> Updating Record: <?php echo htmlspecialchars($selected_subject); ?> (Div <?php echo htmlspecialchars($selected_div); ?>)</h3>
-                            <p class="faculty-card-subtitle">Originally marked on <?php echo date('M d, Y', strtotime($selected_date)); ?> | Slot <?php echo htmlspecialchars($selected_slot); ?></p>
+                            <p class="faculty-card-subtitle">Originally marked on <?php echo date('M d, Y', strtotime($selected_date)); ?></p>
                         </div>
                         <div class="counter-box-group">
                             <div class="counter-pill">
@@ -189,7 +179,7 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
 
                     <!-- Submit Row -->
                     <div class="d-flex align-items-center justify-content-between pt-4 mt-2" style="border-top:1px solid rgba(255,255,255,.06);">
-                        <a href="edit-attendance.php" class="btn btn-outline-light rounded-pill px-4"><i class="bi bi-x-lg me-1"></i> Cancel Edit</a>
+                        <a href="<?php echo $base_path; ?>modules/attendance/faculty-edit-attendance.php" class="btn btn-outline-light rounded-pill px-4"><i class="bi bi-x-lg me-1"></i> Cancel Edit</a>
                         <button type="submit" class="btn btn-premium px-4 py-2" id="btnSubmitAttendance">
                             <i class="bi bi-cloud-arrow-up-fill me-1"></i> Update Changes
                         </button>
@@ -210,5 +200,5 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
     </div>
 </div>
 </div>
-<script src="assets/js/faculty.js"></script>
-<?php include 'includes/footer.php'; ?>
+<script src="<?php echo $base_path; ?>assets/js/dashboard.js"></script>
+<?php include '../../includes/footer.php'; ?>

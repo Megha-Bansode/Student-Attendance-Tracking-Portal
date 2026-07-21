@@ -17,9 +17,9 @@ $today_attendance  = "92.4%";
 $present_today     = 1340;
 $absent_today      = 110;
 
-include 'includes/header.php';
+include '../../includes/header.php';
 ?>
-<link rel="stylesheet" href="assets/css/faculty.css">
+<link rel="stylesheet" href="<?php echo $base_path; ?>assets/css/dashboard.css">
 
 <script>
 document.body.classList.add('faculty-portal-body');
@@ -32,19 +32,19 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
     <div class="faculty-portal-wrapper">
 
         <!-- Super Admin Sidebar -->
-        <?php include 'includes/admin-sidebar.php'; ?>
+        <?php include '../../includes/admin-sidebar.php'; ?>
 
         <!-- Main Content Area -->
         <div class="faculty-main-content">
 
             <!-- Topbar Page Title Band -->
-            <?php include 'includes/admin-topbar.php'; ?>
+            <?php include '../../includes/admin-topbar.php'; ?>
 
             <!-- Content Body -->
             <main class="faculty-content-body">
 
                 <!-- Welcome Banner -->
-                <div class="faculty-card mb-4" style="background: linear-gradient(135deg, rgba(37, 99, 235, 0.22) 0%, rgba(99, 102, 241, 0.15) 50%, rgba(15, 23, 42, 0.95) 100%); border: 1px solid rgba(96, 165, 250, 0.3); border-radius:18px;">
+                <div class="faculty-card welcome-banner-card mb-4">
                     <div class="row align-items-center">
                         <div class="col-lg-8 mb-3 mb-lg-0">
                             <div class="d-flex flex-wrap align-items-center gap-2 mb-2">
@@ -57,8 +57,8 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
                             </p>
                         </div>
                         <div class="col-lg-4 text-lg-end d-flex flex-wrap justify-content-lg-end gap-2">
-                            <a href="admin-departments.php" class="btn btn-premium px-3.5"><i class="bi bi-plus-circle me-1"></i> Add Department</a>
-                            <a href="admin-faculty.php" class="btn btn-outline-light rounded-pill px-3" style="font-size:.85rem;"><i class="bi bi-person-plus me-1"></i> Register Faculty</a>
+                            <a href="<?php echo $base_path; ?>modules/departments/admin-departments.php" class="btn btn-premium px-3.5"><i class="bi bi-plus-circle me-1"></i> Add Department</a>
+                            <a href="<?php echo $base_path; ?>users/admin-faculty.php" class="btn btn-outline-light rounded-pill px-3" style="font-size:.85rem;"><i class="bi bi-person-plus me-1"></i> Register Faculty</a>
                         </div>
                     </div>
                 </div>
@@ -153,7 +153,7 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
                                     <h3 class="faculty-card-title"><i class="bi bi-buildings" style="color:#60a5fa;"></i> Department Attendance &amp; Capacity</h3>
                                     <p class="faculty-card-subtitle">Real-time breakdown across all 5 engineering departments</p>
                                 </div>
-                                <a href="admin-departments.php" class="btn btn-sm btn-outline-light rounded-pill px-3" style="font-size:.8rem;">View All</a>
+                                <a href="<?php echo $base_path; ?>modules/departments/admin-departments.php" class="btn btn-sm btn-outline-light rounded-pill px-3" style="font-size:.8rem;">View All</a>
                             </div>
                             <div class="faculty-table-responsive">
                                 <table class="faculty-table">
@@ -185,7 +185,7 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
                                                 </div>
                                             </td>
                                             <td class="text-end">
-                                                <a href="admin-departments.php" class="btn btn-sm btn-outline-info py-1 px-2.5 rounded-2"><i class="bi bi-arrow-right"></i></a>
+                                                <a href="<?php echo $base_path; ?>modules/departments/admin-departments.php" class="btn btn-sm btn-outline-info py-1 px-2.5 rounded-2"><i class="bi bi-arrow-right"></i></a>
                                             </td>
                                         </tr>
                                         <tr>
@@ -205,7 +205,7 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
                                                 </div>
                                             </td>
                                             <td class="text-end">
-                                                <a href="admin-departments.php" class="btn btn-sm btn-outline-info py-1 px-2.5 rounded-2"><i class="bi bi-arrow-right"></i></a>
+                                                <a href="<?php echo $base_path; ?>modules/departments/admin-departments.php" class="btn btn-sm btn-outline-info py-1 px-2.5 rounded-2"><i class="bi bi-arrow-right"></i></a>
                                             </td>
                                         </tr>
                                         <tr>
@@ -225,7 +225,7 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
                                                 </div>
                                             </td>
                                             <td class="text-end">
-                                                <a href="admin-departments.php" class="btn btn-sm btn-outline-info py-1 px-2.5 rounded-2"><i class="bi bi-arrow-right"></i></a>
+                                                <a href="<?php echo $base_path; ?>modules/departments/admin-departments.php" class="btn btn-sm btn-outline-info py-1 px-2.5 rounded-2"><i class="bi bi-arrow-right"></i></a>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -241,7 +241,7 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
                                 <h3 class="faculty-card-title"><i class="bi bi-lightning-charge-fill" style="color:#fbbf24;"></i> Administrative Controls</h3>
                             </div>
                             <div class="d-flex flex-column gap-3">
-                                <a href="admin-departments.php" class="text-decoration-none p-3 rounded-3 d-flex align-items-center justify-content-between" style="background:rgba(37,99,235,.12);border:1px solid rgba(96,165,250,.25);">
+                                <a href="<?php echo $base_path; ?>modules/departments/admin-departments.php" class="text-decoration-none p-3 rounded-3 d-flex align-items-center justify-content-between" style="background:rgba(37,99,235,.12);border:1px solid rgba(96,165,250,.25);">
                                     <div class="d-flex align-items-center gap-3">
                                         <div class="rounded-circle d-flex align-items-center justify-content-center flex-shrink-0" style="width:38px;height:38px;background:linear-gradient(135deg,#2563eb,#6366f1);"><i class="bi bi-building text-white"></i></div>
                                         <div><h6 class="mb-0 fw-semibold text-white font-outfit">Department Setup</h6><small style="color:#64748b;">Add or edit departments</small></div>
@@ -249,7 +249,7 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
                                     <i class="bi bi-chevron-right" style="color:#64748b;"></i>
                                 </a>
 
-                                <a href="admin-faculty.php" class="text-decoration-none p-3 rounded-3 d-flex align-items-center justify-content-between" style="background:rgba(14,165,233,.12);border:1px solid rgba(56,189,248,.25);">
+                                <a href="<?php echo $base_path; ?>users/admin-faculty.php" class="text-decoration-none p-3 rounded-3 d-flex align-items-center justify-content-between" style="background:rgba(14,165,233,.12);border:1px solid rgba(56,189,248,.25);">
                                     <div class="d-flex align-items-center gap-3">
                                         <div class="rounded-circle d-flex align-items-center justify-content-center flex-shrink-0" style="width:38px;height:38px;background:linear-gradient(135deg,#0ea5e9,#38bdf8);"><i class="bi bi-person-badge text-white"></i></div>
                                         <div><h6 class="mb-0 fw-semibold text-white font-outfit">Faculty Roster</h6><small style="color:#64748b;">Teachers &amp; allocations</small></div>
@@ -257,7 +257,7 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
                                     <i class="bi bi-chevron-right" style="color:#64748b;"></i>
                                 </a>
 
-                                <a href="admin-students.php" class="text-decoration-none p-3 rounded-3 d-flex align-items-center justify-content-between" style="background:rgba(16,185,129,.12);border:1px solid rgba(52,211,153,.25);">
+                                <a href="<?php echo $base_path; ?>users/admin-students.php" class="text-decoration-none p-3 rounded-3 d-flex align-items-center justify-content-between" style="background:rgba(16,185,129,.12);border:1px solid rgba(52,211,153,.25);">
                                     <div class="d-flex align-items-center gap-3">
                                         <div class="rounded-circle d-flex align-items-center justify-content-center flex-shrink-0" style="width:38px;height:38px;background:linear-gradient(135deg,#059669,#10b981);"><i class="bi bi-people-fill text-white"></i></div>
                                         <div><h6 class="mb-0 fw-semibold text-white font-outfit">Student Directory</h6><small style="color:#64748b;">Enrollment &amp; PRNs</small></div>
@@ -320,5 +320,5 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
     </div>
 </div>
 
-<script src="assets/js/faculty.js"></script>
-<?php include 'includes/footer.php'; ?>
+<script src="<?php echo $base_path; ?>assets/js/dashboard.js"></script>
+<?php include '../../includes/footer.php'; ?>

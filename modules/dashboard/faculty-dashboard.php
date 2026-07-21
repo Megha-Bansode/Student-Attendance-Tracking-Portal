@@ -11,9 +11,9 @@ $total_students_count    = 240;
 $weekly_lectures_count   = 18;
 $todays_completed_count  = 3;
 $todays_total_count      = 4;
-include 'includes/header.php';
+include '../../includes/header.php';
 ?>
-<link rel="stylesheet" href="assets/css/faculty.css">
+<link rel="stylesheet" href="<?php echo $base_path; ?>assets/css/dashboard.css">
 <script>
 document.body.classList.add('faculty-portal-body');
 if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') === 'true') {
@@ -26,7 +26,7 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
     <div class="faculty-portal-wrapper">
 
         <!-- Sidebar -->
-        <?php include 'includes/faculty-sidebar.php'; ?>
+        <?php include '../../includes/faculty-sidebar.php'; ?>
 
         <!-- Main content -->
         <div class="faculty-main-content">
@@ -47,7 +47,7 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
                         <i class="bi bi-calendar3"></i>
                         <span><?php echo date('D, M d, Y'); ?></span>
                     </div>
-                    <a href="faculty-mark-attendance.php" class="btn btn-sm btn-premium d-none d-sm-inline-flex" style="padding:.4rem 1rem;font-size:.82rem;">
+                    <a href="<?php echo $base_path; ?>modules/attendance/faculty-mark-attendance.php" class="btn btn-sm btn-premium d-none d-sm-inline-flex" style="padding:.4rem 1rem;font-size:.82rem;">
                         <i class="bi bi-plus-lg"></i> Mark Attendance
                     </a>
                 </div>
@@ -57,7 +57,7 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
             <main class="faculty-content-body">
 
                 <!-- Welcome Banner -->
-                <div class="faculty-card mb-4" style="background:linear-gradient(135deg,rgba(37,99,235,.18) 0%,rgba(99,102,241,.12) 50%,rgba(15,23,42,.85) 100%);border-color:rgba(96,165,250,.3);">
+                <div class="faculty-card welcome-banner-card mb-4">
                     <div class="row align-items-center">
                         <div class="col-lg-8 mb-3 mb-lg-0">
                             <div class="d-flex flex-wrap align-items-center gap-2 mb-2">
@@ -70,7 +70,7 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
                             </p>
                         </div>
                         <div class="col-lg-4 text-lg-end">
-                            <a href="faculty-mark-attendance.php" class="btn btn-premium"><i class="bi bi-check2-square"></i> Mark Attendance</a>
+                            <a href="<?php echo $base_path; ?>modules/attendance/faculty-mark-attendance.php" class="btn btn-premium"><i class="bi bi-check2-square"></i> Mark Attendance</a>
                         </div>
                     </div>
                 </div>
@@ -112,7 +112,7 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
                                     <h3 class="faculty-card-title"><i class="bi bi-calendar-event" style="color:#60a5fa;"></i> Today's Teaching Schedule</h3>
                                     <p class="faculty-card-subtitle">Lectures for <?php echo date('F j, Y'); ?></p>
                                 </div>
-                                <a href="faculty-subject-allocation.php" class="btn btn-sm btn-outline-light rounded-pill px-3" style="font-size:.8rem;">View All</a>
+                                <a href="<?php echo $base_path; ?>modules/subjects/faculty-subject-allocation.php" class="btn btn-sm btn-outline-light rounded-pill px-3" style="font-size:.8rem;">View All</a>
                             </div>
                             <div class="faculty-table-responsive">
                                 <table class="faculty-table">
@@ -123,28 +123,28 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
                                             <td><span style="color:#f1f5f9;font-weight:600;">Data Structures &amp; Algorithms</span><br><small style="color:#64748b;">CS501 · Lecture</small></td>
                                             <td><span class="faculty-badge badge-info-subtle">TE CSE – Div A</span></td>
                                             <td><span class="faculty-badge badge-success-subtle"><i class="bi bi-check-circle-fill me-1"></i>Done</span></td>
-                                            <td class="text-end"><a href="faculty-edit-attendance.php?subject=CS501&div=A" class="btn btn-sm btn-outline-light py-1 px-2" style="font-size:.78rem;"><i class="bi bi-pencil me-1"></i>Edit</a></td>
+                                            <td class="text-end"><a href="<?php echo $base_path; ?>modules/attendance/faculty-edit-attendance.php?subject=CS501&div=A" class="btn btn-sm btn-outline-light py-1 px-2" style="font-size:.78rem;"><i class="bi bi-pencil me-1"></i>Edit</a></td>
                                         </tr>
                                         <tr>
                                             <td><div class="fw-semibold" style="color:#f1f5f9;">10:15 – 11:15 AM</div><small style="color:#64748b;">Slot 2</small></td>
                                             <td><span style="color:#f1f5f9;font-weight:600;">Database Management Systems</span><br><small style="color:#64748b;">CS502 · Lecture</small></td>
                                             <td><span class="faculty-badge badge-info-subtle">TE CSE – Div B</span></td>
                                             <td><span class="faculty-badge badge-success-subtle"><i class="bi bi-check-circle-fill me-1"></i>Done</span></td>
-                                            <td class="text-end"><a href="faculty-edit-attendance.php?subject=CS502&div=B" class="btn btn-sm btn-outline-light py-1 px-2" style="font-size:.78rem;"><i class="bi bi-pencil me-1"></i>Edit</a></td>
+                                            <td class="text-end"><a href="<?php echo $base_path; ?>modules/attendance/faculty-edit-attendance.php?subject=CS502&div=B" class="btn btn-sm btn-outline-light py-1 px-2" style="font-size:.78rem;"><i class="bi bi-pencil me-1"></i>Edit</a></td>
                                         </tr>
                                         <tr>
                                             <td><div class="fw-semibold" style="color:#f1f5f9;">01:30 – 02:30 PM</div><small style="color:#64748b;">Slot 3</small></td>
                                             <td><span style="color:#f1f5f9;font-weight:600;">Web Technology Lab</span><br><small style="color:#64748b;">CS503 · Practical</small></td>
                                             <td><span class="faculty-badge badge-info-subtle">BE CSE – Div A</span></td>
                                             <td><span class="faculty-badge badge-success-subtle"><i class="bi bi-check-circle-fill me-1"></i>Done</span></td>
-                                            <td class="text-end"><a href="faculty-edit-attendance.php?subject=CS503&div=A" class="btn btn-sm btn-outline-light py-1 px-2" style="font-size:.78rem;"><i class="bi bi-pencil me-1"></i>Edit</a></td>
+                                            <td class="text-end"><a href="<?php echo $base_path; ?>modules/attendance/faculty-edit-attendance.php?subject=CS503&div=A" class="btn btn-sm btn-outline-light py-1 px-2" style="font-size:.78rem;"><i class="bi bi-pencil me-1"></i>Edit</a></td>
                                         </tr>
                                         <tr>
                                             <td><div class="fw-semibold" style="color:#f1f5f9;">03:00 – 04:00 PM</div><small style="color:#64748b;">Slot 4</small></td>
                                             <td><span style="color:#f1f5f9;font-weight:600;">Object-Oriented Programming</span><br><small style="color:#64748b;">CS504 · Lecture</small></td>
                                             <td><span class="faculty-badge badge-info-subtle">SE CSE – Div C</span></td>
                                             <td><span class="faculty-badge badge-warning-subtle"><i class="bi bi-clock-history me-1"></i>Pending</span></td>
-                                            <td class="text-end"><a href="faculty-mark-attendance.php?subject=CS504&div=C&slot=4" class="btn btn-sm btn-premium py-1 px-3" style="font-size:.78rem;"><i class="bi bi-check-lg me-1"></i>Mark Now</a></td>
+                                            <td class="text-end"><a href="<?php echo $base_path; ?>modules/attendance/faculty-mark-attendance.php?subject=CS504&div=C&slot=4" class="btn btn-sm btn-premium py-1 px-3" style="font-size:.78rem;"><i class="bi bi-check-lg me-1"></i>Mark Now</a></td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -157,21 +157,21 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
                                 <h3 class="faculty-card-title"><i class="bi bi-lightning-charge-fill" style="color:#fbbf24;"></i> Quick Actions</h3>
                             </div>
                             <div class="d-flex flex-column gap-3">
-                                <a href="faculty-mark-attendance.php" class="text-decoration-none p-3 rounded-3 d-flex align-items-center justify-content-between" style="background:rgba(37,99,235,.12);border:1px solid rgba(96,165,250,.25);">
+                                <a href="<?php echo $base_path; ?>modules/attendance/faculty-mark-attendance.php" class="text-decoration-none p-3 rounded-3 d-flex align-items-center justify-content-between" style="background:rgba(37,99,235,.12);border:1px solid rgba(96,165,250,.25);">
                                     <div class="d-flex align-items-center gap-3">
                                         <div class="rounded-circle d-flex align-items-center justify-content-center flex-shrink-0" style="width:38px;height:38px;background:linear-gradient(135deg,#2563eb,#6366f1);"><i class="bi bi-check2-circle text-white"></i></div>
                                         <div><h6 class="mb-0 fw-semibold" style="color:#f1f5f9;font-family:'Outfit',sans-serif;">Mark Attendance</h6><small style="color:#64748b;">Record class attendance</small></div>
                                     </div>
                                     <i class="bi bi-chevron-right" style="color:#64748b;"></i>
                                 </a>
-                                <a href="faculty-edit-attendance.php" class="text-decoration-none p-3 rounded-3 d-flex align-items-center justify-content-between" style="background:rgba(14,165,233,.12);border:1px solid rgba(56,189,248,.25);">
+                                <a href="<?php echo $base_path; ?>modules/attendance/faculty-edit-attendance.php" class="text-decoration-none p-3 rounded-3 d-flex align-items-center justify-content-between" style="background:rgba(14,165,233,.12);border:1px solid rgba(56,189,248,.25);">
                                     <div class="d-flex align-items-center gap-3">
                                         <div class="rounded-circle d-flex align-items-center justify-content-center flex-shrink-0" style="width:38px;height:38px;background:linear-gradient(135deg,#0ea5e9,#38bdf8);"><i class="bi bi-pencil-square text-white"></i></div>
                                         <div><h6 class="mb-0 fw-semibold" style="color:#f1f5f9;font-family:'Outfit',sans-serif;">Edit Attendance</h6><small style="color:#64748b;">Modify within 48 hours</small></div>
                                     </div>
                                     <i class="bi bi-chevron-right" style="color:#64748b;"></i>
                                 </a>
-                                <a href="faculty-subject-allocation.php" class="text-decoration-none p-3 rounded-3 d-flex align-items-center justify-content-between" style="background:rgba(16,185,129,.12);border:1px solid rgba(52,211,153,.25);">
+                                <a href="<?php echo $base_path; ?>modules/subjects/faculty-subject-allocation.php" class="text-decoration-none p-3 rounded-3 d-flex align-items-center justify-content-between" style="background:rgba(16,185,129,.12);border:1px solid rgba(52,211,153,.25);">
                                     <div class="d-flex align-items-center gap-3">
                                         <div class="rounded-circle d-flex align-items-center justify-content-center flex-shrink-0" style="width:38px;height:38px;background:linear-gradient(135deg,#059669,#10b981);"><i class="bi bi-diagram-3-fill text-white"></i></div>
                                         <div><h6 class="mb-0 fw-semibold" style="color:#f1f5f9;font-family:'Outfit',sans-serif;">Subject Allocations</h6><small style="color:#64748b;">View assigned courses</small></div>
@@ -230,5 +230,5 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
     </div>
 </div>
 
-<script src="assets/js/faculty.js"></script>
-<?php include 'includes/footer.php'; ?>
+<script src="<?php echo $base_path; ?>assets/js/dashboard.js"></script>
+<?php include '../../includes/footer.php'; ?>

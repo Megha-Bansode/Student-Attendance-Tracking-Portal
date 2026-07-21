@@ -24,9 +24,9 @@ $mock_students = [
     ['roll'=>'112','prn'=>'2023CSE0112','name'=>'Tanvi Patil',     'status'=>'present','remarks'=>''],
 ];
 
-include 'includes/header.php';
+include '../../includes/header.php';
 ?>
-<link rel="stylesheet" href="assets/css/faculty.css">
+<link rel="stylesheet" href="<?php echo $base_path; ?>assets/css/dashboard.css">
 <script>
 document.body.classList.add('faculty-portal-body');
 if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') === 'true') {
@@ -36,7 +36,7 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
 
 <div class="faculty-portal">
 <div class="faculty-portal-wrapper">
-    <?php include 'includes/faculty-sidebar.php'; ?>
+    <?php include '../../includes/faculty-sidebar.php'; ?>
 
     <div class="faculty-main-content">
 
@@ -68,7 +68,7 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
                 </div>
             </div>
 
-            <form id="markAttendanceForm" action="mark-attendance.php" method="POST" novalidate>
+            <form id="markAttendanceForm" action="<?php echo $base_path; ?>modules/attendance/faculty-mark-attendance.php" method="POST" novalidate>
 
                 <!-- Step 1 – Session Context -->
                 <div class="faculty-card mb-4">
@@ -198,5 +198,5 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
     </div>
 </div>
 </div>
-<script src="assets/js/faculty.js"></script>
-<?php include 'includes/footer.php'; ?>
+<script src="<?php echo $base_path; ?>assets/js/dashboard.js"></script>
+<?php include '../../includes/footer.php'; ?>

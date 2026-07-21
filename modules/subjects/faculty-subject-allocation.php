@@ -12,9 +12,9 @@ $allocated_subjects = [
     ['code'=>'CS504','name'=>'Object-Oriented Programming','department'=>'Computer Science & Engineering','semester'=>'3','division'=>'C','students_count'=>60,'weekly_hours'=>4,'type'=>'Theory','academic_year'=>'2025-2026'],
 ];
 
-include 'includes/header.php';
+include '../../includes/header.php';
 ?>
-<link rel="stylesheet" href="assets/css/faculty.css">
+<link rel="stylesheet" href="<?php echo $base_path; ?>assets/css/dashboard.css">
 <script>
 document.body.classList.add('faculty-portal-body');
 if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') === 'true') {
@@ -24,7 +24,7 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
 
 <div class="faculty-portal">
 <div class="faculty-portal-wrapper">
-    <?php include 'includes/faculty-sidebar.php'; ?>
+    <?php include '../../includes/faculty-sidebar.php'; ?>
 
     <div class="faculty-main-content">
 
@@ -38,7 +38,7 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
             </div>
             <div class="faculty-page-band-right">
                 <div class="topbar-date-pill"><i class="bi bi-calendar3"></i><span><?php echo date('D, M d, Y'); ?></span></div>
-                <a href="mark-attendance.php" class="btn btn-sm btn-premium d-none d-sm-inline-flex" style="padding:.4rem 1rem;font-size:.82rem;"><i class="bi bi-plus-lg"></i> Mark Attendance</a>
+                <a href="<?php echo $base_path; ?>modules/attendance/faculty-mark-attendance.php" class="btn btn-sm btn-premium d-none d-sm-inline-flex" style="padding:.4rem 1rem;font-size:.82rem;"><i class="bi bi-plus-lg"></i> Mark Attendance</a>
             </div>
         </div>
 
@@ -135,7 +135,7 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
                                     </div>
                                 </div>
                             </div>
-                            <a href="mark-attendance.php?subject=<?php echo urlencode($subject['code']); ?>&div=<?php echo urlencode($subject['division']); ?>"
+                            <a href="<?php echo $base_path; ?>modules/attendance/faculty-mark-attendance.php?subject=<?php echo urlencode($subject['code']); ?>&div=<?php echo urlencode($subject['division']); ?>"
                                class="btn btn-premium w-100 text-center justify-content-center">
                                 <i class="bi bi-check2-square me-1"></i> Mark Attendance
                             </a>
@@ -157,5 +157,5 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
     </div>
 </div>
 </div>
-<script src="assets/js/faculty.js"></script>
-<?php include 'includes/footer.php'; ?>
+<script src="<?php echo $base_path; ?>assets/js/dashboard.js"></script>
+<?php include '../../includes/footer.php'; ?>

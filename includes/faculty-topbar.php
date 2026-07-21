@@ -27,7 +27,7 @@ $topbar_breadcrumb = isset($page_breadcrumb) ? $page_breadcrumb : 'AttendEase / 
             <span><?php echo date('D, M d, Y'); ?></span>
         </div>
         
-        <a href="mark-attendance.php" class="btn btn-sm btn-premium d-none d-sm-inline-flex" style="padding: 0.45rem 1.1rem; font-size: 0.825rem;">
+        <a href="<?php echo $base_path; ?>modules/attendance/faculty-mark-attendance.php" class="btn btn-sm btn-premium d-none d-sm-inline-flex" style="padding: 0.45rem 1.1rem; font-size: 0.825rem;">
             <i class="bi bi-plus-lg"></i> Mark Attendance
         </a>
     </div>

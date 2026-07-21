@@ -7,9 +7,9 @@ $page_title       = 'System Settings';
 $page_breadcrumb  = 'AttendEase / Super Admin / Settings';
 $page_icon        = 'bi-gear-fill';
 
-include 'includes/header.php';
+include '../includes/header.php';
 ?>
-<link rel="stylesheet" href="assets/css/faculty.css">
+<link rel="stylesheet" href="<?php echo $base_path; ?>assets/css/dashboard.css">
 
 <script>
 document.body.classList.add('faculty-portal-body');
@@ -22,13 +22,13 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
     <div class="faculty-portal-wrapper">
 
         <!-- Super Admin Sidebar -->
-        <?php include 'includes/admin-sidebar.php'; ?>
+        <?php include '../includes/admin-sidebar.php'; ?>
 
         <!-- Main Content Area -->
         <div class="faculty-main-content">
 
             <!-- Topbar Page Band -->
-            <?php include 'includes/admin-topbar.php'; ?>
+            <?php include '../includes/admin-topbar.php'; ?>
 
             <!-- Content Body -->
             <main class="faculty-content-body">
@@ -96,5 +96,5 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
     </div>
 </div>
 
-<script src="assets/js/faculty.js"></script>
-<?php include 'includes/footer.php'; ?>
+<script src="<?php echo $base_path; ?>assets/js/dashboard.js"></script>
+<?php include '../includes/footer.php'; ?>

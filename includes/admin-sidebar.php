@@ -28,7 +28,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
     <ul class="faculty-nav-menu" role="list">
 
         <li class="faculty-nav-item">
-            <a href="admin-dashboard.php"
+            <a href="<?php echo $base_path; ?>modules/dashboard/admin-dashboard.php"
                class="faculty-nav-link <?php echo ($current_page === 'admin-dashboard.php' || $current_page === 'admin.php') ? 'active' : ''; ?>"
                <?php echo ($current_page === 'admin-dashboard.php') ? 'aria-current="page"' : ''; ?>>
                 <i class="bi bi-grid-1x2-fill"></i>
@@ -37,7 +37,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
         </li>
 
         <li class="faculty-nav-item">
-            <a href="admin-departments.php"
+            <a href="<?php echo $base_path; ?>modules/departments/admin-departments.php"
                class="faculty-nav-link <?php echo ($current_page === 'admin-departments.php') ? 'active' : ''; ?>"
                <?php echo ($current_page === 'admin-departments.php') ? 'aria-current="page"' : ''; ?>>
                 <i class="bi bi-building"></i>
@@ -46,7 +46,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
         </li>
 
         <li class="faculty-nav-item">
-            <a href="admin-courses.php"
+            <a href="<?php echo $base_path; ?>modules/courses/admin-courses.php"
                class="faculty-nav-link <?php echo ($current_page === 'admin-courses.php') ? 'active' : ''; ?>"
                <?php echo ($current_page === 'admin-courses.php') ? 'aria-current="page"' : ''; ?>>
                 <i class="bi bi-book"></i>
@@ -55,7 +55,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
         </li>
 
         <li class="faculty-nav-item">
-            <a href="admin-subjects.php"
+            <a href="<?php echo $base_path; ?>modules/subjects/admin-subjects.php"
                class="faculty-nav-link <?php echo ($current_page === 'admin-subjects.php') ? 'active' : ''; ?>"
                <?php echo ($current_page === 'admin-subjects.php') ? 'aria-current="page"' : ''; ?>>
                 <i class="bi bi-journal-bookmark-fill"></i>
@@ -64,7 +64,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
         </li>
 
         <li class="faculty-nav-item">
-            <a href="admin-faculty.php"
+            <a href="<?php echo $base_path; ?>users/admin-faculty.php"
                class="faculty-nav-link <?php echo ($current_page === 'admin-faculty.php') ? 'active' : ''; ?>"
                <?php echo ($current_page === 'admin-faculty.php') ? 'aria-current="page"' : ''; ?>>
                 <i class="bi bi-person-badge"></i>
@@ -73,7 +73,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
         </li>
 
         <li class="faculty-nav-item">
-            <a href="admin-students.php"
+            <a href="<?php echo $base_path; ?>users/admin-students.php"
                class="faculty-nav-link <?php echo ($current_page === 'admin-students.php') ? 'active' : ''; ?>"
                <?php echo ($current_page === 'admin-students.php') ? 'aria-current="page"' : ''; ?>>
                 <i class="bi bi-people-fill"></i>
@@ -82,7 +82,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
         </li>
 
         <li class="faculty-nav-item">
-            <a href="admin-attendance.php"
+            <a href="<?php echo $base_path; ?>modules/attendance/admin-attendance.php"
                class="faculty-nav-link <?php echo ($current_page === 'admin-attendance.php') ? 'active' : ''; ?>"
                <?php echo ($current_page === 'admin-attendance.php') ? 'aria-current="page"' : ''; ?>>
                 <i class="bi bi-calendar-check-fill"></i>
@@ -91,7 +91,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
         </li>
 
         <li class="faculty-nav-item">
-            <a href="admin-reports.php"
+            <a href="<?php echo $base_path; ?>reports/admin-reports.php"
                class="faculty-nav-link <?php echo ($current_page === 'admin-reports.php') ? 'active' : ''; ?>"
                <?php echo ($current_page === 'admin-reports.php') ? 'aria-current="page"' : ''; ?>>
                 <i class="bi bi-bar-chart-line-fill"></i>
@@ -100,7 +100,34 @@ $current_page = basename($_SERVER['PHP_SELF']);
         </li>
 
         <li class="faculty-nav-item">
-            <a href="admin-settings.php"
+            <a href="<?php echo $base_path; ?>modules/semesters/admin-semesters.php"
+               class="faculty-nav-link <?php echo ($current_page === 'admin-semesters.php') ? 'active' : ''; ?>"
+               <?php echo ($current_page === 'admin-semesters.php') ? 'aria-current="page"' : ''; ?>>
+                <i class="bi bi-columns-gap"></i>
+                <span>Semester &amp; Divisions</span>
+            </a>
+        </li>
+
+        <li class="faculty-nav-item">
+            <a href="<?php echo $base_path; ?>modules/years/admin-years.php"
+               class="faculty-nav-link <?php echo ($current_page === 'admin-years.php') ? 'active' : ''; ?>"
+               <?php echo ($current_page === 'admin-years.php') ? 'aria-current="page"' : ''; ?>>
+                <i class="bi bi-calendar-range"></i>
+                <span>Academic Years</span>
+            </a>
+        </li>
+
+        <li class="faculty-nav-item">
+            <a href="<?php echo $base_path; ?>users/admin-roles.php"
+               class="faculty-nav-link <?php echo ($current_page === 'admin-roles.php') ? 'active' : ''; ?>"
+               <?php echo ($current_page === 'admin-roles.php') ? 'aria-current="page"' : ''; ?>>
+                <i class="bi bi-person-lock"></i>
+                <span>User Roles</span>
+            </a>
+        </li>
+
+        <li class="faculty-nav-item">
+            <a href="<?php echo $base_path; ?>settings/admin-settings.php"
                class="faculty-nav-link <?php echo ($current_page === 'admin-settings.php') ? 'active' : ''; ?>"
                <?php echo ($current_page === 'admin-settings.php') ? 'aria-current="page"' : ''; ?>>
                 <i class="bi bi-gear-fill"></i>
@@ -112,7 +139,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
 
     <!-- Sign Out Footer -->
     <div class="faculty-sidebar-footer">
-        <a href="login.php" class="faculty-logout-btn" title="Return to Login">
+        <a href="<?php echo $base_path; ?>modules/authentication/login.php" class="faculty-logout-btn" title="Return to Login">
             <i class="bi bi-box-arrow-right"></i>
             <span>Sign Out</span>
         </a>

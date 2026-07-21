@@ -1,4 +1,14 @@
 <?php
+// Calculate relative path to root dynamically
+$root_dir = str_replace('\\', '/', realpath(dirname(__DIR__)));
+$script_dir = str_replace('\\', '/', realpath(dirname($_SERVER['SCRIPT_FILENAME'])));
+$base_path = '';
+if ($script_dir !== $root_dir) {
+    $diff = str_replace($root_dir, '', $script_dir);
+    $parts = array_filter(explode('/', $diff));
+    $base_path = str_repeat('../', count($parts));
+}
+
 $current_page = basename($_SERVER['PHP_SELF']);
 $is_index = ($current_page == 'index.php' || $current_page == '' || $current_page == '/');
 $is_admin = (strpos($current_page, 'admin-') === 0);
@@ -6,10 +16,10 @@ $is_faculty = (strpos($current_page, 'faculty-') === 0);
 $is_portal = ($is_admin || $is_faculty);
 $is_logged_in = !($is_index || $current_page == 'login.php');
 
-$home_link = $is_index ? '#home' : 'index.php#home';
-$about_link = $is_index ? '#about' : 'index.php#about';
-$features_link = $is_index ? '#features' : 'index.php#features';
-$contact_link = $is_index ? '#contact' : 'index.php#contact';
+$home_link = $is_index ? '#home' : $base_path.'index.php#home';
+$about_link = $is_index ? '#about' : $base_path.'index.php#about';
+$features_link = $is_index ? '#features' : $base_path.'index.php#features';
+$contact_link = $is_index ? '#contact' : $base_path.'index.php#contact';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -25,7 +35,7 @@ $contact_link = $is_index ? '#contact' : 'index.php#contact';
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
     
     <!-- Custom Style Sheet -->
-    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="<?php echo $base_path; ?>assets/css/style.css">
 </head>
 <body>
     <!-- Background glow particles -->
@@ -37,8 +47,8 @@ $contact_link = $is_index ? '#contact' : 'index.php#contact';
         <nav class="navbar navbar-expand-lg navbar-dark bg-transparent py-0">
             <div class="container-fluid px-lg-4">
                 <!-- Branding / Logo -->
-                <a class="navbar-brand d-flex align-items-center gap-2" href="<?php echo $is_portal ? ($is_admin ? 'admin-dashboard.php' : 'faculty-dashboard.php') : 'index.php'; ?>" id="nav-brand">
-                    <img src="assets/images/logo.svg" alt="Portal Logo" width="34" height="34">
+                <a class="navbar-brand d-flex align-items-center gap-2" href="<?php echo $is_portal ? ($is_admin ? $base_path.'modules/dashboard/admin-dashboard.php' : $base_path.'modules/dashboard/faculty-dashboard.php') : $base_path.'index.php'; ?>" id="nav-brand">
+                    <img src="<?php echo $base_path; ?>assets/images/logo/logo.svg" alt="Portal Logo" width="34" height="34">
                     <span class="fw-bold font-outfit" style="font-size:1.2rem; letter-spacing: -0.3px;">Attend<span class="brand-gradient">Ease</span></span>
                     <?php if ($is_admin): ?>
                         <span class="badge rounded-pill bg-primary-subtle text-primary border border-primary-subtle ms-2 d-none d-sm-inline-block" style="font-size:0.72rem; font-weight:600; padding:0.3em 0.75em;">Super Admin Console</span>
@@ -55,9 +65,6 @@ $contact_link = $is_index ? '#contact' : 'index.php#contact';
                             <span class="badge bg-success-subtle text-success d-none d-md-inline-flex align-items-center gap-1.5 px-3 py-1.5 rounded-pill" style="font-size:0.75rem;">
                                 <i class="bi bi-circle-fill" style="font-size:0.45rem;"></i> System Active
                             </span>
-                            <a href="login.php" class="btn btn-sm btn-outline-danger px-3 py-1.5 rounded-pill d-inline-flex align-items-center gap-1.5" id="nav-logout-btn" style="font-size:0.82rem; font-weight:600;">
-                                <i class="bi bi-box-arrow-right"></i> Sign Out
-                            </a>
                         </div>
                     <?php else: ?>
                         <!-- Mobile Toggler -->
@@ -80,7 +87,7 @@ $contact_link = $is_index ? '#contact' : 'index.php#contact';
                                     <a class="nav-link" href="<?php echo $contact_link; ?>" id="nav-link-contact">Contact</a>
                                 </li>
                                 <li class="nav-item ms-lg-3 mt-3 mt-lg-0">
-                                    <a href="login.php" class="btn-premium px-4" id="nav-login-btn">
+                                    <a href="<?php echo $base_path; ?>modules/authentication/login.php" class="btn-premium px-4" id="nav-login-btn">
                                         <i class="bi bi-box-arrow-in-right"></i> Login
                                     </a>
                                 </li>

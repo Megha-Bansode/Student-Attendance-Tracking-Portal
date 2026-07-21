@@ -200,7 +200,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 submitBtn.innerHTML = origHtml;
 
                 if (activeRole === 'admin') {
-                    window.location.href = 'admin-dashboard.php';
+                    window.location.href = '../dashboard/admin-dashboard.php';
                 } else if (activeRole === 'faculty') {
                     const idInput = document.getElementById('facultyId');
                     const passInput = document.getElementById('facultyPassword');
@@ -208,9 +208,9 @@ document.addEventListener('DOMContentLoaded', function () {
                     const passVal = passInput ? passInput.value.trim() : '';
 
                     if (idVal === 'faculty@login' && (passVal === 'faculty@123' || passVal === 'faculty123')) {
-                        window.location.href = 'faculty-dashboard.php';
+                        window.location.href = '../dashboard/faculty-dashboard.php';
                     } else {
-                        window.location.href = 'faculty-dashboard.php';
+                        window.location.href = '../dashboard/faculty-dashboard.php';
                     }
                 } else if (activeRole === 'student') {
                     showToast(`❌ Invalid Student ZPRN or Password.`, true);
