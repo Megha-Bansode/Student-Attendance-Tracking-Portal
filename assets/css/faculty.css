@@ -507,6 +507,11 @@ html.preload-collapsed .faculty-main-content {
     font-size: 0.875rem;
     font-family: 'Inter', sans-serif;
     transition: background 0.15s ease;
+    white-space: nowrap;
+}
+
+.faculty-table th {
+    white-space: nowrap;
 }
 
 .faculty-table tbody tr:hover td {
@@ -514,6 +519,21 @@ html.preload-collapsed .faculty-main-content {
 }
 
 .faculty-table tbody tr:last-child td { border-bottom: none; }
+
+/* Table Action Cell Container */
+.action-btn-group {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    white-space: nowrap;
+}
+
+.action-btn-group .btn {
+    white-space: nowrap;
+    line-height: 1.2;
+    display: inline-flex;
+    align-items: center;
+}
 
 /* --------------------------------------------------------------------------
    6. Attendance Toggle Controls

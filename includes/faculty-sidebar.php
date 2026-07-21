@@ -63,6 +63,14 @@ $current_page = basename($_SERVER['PHP_SELF']);
             </a>
         </li>
 
+        <li class="faculty-nav-item">
+            <a href="admin-dashboard.php"
+               class="faculty-nav-link">
+                <i class="bi bi-shield-check"></i>
+                <span>Super Admin</span>
+            </a>
+        </li>
+
     </ul>
 
     <!-- Sign Out -->
