@@ -4,37 +4,73 @@
  */
 
 document.addEventListener('DOMContentLoaded', function() {
-    // 1. Role Credentials Map
-    const roleCredentials = {
+    // 1. Role Left Panel & Details Map
+    const roleDetails = {
         student: {
             badgeText: 'STUDENT PORTAL',
             badgeClass: 'bg-success-subtle text-success',
             badgeIcon: 'bi-mortarboard-fill',
-            demoEmail: '20241004',
-            demoPass: 'Student@123',
-            emailInputId: 'studentPrn',
-            passInputId: 'studentPassword',
-            label: 'PRN / Roll Number'
+            title: 'Student Attendance',
+            subtitle: 'Tracking Portal',
+            headline: 'Manage Attendance <br><span class="gradient-title-accent">Effortlessly</span>',
+            desc: 'A comprehensive college management system for tracking attendance, managing departments, courses, faculty, and students.',
+            pills: [
+                { icon: 'bi-diagram-3-fill', text: 'Department Management' },
+                { icon: 'bi-person-plus-fill', text: 'Student Registration' },
+                { icon: 'bi-person-workspace', text: 'Faculty Portal' },
+                { icon: 'bi-bar-chart-line-fill', text: 'Attendance Reports' },
+                { icon: 'bi-shield-check', text: 'Role-Based Access' }
+            ],
+            stats: [
+                { value: '1,340+', label: 'Students' },
+                { value: '70+', label: 'Faculty' },
+                { value: '7', label: 'Departments' }
+            ],
+            themeClass: 'theme-student'
         },
         faculty: {
             badgeText: 'FACULTY PORTAL',
             badgeClass: 'bg-info-subtle text-info',
             badgeIcon: 'bi-briefcase-fill',
-            demoEmail: 'faculty@college.edu.in',
-            demoPass: 'Faculty@123',
-            emailInputId: 'facultyId',
-            passInputId: 'facultyPassword',
-            label: 'Faculty ID / Email'
+            title: 'Faculty Portal',
+            subtitle: 'Academic Dashboard',
+            headline: 'Empower Learning <br><span class="gradient-title-accent">& Scheduling</span>',
+            desc: 'Mark attendance in real-time, view student analytics, generate reports, and manage classes efficiently.',
+            pills: [
+                { icon: 'bi-clock-history', text: 'Real-time Attendance' },
+                { icon: 'bi-graph-up-arrow', text: 'Performance Analytics' },
+                { icon: 'bi-calendar-event', text: 'Class Scheduling' },
+                { icon: 'bi-file-earmark-pdf-fill', text: 'Report Export' },
+                { icon: 'bi-chat-left-text-fill', text: 'Faculty Notifications' }
+            ],
+            stats: [
+                { value: '45', label: 'Active Courses' },
+                { value: '180+', label: 'Lectures/Month' },
+                { value: '98%', label: 'Average Accuracy' }
+            ],
+            themeClass: 'theme-faculty'
         },
         admin: {
             badgeText: 'SUPER ADMIN',
             badgeClass: 'bg-primary-subtle text-primary',
             badgeIcon: 'bi-shield-check',
-            demoEmail: 'admin@college.edu.in',
-            demoPass: 'Admin@123',
-            emailInputId: 'adminEmail',
-            passInputId: 'adminPassword',
-            label: 'Administrator Email'
+            title: 'Control Panel',
+            subtitle: 'System Management',
+            headline: 'Oversee Entire <br><span class="gradient-title-accent">Institution</span>',
+            desc: 'Configure institution structures, add departments, enroll faculty/students, audit system logs, and manage permissions.',
+            pills: [
+                { icon: 'bi-database-fill-gear', text: 'System Settings' },
+                { icon: 'bi-people-fill', text: 'User Directory' },
+                { icon: 'bi-key-fill', text: 'Access Management' },
+                { icon: 'bi-journal-text', text: 'Audit Logging' },
+                { icon: 'bi-cloud-arrow-up-fill', text: 'DB Backups' }
+            ],
+            stats: [
+                { value: '100%', label: 'System Uptime' },
+                { value: '14', label: 'Active Modules' },
+                { value: '256-bit', label: 'Data Encryption' }
+            ],
+            themeClass: 'theme-admin'
         }
     };
 
@@ -42,10 +78,19 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const roleTabBtns = document.querySelectorAll('.role-pill-btn');
     const roleBadgeTag = document.getElementById('roleBadgeTag');
-    const demoBannerText = document.getElementById('demoBannerText');
-    const btnAutofill = document.getElementById('btnAutofillDemo');
     const toastElem = document.getElementById('loginToastNotification');
     const toastMsg = document.getElementById('loginToastMsg');
+
+    // Left panel elements to animate and change
+    const splitLeftPanel = document.querySelector('.split-left-panel');
+    const leftPanelContent = document.querySelector('.left-panel-content');
+    const brandIcon = document.querySelector('.brand-icon-box i');
+    const brandTitle = document.querySelector('.brand-text-title');
+    const brandSubtitle = document.querySelector('.brand-text-subtitle');
+    const heroTitle = document.querySelector('.panel-hero-title');
+    const heroDesc = document.querySelector('.panel-hero-desc');
+    const pillsWrapper = document.querySelector('.panel-pills-wrapper');
+    const statsRow = document.querySelector('.panel-stats-row');
 
     // Role Switching
     roleTabBtns.forEach(btn => {
@@ -65,41 +110,54 @@ document.addEventListener('DOMContentLoaded', function() {
             if (targetPane) targetPane.classList.add('active');
 
             activeRole = selectedRole;
-            const config = roleCredentials[activeRole];
+            const config = roleDetails[activeRole];
 
             // Update Badge Tag
             if (roleBadgeTag && config) {
                 roleBadgeTag.innerHTML = `<i class="bi ${config.badgeIcon}"></i> ${config.badgeText}`;
             }
 
-            // Update Demo Text
-            if (demoBannerText && config) {
-                demoBannerText.textContent = `Demo: ${config.demoEmail} / ${config.demoPass}`;
+            // Animate Left Panel Content Switching
+            if (leftPanelContent && splitLeftPanel && config) {
+                // Add fade-out class to left-panel elements
+                leftPanelContent.classList.add('left-content-fade-out');
+                statsRow.classList.add('left-content-fade-out');
+
+                setTimeout(() => {
+                    // Update Text, Icon & HTML
+                    if (brandIcon) brandIcon.className = `bi ${config.badgeIcon}`;
+                    if (brandTitle) brandTitle.textContent = config.title;
+                    if (brandSubtitle) brandSubtitle.textContent = config.subtitle;
+                    if (heroTitle) heroTitle.innerHTML = config.headline;
+                    if (heroDesc) heroDesc.textContent = config.desc;
+
+                    // Update Pills
+                    if (pillsWrapper) {
+                        pillsWrapper.innerHTML = config.pills.map(pill => 
+                            `<span class="panel-pill"><i class="bi ${pill.icon}"></i> ${pill.text}</span>`
+                        ).join('');
+                    }
+
+                    // Update Stats
+                    if (statsRow) {
+                        statsRow.innerHTML = config.stats.map(stat => 
+                            `<div>
+                                <div class="stat-item-val">${stat.value}</div>
+                                <div class="stat-item-lbl">${stat.label}</div>
+                            </div>`
+                        ).join('');
+                    }
+
+                    // Update left panel background class theme
+                    splitLeftPanel.className = `split-left-panel ${config.themeClass}`;
+
+                    // Fade back in
+                    leftPanelContent.classList.remove('left-content-fade-out');
+                    statsRow.classList.remove('left-content-fade-out');
+                }, 250);
             }
         });
     });
-
-    // Auto-fill button click
-    if (btnAutofill) {
-        btnAutofill.addEventListener('click', function() {
-            const config = roleCredentials[activeRole];
-            if (!config) return;
-
-            const emailField = document.getElementById(config.emailInputId);
-            const passField = document.getElementById(config.passInputId);
-
-            if (emailField) {
-                emailField.value = config.demoEmail;
-                emailField.classList.add('is-valid');
-            }
-            if (passField) {
-                passField.value = config.demoPass;
-                passField.classList.add('is-valid');
-            }
-
-            showToast('✨ Credentials auto-filled!');
-        });
-    }
 
     // Password Visibility Toggles
     const toggleEyeBtns = document.querySelectorAll('.btn-toggle-eye');
@@ -123,10 +181,12 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Form Submit handling (Demo Sign In)
+    // Form Submit handling (For backend readiness - log role and prevent default for mock demo, but let submit proceed if needed)
     const forms = document.querySelectorAll('.split-login-form');
     forms.forEach(form => {
         form.addEventListener('submit', function(e) {
+            // Note: In real backend integration, this event listener can be removed or used for async login.
+            // For now, we simulate authentication transition.
             e.preventDefault();
 
             const submitBtn = this.querySelector('button[type="submit"]');
@@ -138,7 +198,7 @@ document.addEventListener('DOMContentLoaded', function() {
             setTimeout(() => {
                 submitBtn.disabled = false;
                 submitBtn.innerHTML = origHtml;
-                showToast(`🎉 Logged in successfully as ${activeRole.toUpperCase()}!`);
+                showToast(`🎉 Ready for backend integration! Submitting ${activeRole.toUpperCase()} credentials.`);
             }, 1000);
         });
     });

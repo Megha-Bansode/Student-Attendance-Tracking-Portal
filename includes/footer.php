@@ -54,11 +54,11 @@
 
             <!-- Column 4: Bottom bar -->
             <div class="footer-bottom">
-                <div class="row align-items-center justify-content-between g-3">
-                    <div class="col-md-6 text-center text-md-start">
-                        <p class="mb-0">&copy; <?php echo date('Y'); ?> AttendEase. All Rights Reserved.</p>
+                <div class="row align-items-center justify-content-center text-center g-2">
+                    <div class="col-12">
+                        <p class="mb-2">&copy; <?php echo date('Y'); ?> AttendEase. All Rights Reserved.</p>
                     </div>
-                    <div class="col-md-6 text-center text-md-end">
+                    <div class="col-12">
                         <ul class="list-inline mb-0">
                             <li class="list-inline-item"><a href="#" class="text-decoration-none text-muted" id="footer-link-privacy">Privacy Policy</a></li>
                             <li class="list-inline-item ms-3"><a href="#" class="text-decoration-none text-muted" id="footer-link-terms">Terms of Service</a></li>

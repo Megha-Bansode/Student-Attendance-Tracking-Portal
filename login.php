@@ -19,7 +19,7 @@
     <div class="split-login-card">
 
         <!-- LEFT PANEL: Dark Creative Interactive Section -->
-        <div class="split-left-panel">
+        <div class="split-left-panel theme-student">
             <!-- Animated Ambient Glow Blobs -->
             <div class="left-panel-orb left-panel-orb-1"></div>
             <div class="left-panel-orb left-panel-orb-2"></div>
@@ -100,25 +100,18 @@
                 <p class="form-header-subtitle">Sign in to access the management portal.</p>
             </div>
 
-            <!-- Demo Credentials Interactive Box (Default Student) -->
-            <div class="demo-banner-box">
-                <span class="demo-banner-text" id="demoBannerText">Demo: 20241004 / Student@123</span>
-                <button type="button" class="btn-autofill-demo" id="btnAutofillDemo" title="Click to auto-fill input fields">
-                    <i class="bi bi-magic"></i> Auto-fill
-                </button>
-            </div>
-
             <!-- Form Content Tabs -->
             <div class="tab-content">
 
                 <!-- 1. STUDENT FORM (DEFAULT) -->
                 <div class="tab-fade-pane active" id="pane-student">
-                    <form action="#" method="POST" class="split-login-form" id="form-student-login">
+                    <form action="login.php" method="POST" class="split-login-form" id="form-student-login">
+                        <input type="hidden" name="role" value="student">
                         <div class="compact-form-group">
-                            <label for="studentPrn" class="compact-label">PRN / Roll Number</label>
+                            <label for="studentPrn" class="compact-label">ZPRN (Roll Number)</label>
                             <div class="input-with-icon">
                                 <i class="bi bi-hash input-icon-left"></i>
-                                <input type="text" class="custom-compact-input" id="studentPrn" placeholder="20241004" required>
+                                <input type="text" name="zprn" class="custom-compact-input" id="studentPrn" placeholder="12UAM1134" required>
                             </div>
                         </div>
 
@@ -129,7 +122,7 @@
                             </div>
                             <div class="input-with-icon">
                                 <i class="bi bi-lock-fill input-icon-left"></i>
-                                <input type="password" class="custom-compact-input" id="studentPassword" placeholder="••••••••" required>
+                                <input type="password" name="password" class="custom-compact-input" id="studentPassword" placeholder="Password@123" required>
                                 <button type="button" class="btn-toggle-eye" data-target="studentPassword" aria-label="Toggle password visibility">
                                     <i class="bi bi-eye"></i>
                                 </button>
@@ -138,7 +131,7 @@
 
                         <div class="form-options-row">
                             <div class="form-check m-0">
-                                <input class="form-check-input" type="checkbox" id="rememberStudent" checked>
+                                <input class="form-check-input" type="checkbox" name="remember" id="rememberStudent" checked>
                                 <label class="form-check-label custom-check-lbl" for="rememberStudent">
                                     Remember me for 30 days
                                 </label>
@@ -153,12 +146,13 @@
 
                 <!-- 2. FACULTY FORM -->
                 <div class="tab-fade-pane" id="pane-faculty">
-                    <form action="#" method="POST" class="split-login-form" id="form-faculty-login">
+                    <form action="login.php" method="POST" class="split-login-form" id="form-faculty-login">
+                        <input type="hidden" name="role" value="faculty">
                         <div class="compact-form-group">
                             <label for="facultyId" class="compact-label">Faculty ID / Email</label>
                             <div class="input-with-icon">
                                 <i class="bi bi-briefcase-fill input-icon-left"></i>
-                                <input type="text" class="custom-compact-input" id="facultyId" placeholder="faculty@college.edu.in" required>
+                                <input type="text" name="faculty_id" class="custom-compact-input" id="facultyId" placeholder="FAC2026101" required>
                             </div>
                         </div>
 
@@ -169,7 +163,7 @@
                             </div>
                             <div class="input-with-icon">
                                 <i class="bi bi-lock-fill input-icon-left"></i>
-                                <input type="password" class="custom-compact-input" id="facultyPassword" placeholder="••••••••" required>
+                                <input type="password" name="password" class="custom-compact-input" id="facultyPassword" placeholder="Faculty@123" required>
                                 <button type="button" class="btn-toggle-eye" data-target="facultyPassword" aria-label="Toggle password visibility">
                                     <i class="bi bi-eye"></i>
                                 </button>
@@ -178,7 +172,7 @@
 
                         <div class="form-options-row">
                             <div class="form-check m-0">
-                                <input class="form-check-input" type="checkbox" id="rememberFaculty" checked>
+                                <input class="form-check-input" type="checkbox" name="remember" id="rememberFaculty" checked>
                                 <label class="form-check-label custom-check-lbl" for="rememberFaculty">
                                     Remember me for 30 days
                                 </label>
@@ -193,12 +187,13 @@
 
                 <!-- 3. ADMIN FORM -->
                 <div class="tab-fade-pane" id="pane-admin">
-                    <form action="#" method="POST" class="split-login-form" id="form-admin-login">
+                    <form action="login.php" method="POST" class="split-login-form" id="form-admin-login">
+                        <input type="hidden" name="role" value="admin">
                         <div class="compact-form-group">
                             <label for="adminEmail" class="compact-label">Email Address</label>
                             <div class="input-with-icon">
                                 <i class="bi bi-envelope-fill input-icon-left"></i>
-                                <input type="email" class="custom-compact-input" id="adminEmail" placeholder="admin@college.edu.in" required>
+                                <input type="email" name="email" class="custom-compact-input" id="adminEmail" placeholder="admin@college.edu" required>
                             </div>
                         </div>
 
@@ -209,7 +204,7 @@
                             </div>
                             <div class="input-with-icon">
                                 <i class="bi bi-lock-fill input-icon-left"></i>
-                                <input type="password" class="custom-compact-input" id="adminPassword" placeholder="••••••••" required>
+                                <input type="password" name="password" class="custom-compact-input" id="adminPassword" placeholder="Admin@123" required>
                                 <button type="button" class="btn-toggle-eye" data-target="adminPassword" aria-label="Toggle password visibility">
                                     <i class="bi bi-eye"></i>
                                 </button>
@@ -218,7 +213,7 @@
 
                         <div class="form-options-row">
                             <div class="form-check m-0">
-                                <input class="form-check-input" type="checkbox" id="rememberAdmin" checked>
+                                <input class="form-check-input" type="checkbox" name="remember" id="rememberAdmin" checked>
                                 <label class="form-check-label custom-check-lbl" for="rememberAdmin">
                                     Remember me for 30 days
                                 </label>

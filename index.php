@@ -2,6 +2,9 @@
 
 <!-- Home Section / Hero Banner -->
 <section id="home" class="hero-section">
+    <!-- Interactive Background Canvas -->
+    <canvas id="gravity-particle-canvas"></canvas>
+    
     <div class="container">
         <div class="row align-items-center g-5">
             <!-- Hero Text Content -->
@@ -26,83 +29,63 @@
                 </div>
             </div>
 
-            <!-- Hero Interactive Dashboard Mockup -->
+            <!-- Hero Video Mockup Frame (Now housing a pure SVG/CSS Dashboard Animation) -->
             <div class="col-lg-6">
-                <div class="dashboard-preview animation-float" id="hero-dashboard-mockup">
-                    <div class="preview-header">
+                <div id="hero-video-player-container">
+                    <div class="video-mockup-header">
                         <div class="dot-group">
                             <span class="dot dot-red"></span>
                             <span class="dot dot-yellow"></span>
                             <span class="dot dot-green"></span>
                         </div>
-                        <span class="preview-tab">Admin Dashboard View</span>
+                        <span class="video-mockup-title">Live Attendance Console</span>
                     </div>
-                    
-                    <!-- Top stats columns -->
-                    <div class="row g-3 mb-3">
-                        <div class="col-4">
-                            <div class="stat-box">
-                                <span class="text-muted d-block mb-1" style="font-size: 0.7rem; text-transform: uppercase;">Total Students</span>
-                                <span class="stat-box-val text-white">1,540</span>
+                    <div class="animated-svg-dashboard-wrapper p-3 text-start">
+                        <!-- Stats Mini Row -->
+                        <div class="row g-2 mb-3">
+                            <div class="col-4">
+                                <div class="stat-box-mini">
+                                    <span class="lbl">Students</span>
+                                    <span class="val">1,540</span>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="stat-box-mini">
+                                    <span class="lbl">Present Today</span>
+                                    <span class="val text-success">1,463</span>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="stat-box-mini">
+                                    <span class="lbl">Attendance %</span>
+                                    <span class="val text-info">95.0%</span>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-4">
-                            <div class="stat-box">
-                                <span class="text-muted d-block mb-1" style="font-size: 0.7rem; text-transform: uppercase;">Present Today</span>
-                                <span class="stat-box-val text-success">1,463</span>
+                        
+                        <!-- Auto-Drawing Graph -->
+                        <div class="chart-box-mini mb-3">
+                            <div class="d-flex justify-content-between align-items-center mb-1" style="font-size: 0.6rem; color: #94a3b8;">
+                                <span>Attendance Trend</span>
+                                <span class="text-success"><i class="bi bi-arrow-up-short"></i> +1.2%</span>
                             </div>
-                        </div>
-                        <div class="col-4">
-                            <div class="stat-box">
-                                <span class="text-muted d-block mb-1" style="font-size: 0.7rem; text-transform: uppercase;">Attendance %</span>
-                                <span class="stat-box-val text-info">95.0%</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Chart section -->
-                    <div class="stat-box mb-3 text-start">
-                        <div class="d-flex justify-content-between align-items-center mb-2">
-                            <span class="text-white" style="font-size: 0.8rem; font-weight: 600;">Monthly Attendance Trends</span>
-                            <span class="text-success" style="font-size: 0.75rem;"><i class="bi bi-graph-up"></i> +1.2% this month</span>
-                        </div>
-                        <div style="height: 100px; position: relative;">
-                            <svg viewBox="0 0 100 30" width="100%" height="100%" preserveAspectRatio="none">
+                            <svg viewBox="0 0 100 30" width="100%" height="80px">
                                 <defs>
-                                    <linearGradient id="chart-glow" x1="0" y1="0" x2="0" y2="1">
+                                    <linearGradient id="mini-glow" x1="0" y1="0" x2="0" y2="1">
                                         <stop offset="0%" stop-color="#6366f1" stop-opacity="0.35"/>
-                                        <stop offset="100%" stop-color="#6366f1" stop-opacity="0.0"/>
+                                        <stop offset="100%" stop-color="#6366f1" stop-opacity="0"/>
                                     </linearGradient>
                                 </defs>
-                                <path d="M0 25 Q15 5 30 18 T60 8 T90 15 T100 8 L100 30 L0 30 Z" fill="url(#chart-glow)"/>
-                                <path d="M0 25 Q15 5 30 18 T60 8 T90 15 T100 8" fill="none" stroke="#6366f1" stroke-width="1.8" stroke-linecap="round"/>
-                                
-                                <circle cx="30" cy="18" r="1.5" fill="#0ea5e9"/>
-                                <circle cx="60" cy="8" r="1.5" fill="#0ea5e9"/>
-                                <circle cx="90" cy="15" r="1.5" fill="#0ea5e9"/>
+                                <path class="graph-fill" d="M0 25 Q15 5 30 18 T60 8 T90 15 T100 8 L100 30 L0 30 Z" fill="url(#mini-glow)" />
+                                <path class="graph-line" d="M0 25 Q15 5 30 18 T60 8 T90 15 T100 8" fill="none" stroke="#6366f1" stroke-width="1.5" stroke-linecap="round" />
                             </svg>
                         </div>
-                    </div>
 
-                    <!-- Active Low Attendance Alerts -->
-                    <div class="stat-box text-start p-3">
-                        <div class="d-flex justify-content-between align-items-center mb-2">
-                            <span class="text-white" style="font-size: 0.8rem; font-weight: 600;">System Alerts</span>
-                            <span class="badge bg-danger rounded-pill" style="font-size: 0.65rem;">Action Needed</span>
-                        </div>
-                        <div class="d-flex align-items-center justify-content-between border-bottom border-secondary pb-2 mb-2" style="font-size: 0.75rem;">
-                            <div class="d-flex align-items-center gap-2">
-                                <i class="bi bi-exclamation-triangle-fill text-danger"></i>
-                                <span>Aarav Mehta (IT - Sem IV)</span>
-                            </div>
-                            <span class="text-danger fw-semibold">68.5%</span>
-                        </div>
-                        <div class="d-flex align-items-center justify-content-between" style="font-size: 0.75rem;">
-                            <div class="d-flex align-items-center gap-2">
-                                <i class="bi bi-exclamation-triangle-fill text-warning"></i>
-                                <span>Neha Sharma (CS - Sem VI)</span>
-                            </div>
-                            <span class="text-warning fw-semibold">72.1%</span>
+                        <!-- Typewriter Console Output -->
+                        <div class="console-box-mini p-2">
+                            <div class="console-line"><span class="text-success">[OK]</span> Syncing database...</div>
+                            <div class="console-line"><span class="text-warning">[WARN]</span> Alert sent: Aarav Mehta (68.5%)</div>
+                            <div class="console-line"><span class="text-info">[INFO]</span> Attendance updated for IT Sem-IV</div>
                         </div>
                     </div>
                 </div>
@@ -112,7 +95,7 @@
 </section>
 
 <!-- Stats Counter Section -->
-<section class="stats-counter-section">
+<section class="stats-counter-section light-hybrid">
     <div class="container">
         <div class="row g-4">
             <!-- Counter 1 -->
@@ -151,18 +134,43 @@
 <section id="about" class="section-padding about-section">
     <div class="container">
         <div class="row align-items-center g-5">
-            <!-- About Graphic Placeholder / Concept -->
+            <!-- About Graphic: Light Hybrid Multi-Device Simulator -->
             <div class="col-lg-6 order-2 order-lg-1">
-                <div class="about-img-container" id="about-concept-illustration">
-                    <div class="about-img-placeholder">
-                        <div class="animation-float-delayed mb-4">
-                            <i class="bi bi-laptop text-primary" style="font-size: 4rem;"></i>
-                            <i class="bi bi-arrow-left-right text-muted mx-3" style="font-size: 2rem;"></i>
-                            <i class="bi bi-phone text-accent" style="font-size: 3rem;"></i>
+                <div class="device-simulator-card">
+                    <!-- Device Navigation Tabs -->
+                    <div class="device-switcher-nav">
+                        <button class="device-nav-btn active" data-device="laptop">
+                            <i class="bi bi-laptop"></i> Laptop
+                        </button>
+                        <button class="device-nav-btn" data-device="tablet">
+                            <i class="bi bi-tablet"></i> Tablet
+                        </button>
+                        <button class="device-nav-btn" data-device="phone">
+                            <i class="bi bi-phone"></i> Mobile
+                        </button>
+                        <button class="device-nav-btn" data-device="watch">
+                            <i class="bi bi-smartwatch"></i> Watch
+                        </button>
+                    </div>
+
+                    <!-- Rendered Simulator Container -->
+                    <div class="device-mockup-wrapper">
+                        <!-- Active device class will wrap this -->
+                        <div id="deviceMockupFrame" class="device-mockup-laptop">
+                            <div class="mockup-screen-content" id="mockupScreenContent">
+                                <!-- Simulated interface content loaded dynamically -->
+                            </div>
                         </div>
-                        <span class="about-stat-pill mb-2"><i class="bi bi-lightning-fill"></i> Lightning Fast Cloud Processing</span>
-                        <h4 class="text-white mt-2">Responsive Across All Screens</h4>
-                        <p class="text-muted small px-md-5">Use the portal on any device. Administrators, faculty, and students can view dashboards, update rolls, and export details on desktop, tablet, or phone.</p>
+                    </div>
+                    
+                    <!-- Responsive Subtitle Info -->
+                    <div class="text-center mt-3">
+                        <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-1 mb-2" id="deviceFeatureTag">
+                            <i class="bi bi-lightning-fill"></i> Full Admin Control
+                        </span>
+                        <p class="small text-muted mb-0" id="deviceFeatureDesc">
+                            Access the complete attendance ledger, configure departments, manage faculty registers, and download overall reports in real-time.
+                        </p>
                     </div>
                 </div>
             </div>
