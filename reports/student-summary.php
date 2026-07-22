@@ -1,118 +1,94 @@
 <?php 
-$page_title = "Student-wise Attendance Summary | Faculty Reports";
-include 'includes/header.php'; 
+require_once '../config/database.php';
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
-// Mock Cumulative Student Roster Dataset
-$students = [
-    [
-        'roll_no' => 'CS2024-001',
-        'name' => 'Aarav Sharma',
-        'prn' => 'PRN20249801',
-        'dept' => 'Computer Science',
-        'sem' => 'Sem IV',
-        'email' => 'aarav.sharma@attendease.edu',
-        'total_held' => 120,
-        'total_attended' => 112,
-        'percent' => 93.3,
-        'status' => 'Safe',
-        'subjects' => [
-            ['code' => 'CS-101', 'name' => 'Data Structures', 'held' => 35, 'attended' => 33, 'percent' => 94.3],
-            ['code' => 'CS-102', 'name' => 'Database Systems', 'held' => 30, 'attended' => 28, 'percent' => 93.3],
-            ['code' => 'CS-103', 'name' => 'Web Development', 'held' => 30, 'attended' => 29, 'percent' => 96.7],
-            ['code' => 'CS-104', 'name' => 'AI & ML', 'held' => 25, 'attended' => 22, 'percent' => 88.0],
-        ]
-    ],
-    [
-        'roll_no' => 'CS2024-002',
-        'name' => 'Ananya Verma',
-        'prn' => 'PRN20249802',
-        'dept' => 'Computer Science',
-        'sem' => 'Sem IV',
-        'email' => 'ananya.v@attendease.edu',
-        'total_held' => 120,
-        'total_attended' => 98,
-        'percent' => 81.7,
-        'status' => 'Warning',
-        'subjects' => [
-            ['code' => 'CS-101', 'name' => 'Data Structures', 'held' => 35, 'attended' => 29, 'percent' => 82.9],
-            ['code' => 'CS-102', 'name' => 'Database Systems', 'held' => 30, 'attended' => 24, 'percent' => 80.0],
-            ['code' => 'CS-103', 'name' => 'Web Development', 'held' => 30, 'attended' => 25, 'percent' => 83.3],
-            ['code' => 'CS-104', 'name' => 'AI & ML', 'held' => 25, 'attended' => 20, 'percent' => 80.0],
-        ]
-    ],
-    [
-        'roll_no' => 'CS2024-003',
-        'name' => 'Rohan Mehta',
-        'prn' => 'PRN20249803',
-        'dept' => 'Computer Science',
-        'sem' => 'Sem IV',
-        'email' => 'rohan.mehta@attendease.edu',
-        'total_held' => 120,
-        'total_attended' => 74,
-        'percent' => 61.7,
-        'status' => 'Defaulter',
-        'subjects' => [
-            ['code' => 'CS-101', 'name' => 'Data Structures', 'held' => 35, 'attended' => 22, 'percent' => 62.9],
-            ['code' => 'CS-102', 'name' => 'Database Systems', 'held' => 30, 'attended' => 18, 'percent' => 60.0],
-            ['code' => 'CS-103', 'name' => 'Web Development', 'held' => 30, 'attended' => 19, 'percent' => 63.3],
-            ['code' => 'CS-104', 'name' => 'AI & ML', 'held' => 25, 'attended' => 15, 'percent' => 60.0],
-        ]
-    ],
-    [
-        'roll_no' => 'CS2024-004',
-        'name' => 'Priya Patel',
-        'prn' => 'PRN20249804',
-        'dept' => 'Computer Science',
-        'sem' => 'Sem IV',
-        'email' => 'priya.patel@attendease.edu',
-        'total_held' => 120,
-        'total_attended' => 116,
-        'percent' => 96.7,
-        'status' => 'Safe',
-        'subjects' => [
-            ['code' => 'CS-101', 'name' => 'Data Structures', 'held' => 35, 'attended' => 34, 'percent' => 97.1],
-            ['code' => 'CS-102', 'name' => 'Database Systems', 'held' => 30, 'attended' => 29, 'percent' => 96.7],
-            ['code' => 'CS-103', 'name' => 'Web Development', 'held' => 30, 'attended' => 29, 'percent' => 96.7],
-            ['code' => 'CS-104', 'name' => 'AI & ML', 'held' => 25, 'attended' => 24, 'percent' => 96.0],
-        ]
-    ],
-    [
-        'roll_no' => 'CS2024-005',
-        'name' => 'Devendra Singh',
-        'prn' => 'PRN20249805',
-        'dept' => 'Computer Science',
-        'sem' => 'Sem IV',
-        'email' => 'dev.singh@attendease.edu',
-        'total_held' => 120,
-        'total_attended' => 78,
-        'percent' => 65.0,
-        'status' => 'Defaulter',
-        'subjects' => [
-            ['code' => 'CS-101', 'name' => 'Data Structures', 'held' => 35, 'attended' => 23, 'percent' => 65.7],
-            ['code' => 'CS-102', 'name' => 'Database Systems', 'held' => 30, 'attended' => 19, 'percent' => 63.3],
-            ['code' => 'CS-103', 'name' => 'Web Development', 'held' => 30, 'attended' => 20, 'percent' => 66.7],
-            ['code' => 'CS-104', 'name' => 'AI & ML', 'held' => 25, 'attended' => 16, 'percent' => 64.0],
-        ]
-    ],
-    [
-        'roll_no' => 'IT2024-012',
-        'name' => 'Kavya Kulkarni',
-        'prn' => 'PRN20249812',
-        'dept' => 'Information Tech',
-        'sem' => 'Sem VI',
-        'email' => 'kavya.k@attendease.edu',
-        'total_held' => 110,
-        'total_attended' => 101,
-        'percent' => 91.8,
-        'status' => 'Safe',
-        'subjects' => [
-            ['code' => 'IT-301', 'name' => 'Cloud Computing', 'held' => 30, 'attended' => 28, 'percent' => 93.3],
-            ['code' => 'IT-302', 'name' => 'Cyber Security', 'held' => 30, 'attended' => 27, 'percent' => 90.0],
-            ['code' => 'IT-303', 'name' => 'DevOps Practice', 'held' => 25, 'attended' => 23, 'percent' => 92.0],
-            ['code' => 'IT-304', 'name' => 'Mobile App Dev', 'held' => 25, 'attended' => 23, 'percent' => 92.0],
-        ]
-    ]
-];
+$page_title = "Student-wise Attendance Summary | Faculty Reports";
+include '../includes/header.php'; 
+
+// Fetch all students and dynamic stats
+$students_db = $pdo->query("SELECT * FROM users WHERE role = 'student' ORDER BY name ASC")->fetchAll();
+$students = [];
+
+$defaulter_count = 0;
+$high_performers_count = 0;
+$total_held_overall = 0;
+$total_attended_overall = 0;
+
+foreach ($students_db as $stud) {
+    $s_id = $stud['id'];
+    
+    // Fetch overall held vs attended
+    $stmt_tot = $pdo->prepare("SELECT COUNT(*) FROM attendance WHERE student_id = ?");
+    $stmt_tot->execute([$s_id]);
+    $total_held = $stmt_tot->fetchColumn();
+
+    $stmt_pres = $pdo->prepare("SELECT COUNT(*) FROM attendance WHERE student_id = ? AND status = 'Present'");
+    $stmt_pres->execute([$s_id]);
+    $total_attended = $stmt_pres->fetchColumn();
+
+    $percent = $total_held > 0 ? round(($total_attended / $total_held) * 100, 1) : 100.0;
+    
+    $status = 'Safe';
+    if ($total_held > 0) {
+        if ($percent < 75.0) {
+            $status = 'Defaulter';
+            $defaulter_count++;
+        } else if ($percent < 80.0) {
+            $status = 'Warning';
+        }
+    }
+    
+    if ($percent >= 90.0) {
+        $high_performers_count++;
+    }
+
+    $total_held_overall += $total_held;
+    $total_attended_overall += $total_attended;
+    
+    // Fetch subject-wise details
+    $subjects_db = $pdo->query("SELECT * FROM subjects ORDER BY name ASC")->fetchAll();
+    $subject_summaries = [];
+    foreach ($subjects_db as $subj) {
+        $subj_id = $subj['id'];
+        
+        $stmt_s_tot = $pdo->prepare("SELECT COUNT(*) FROM attendance WHERE student_id = ? AND subject_id = ?");
+        $stmt_s_tot->execute([$s_id, $subj_id]);
+        $s_held = $stmt_s_tot->fetchColumn();
+        
+        $stmt_s_pres = $pdo->prepare("SELECT COUNT(*) FROM attendance WHERE student_id = ? AND subject_id = ? AND status = 'Present'");
+        $stmt_s_pres->execute([$s_id, $subj_id]);
+        $s_attended = $stmt_s_pres->fetchColumn();
+        
+        $s_percent = $s_held > 0 ? round(($s_attended / $s_held) * 100, 1) : 100.0;
+        
+        $subject_summaries[] = [
+            'code' => 'SUBJ-' . $subj_id,
+            'name' => $subj['name'],
+            'held' => $s_held,
+            'attended' => $s_attended,
+            'percent' => $s_percent
+        ];
+    }
+    
+    $students[] = [
+        'roll_no' => $stud['zprn'],
+        'name' => $stud['name'],
+        'prn' => $stud['zprn'],
+        'dept' => $stud['department'] ?? 'AI&ML',
+        'sem' => ($stud['class'] === 'First Year') ? 'Sem I' : (($stud['class'] === 'Second Year') ? 'Sem III' : (($stud['class'] === 'Third Year') ? 'Sem V' : 'Sem VII')),
+        'email' => $stud['username'] . '@college.edu',
+        'total_held' => $total_held,
+        'total_attended' => $total_attended,
+        'percent' => $percent,
+        'status' => $status,
+        'subjects' => $subject_summaries
+    ];
+}
+
+$total_students = count($students);
+$average_attendance = $total_held_overall > 0 ? round(($total_attended_overall / $total_held_overall) * 100, 1) : 100.0;
 ?>
 
 <main class="main-content style-pt">
@@ -139,13 +115,13 @@ $students = [
 
             <!-- Module Sub-Navigation Tabs -->
             <div class="reports-nav-tabs">
-                <a href="attendance-history.php" class="nav-link">
+                <a href="reports/attendance-history.php" class="nav-link">
                     <i class="bi bi-clock-history"></i> Attendance History
                 </a>
-                <a href="monthly-report.php" class="nav-link">
+                <a href="reports/monthly-report.php" class="nav-link">
                     <i class="bi bi-calendar-month"></i> Monthly Attendance Report
                 </a>
-                <a href="student-summary.php" class="nav-link active">
+                <a href="reports/student-summary.php" class="nav-link active">
                     <i class="bi bi-person-lines-fill"></i> Student-wise Summary
                 </a>
             </div>
@@ -156,12 +132,12 @@ $students = [
     <div class="container mb-5">
         <!-- Analytics Metric Cards -->
         <div class="row g-4 mb-4">
-            <div class="col-xl-3 col-sm-6">
+             <div class="col-xl-3 col-sm-6">
                 <div class="glass-card stat-card-widget">
                     <div class="stat-icon primary">
                         <i class="bi bi-people-fill"></i>
                     </div>
-                    <div class="stat-value">240</div>
+                    <div class="stat-value"><?php echo $total_students; ?></div>
                     <div class="stat-label">Registered Students</div>
                     <div class="stat-trend text-muted">Across all branches</div>
                 </div>
@@ -171,7 +147,7 @@ $students = [
                     <div class="stat-icon success">
                         <i class="bi bi-check-all"></i>
                     </div>
-                    <div class="stat-value">88.6%</div>
+                    <div class="stat-value"><?php echo $average_attendance; ?>%</div>
                     <div class="stat-label">Cumulative Average</div>
                     <div class="stat-trend text-success">
                         Overall semester rate
@@ -183,10 +159,10 @@ $students = [
                     <div class="stat-icon danger">
                         <i class="bi bi-exclamation-octagon-fill"></i>
                     </div>
-                    <div class="stat-value">14</div>
+                    <div class="stat-value"><?php echo $defaulter_count; ?></div>
                     <div class="stat-label">Defaulter Students</div>
                     <div class="stat-trend text-danger">
-                        Cumulative < 75%
+                        Cumulative &lt; 75%
                     </div>
                 </div>
             </div>
@@ -195,10 +171,10 @@ $students = [
                     <div class="stat-icon accent">
                         <i class="bi bi-star-fill"></i>
                     </div>
-                    <div class="stat-value">132</div>
+                    <div class="stat-value"><?php echo $high_performers_count; ?></div>
                     <div class="stat-label">High Performers</div>
                     <div class="stat-trend text-info">
-                        Attendance > 90%
+                        Attendance &gt; 90%
                     </div>
                 </div>
             </div>
@@ -442,4 +418,4 @@ $students = [
     </div>
 </div>
 
-<?php include 'includes/footer.php'; ?>
+<?php include '../includes/footer.php'; ?>

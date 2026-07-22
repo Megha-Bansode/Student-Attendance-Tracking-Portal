@@ -3,6 +3,49 @@
  * AttendEase - Super Admin System Settings
  * Aligned with Faculty Dashboard design & AttendEase web portal theme
  */
+require_once '../config/database.php';
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
+    header("Location: ../modules/authentication/login.php");
+    exit;
+}
+
+$admin_id = $_SESSION['user_id'];
+
+// Get current admin details
+$stmt = $pdo->prepare("SELECT * FROM users WHERE id = ?");
+$stmt->execute([$admin_id]);
+$admin = $stmt->fetch();
+
+$msg = '';
+$err = '';
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'update_credentials') {
+    $new_username = trim($_POST['username']);
+    $new_password = trim($_POST['password']);
+    
+    if (!empty($new_username)) {
+        if (!empty($new_password)) {
+            $stmt = $pdo->prepare("UPDATE users SET username = ?, password = ? WHERE id = ?");
+            $stmt->execute([$new_username, $new_password, $admin_id]);
+        } else {
+            $stmt = $pdo->prepare("UPDATE users SET username = ? WHERE id = ?");
+            $stmt->execute([$new_username, $admin_id]);
+        }
+        $_SESSION['username'] = $new_username;
+        $msg = 'Credentials updated successfully!';
+        
+        // Refresh admin details
+        $stmt = $pdo->prepare("SELECT * FROM users WHERE id = ?");
+        $stmt->execute([$admin_id]);
+        $admin = $stmt->fetch();
+    } else {
+        $err = 'Username cannot be empty.';
+    }
+}
+
 $page_title       = 'System Settings';
 $page_breadcrumb  = 'AttendEase / Super Admin / Settings';
 $page_icon        = 'bi-gear-fill';
@@ -70,6 +113,31 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
                     </div>
 
                     <div class="col-lg-4">
+                        <!-- Admin Credentials -->
+                        <div class="faculty-card mb-4 text-light">
+                            <div class="faculty-card-header">
+                                <h3 class="faculty-card-title"><i class="bi bi-key" style="color:#60a5fa;"></i> Admin Credentials</h3>
+                            </div>
+                            <?php if (!empty($msg)): ?>
+                                <div class="alert alert-success py-2 font-mono small"><?php echo $msg; ?></div>
+                            <?php endif; ?>
+                            <?php if (!empty($err)): ?>
+                                <div class="alert alert-danger py-2 font-mono small"><?php echo $err; ?></div>
+                            <?php endif; ?>
+                            <form action="admin-settings.php" method="POST">
+                                <input type="hidden" name="action" value="update_credentials">
+                                <div class="mb-3">
+                                    <label class="form-label text-slate-300 font-semibold">Username / Email</label>
+                                    <input type="text" name="username" class="form-control bg-dark text-white border-secondary" value="<?php echo htmlspecialchars($admin['username']); ?>" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label text-slate-300 font-semibold">New Password</label>
+                                    <input type="password" name="password" class="form-control bg-dark text-white border-secondary" placeholder="Leave blank to keep same">
+                                </div>
+                                <button type="submit" class="btn btn-premium btn-sm w-full"><i class="bi bi-shield-lock me-1"></i> Update Credentials</button>
+                            </form>
+                        </div>
+
                         <div class="faculty-card mb-4">
                             <div class="faculty-card-header">
                                 <h3 class="faculty-card-title"><i class="bi bi-database-fill-gear" style="color:#34d399;"></i> Database &amp; Security</h3>

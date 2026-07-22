@@ -1,106 +1,54 @@
 <?php 
-$page_title = "Monthly Attendance Report | Faculty Reports";
-include 'includes/header.php'; 
+require_once '../config/database.php';
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
-// Mock Monthly Aggregated Student Attendance Data
-$monthly_records = [
-    [
-        'roll_no' => 'CS2024-001',
-        'name' => 'Aarav Sharma',
-        'prn' => 'PRN20249801',
-        'dept' => 'Computer Science',
-        'sem' => 'Sem IV',
-        'course' => 'CS-101 Data Structures',
-        'held' => 32,
-        'attended' => 30,
-        'percent' => 93.8,
-        'status' => 'Safe'
-    ],
-    [
-        'roll_no' => 'CS2024-002',
-        'name' => 'Ananya Verma',
-        'prn' => 'PRN20249802',
-        'dept' => 'Computer Science',
-        'sem' => 'Sem IV',
-        'course' => 'CS-101 Data Structures',
-        'held' => 32,
-        'attended' => 26,
-        'percent' => 81.3,
-        'status' => 'Warning'
-    ],
-    [
-        'roll_no' => 'CS2024-003',
-        'name' => 'Rohan Mehta',
-        'prn' => 'PRN20249803',
-        'dept' => 'Computer Science',
-        'sem' => 'Sem IV',
-        'course' => 'CS-101 Data Structures',
-        'held' => 32,
-        'attended' => 21,
-        'percent' => 65.6,
-        'status' => 'Defaulter'
-    ],
-    [
-        'roll_no' => 'CS2024-004',
-        'name' => 'Priya Patel',
-        'prn' => 'PRN20249804',
-        'dept' => 'Computer Science',
-        'sem' => 'Sem IV',
-        'course' => 'CS-101 Data Structures',
-        'held' => 32,
-        'attended' => 31,
-        'percent' => 96.9,
-        'status' => 'Safe'
-    ],
-    [
-        'roll_no' => 'CS2024-005',
-        'name' => 'Devendra Singh',
-        'prn' => 'PRN20249805',
-        'dept' => 'Computer Science',
-        'sem' => 'Sem IV',
-        'course' => 'CS-101 Data Structures',
-        'held' => 32,
-        'attended' => 22,
-        'percent' => 68.8,
-        'status' => 'Defaulter'
-    ],
-    [
-        'roll_no' => 'CS2024-006',
-        'name' => 'Ishita Joshi',
-        'prn' => 'PRN20249806',
-        'dept' => 'Computer Science',
-        'sem' => 'Sem IV',
-        'course' => 'CS-101 Data Structures',
-        'held' => 32,
-        'attended' => 28,
-        'percent' => 87.5,
-        'status' => 'Safe'
-    ],
-    [
-        'roll_no' => 'CS2024-007',
-        'name' => 'Kabir Nair',
-        'prn' => 'PRN20249807',
-        'dept' => 'Computer Science',
-        'sem' => 'Sem IV',
-        'course' => 'CS-101 Data Structures',
-        'held' => 32,
-        'attended' => 25,
-        'percent' => 78.1,
-        'status' => 'Warning'
-    ],
-    [
-        'roll_no' => 'CS2024-008',
-        'name' => 'Neha Gupta',
-        'prn' => 'PRN20249808',
-        'dept' => 'Computer Science',
-        'sem' => 'Sem IV',
-        'course' => 'CS-101 Data Structures',
-        'held' => 32,
-        'attended' => 29,
-        'percent' => 90.6,
-        'status' => 'Safe'
-    ]
-];
+$page_title = "Monthly Attendance Report | Faculty Reports";
+include '../includes/header.php'; 
+
+// Fetch dynamic monthly data from SQLite
+$stmt_monthly = $pdo->query("
+    SELECT u.zprn, u.name, u.department, u.class, s.name AS subject_name, s.id AS subject_id,
+           COUNT(a.id) AS total_count,
+           SUM(CASE WHEN a.status = 'Present' THEN 1 ELSE 0 END) AS present_count
+    FROM users u
+    CROSS JOIN subjects s
+    LEFT JOIN attendance a ON u.id = a.student_id AND s.id = a.subject_id
+    WHERE u.role = 'student'
+    GROUP BY u.id, s.id
+    ORDER BY u.name ASC, s.name ASC
+");
+$db_records = $stmt_monthly->fetchAll();
+
+$monthly_records = [];
+foreach ($db_records as $row) {
+    $held = $row['total_count'];
+    $attended = $row['present_count'];
+    $percent = $held > 0 ? round(($attended / $held) * 100, 1) : 100.0;
+    
+    $status = 'Safe';
+    if ($held > 0) {
+        if ($percent < 75.0) {
+            $status = 'Defaulter';
+        } else if ($percent < 80.0) {
+            $status = 'Warning';
+        }
+    }
+    
+    $monthly_records[] = [
+        'roll_no' => $row['zprn'],
+        'name' => $row['name'],
+        'prn' => $row['zprn'],
+        'dept' => $row['department'] ?? 'AI&ML',
+        'sem' => ($row['class'] === 'First Year') ? 'Sem I' : (($row['class'] === 'Second Year') ? 'Sem III' : (($row['class'] === 'Third Year') ? 'Sem V' : 'Sem VII')),
+        'course' => 'SUBJ-' . $row['subject_id'] . ' ' . $row['subject_name'],
+        'held' => $held,
+        'attended' => $attended,
+        'percent' => $percent,
+        'status' => $status
+    ];
+}
 ?>
 
 <main class="main-content style-pt">
@@ -127,13 +75,13 @@ $monthly_records = [
 
             <!-- Module Sub-Navigation Tabs -->
             <div class="reports-nav-tabs">
-                <a href="attendance-history.php" class="nav-link">
+                <a href="reports/attendance-history.php" class="nav-link">
                     <i class="bi bi-clock-history"></i> Attendance History
                 </a>
-                <a href="monthly-report.php" class="nav-link active">
+                <a href="reports/monthly-report.php" class="nav-link active">
                     <i class="bi bi-calendar-month"></i> Monthly Attendance Report
                 </a>
-                <a href="student-summary.php" class="nav-link">
+                <a href="reports/student-summary.php" class="nav-link">
                     <i class="bi bi-person-lines-fill"></i> Student-wise Summary
                 </a>
             </div>
@@ -435,4 +383,4 @@ $monthly_records = [
     </div>
 </div>
 
-<?php include 'includes/footer.php'; ?>
+<?php include '../includes/footer.php'; ?>

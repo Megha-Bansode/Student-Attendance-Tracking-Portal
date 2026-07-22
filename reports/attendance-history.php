@@ -1,108 +1,47 @@
 <?php 
-$page_title = "Attendance History | Faculty Reports";
-include 'includes/header.php'; 
+require_once '../config/database.php';
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
-// Mock session attendance dataset (Ready for backend/database query binding)
-$sessions = [
-    [
-        'id' => 'SES-9041',
-        'date' => '2026-07-22',
-        'time' => '09:30 AM - 10:30 AM',
-        'subject_code' => 'CS-101',
-        'subject_name' => 'Data Structures & Algorithms',
-        'class' => 'B.Tech CSE Sem IV-A',
-        'topic' => 'Binary Search Trees & AVL Trees',
-        'total' => 60,
-        'present' => 56,
-        'absent' => 4,
-        'percent' => 93.3,
+$page_title = "Attendance History | Faculty Reports";
+include '../includes/header.php'; 
+
+// Fetch history from attendance table
+$stmt_sess = $pdo->query("
+    SELECT a.date, s.id AS subject_id, s.name AS subject_name, u.class, u.division,
+           COUNT(a.id) AS total_count,
+           SUM(CASE WHEN a.status = 'Present' THEN 1 ELSE 0 END) AS present_count
+    FROM attendance a
+    JOIN subjects s ON a.subject_id = s.id
+    JOIN users u ON a.student_id = u.id
+    GROUP BY a.date, a.subject_id, u.class, u.division
+    ORDER BY a.date DESC, a.subject_id DESC
+");
+$db_sessions = $stmt_sess->fetchAll();
+
+$sessions = [];
+foreach ($db_sessions as $idx => $row) {
+    $total = $row['total_count'];
+    $present = $row['present_count'];
+    $absent = $total - $present;
+    $percent = $total > 0 ? round(($present / $total) * 100, 1) : 100.0;
+    
+    $sessions[] = [
+        'id' => 'SES-' . (9000 + $idx),
+        'date' => $row['date'],
+        'time' => '10:00 AM - 11:00 AM', // Dummy slot time
+        'subject_code' => 'SUBJ-' . $row['subject_id'],
+        'subject_name' => $row['subject_name'],
+        'class' => $row['class'] . ' Div ' . $row['division'],
+        'topic' => 'Regular Lecture Session',
+        'total' => $total,
+        'present' => $present,
+        'absent' => $absent,
+        'percent' => $percent,
         'status' => 'Conducted'
-    ],
-    [
-        'id' => 'SES-9040',
-        'date' => '2026-07-21',
-        'time' => '11:15 AM - 12:15 PM',
-        'subject_code' => 'CS-102',
-        'subject_name' => 'Database Management Systems',
-        'class' => 'B.Tech CSE Sem IV-B',
-        'topic' => 'Relational Algebra & SQL Joins',
-        'total' => 58,
-        'present' => 51,
-        'absent' => 7,
-        'percent' => 87.9,
-        'status' => 'Conducted'
-    ],
-    [
-        'id' => 'SES-9039',
-        'date' => '2026-07-20',
-        'time' => '02:00 PM - 03:00 PM',
-        'subject_code' => 'CS-103',
-        'subject_name' => 'Web Application Development',
-        'class' => 'B.Tech CSE Sem IV-A',
-        'topic' => 'REST APIs & Asynchronous JS',
-        'total' => 60,
-        'present' => 58,
-        'absent' => 2,
-        'percent' => 96.7,
-        'status' => 'Conducted'
-    ],
-    [
-        'id' => 'SES-9038',
-        'date' => '2026-07-19',
-        'time' => '10:30 AM - 11:30 AM',
-        'subject_code' => 'CS-104',
-        'subject_name' => 'Artificial Intelligence & ML',
-        'class' => 'B.Tech CSE Sem VI-A',
-        'topic' => 'Supervised Learning & Decision Trees',
-        'total' => 55,
-        'present' => 48,
-        'absent' => 7,
-        'percent' => 87.2,
-        'status' => 'Conducted'
-    ],
-    [
-        'id' => 'SES-9037',
-        'date' => '2026-07-18',
-        'time' => '09:30 AM - 10:30 AM',
-        'subject_code' => 'CS-101',
-        'subject_name' => 'Data Structures & Algorithms',
-        'class' => 'B.Tech CSE Sem IV-A',
-        'topic' => 'Stack & Queue Applications',
-        'total' => 60,
-        'present' => 54,
-        'absent' => 6,
-        'percent' => 90.0,
-        'status' => 'Conducted'
-    ],
-    [
-        'id' => 'SES-9036',
-        'date' => '2026-07-17',
-        'time' => '03:15 PM - 04:15 PM',
-        'subject_code' => 'CS-102',
-        'subject_name' => 'Database Management Systems',
-        'class' => 'B.Tech CSE Sem IV-B',
-        'topic' => 'Normalization (1NF to BCNF)',
-        'total' => 58,
-        'present' => 45,
-        'absent' => 13,
-        'percent' => 77.5,
-        'status' => 'Conducted'
-    ],
-    [
-        'id' => 'SES-9035',
-        'date' => '2026-07-16',
-        'time' => '11:15 AM - 12:15 PM',
-        'subject_code' => 'CS-103',
-        'subject_name' => 'Web Application Development',
-        'class' => 'B.Tech CSE Sem IV-A',
-        'topic' => 'CSS Grid & Responsive Design',
-        'total' => 60,
-        'present' => 59,
-        'absent' => 1,
-        'percent' => 98.3,
-        'status' => 'Conducted'
-    ]
-];
+    ];
+}
 ?>
 
 <main class="main-content style-pt">
@@ -129,13 +68,13 @@ $sessions = [
 
             <!-- Module Sub-Navigation Tabs -->
             <div class="reports-nav-tabs">
-                <a href="attendance-history.php" class="nav-link active">
+                <a href="reports/attendance-history.php" class="nav-link active">
                     <i class="bi bi-clock-history"></i> Attendance History
                 </a>
-                <a href="monthly-report.php" class="nav-link">
+                <a href="reports/monthly-report.php" class="nav-link">
                     <i class="bi bi-calendar-month"></i> Monthly Attendance Report
                 </a>
-                <a href="student-summary.php" class="nav-link">
+                <a href="reports/student-summary.php" class="nav-link">
                     <i class="bi bi-person-lines-fill"></i> Student-wise Summary
                 </a>
             </div>
@@ -419,4 +358,4 @@ $sessions = [
     </div>
 </div>
 
-<?php include 'includes/footer.php'; ?>
+<?php include '../includes/footer.php'; ?>

@@ -7,7 +7,7 @@ $page_title       = 'Manage Notifications';
 $page_breadcrumb  = 'AttendEase / Super Admin / Notifications';
 $page_icon        = 'bi-bell-fill';
 
-$file_path = __DIR__ . '/../../config/notifications.json';
+$file_path = __DIR__ . '/../config/notifications.json';
 $notifications = [];
 if (file_exists($file_path)) {
     $notifications = json_decode(file_get_contents($file_path), true) ?: [];
@@ -80,7 +80,7 @@ function get_relative_time($datetime) {
     return round($diff / 86400) . ' days ago';
 }
 
-include '../../includes/header.php';
+include '../includes/header.php';
 ?>
 <link rel="stylesheet" href="<?php echo $base_path; ?>assets/css/dashboard.css">
 
@@ -95,13 +95,13 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
     <div class="faculty-portal-wrapper">
 
         <!-- Super Admin Sidebar -->
-        <?php include '../../includes/admin-sidebar.php'; ?>
+        <?php include '../includes/admin-sidebar.php'; ?>
 
         <!-- Main Content -->
         <div class="faculty-main-content">
 
             <!-- Topbar Page Title Band -->
-            <?php include '../../includes/admin-topbar.php'; ?>
+            <?php include '../includes/admin-topbar.php'; ?>
 
             <!-- Content Body -->
             <main class="faculty-content-body">
@@ -248,4 +248,4 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 <script src="<?php echo $base_path; ?>assets/js/dashboard.js"></script>
-<?php include '../../includes/footer.php'; ?>
+<?php include '../includes/footer.php'; ?>

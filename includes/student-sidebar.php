@@ -36,6 +36,20 @@ $current_page = basename($_SERVER['PHP_SELF']);
         </li>
 
         <li class="faculty-nav-item">
+            <a href="<?php echo $base_path; ?>modules/dashboard/admin-dashboard.php" class="faculty-nav-link">
+                <i class="bi bi-shield-check text-primary"></i>
+                <span>Admin View</span>
+            </a>
+        </li>
+
+        <li class="faculty-nav-item">
+            <a href="<?php echo $base_path; ?>modules/dashboard/faculty-dashboard.php" class="faculty-nav-link">
+                <i class="bi bi-person-workspace text-info"></i>
+                <span>Faculty View</span>
+            </a>
+        </li>
+
+        <li class="faculty-nav-item">
             <a href="<?php echo $base_path; ?>modules/attendance/student-daily-attendance.php"
                class="faculty-nav-link <?php echo ($current_page === 'student-daily-attendance.php') ? 'active' : ''; ?>"
                <?php echo ($current_page === 'student-daily-attendance.php') ? 'aria-current="page"' : ''; ?>>
@@ -72,7 +86,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
         </li>
 
         <li class="faculty-nav-item">
-            <a href="<?php echo $base_path; ?>modules/notifications/student-notifications.php"
+            <a href="<?php echo $base_path; ?>notifications/student-notifications.php"
                class="faculty-nav-link <?php echo ($current_page === 'student-notifications.php') ? 'active' : ''; ?>"
                <?php echo ($current_page === 'student-notifications.php') ? 'aria-current="page"' : ''; ?>>
                 <i class="bi bi-bell-fill"></i>
@@ -84,7 +98,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
 
     <!-- Sign Out -->
     <div class="faculty-sidebar-footer">
-        <a href="<?php echo $base_path; ?>modules/authentication/login.php" class="faculty-logout-btn" title="Return to Login">
+        <a href="<?php echo $base_path; ?>modules/authentication/login.php?logout=1" class="faculty-logout-btn" title="Return to Login">
             <i class="bi bi-box-arrow-right"></i>
             <span>Sign Out</span>
         </a>

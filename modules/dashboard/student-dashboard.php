@@ -1,19 +1,77 @@
 <?php
 /**
  * AttendEase - Student Dashboard
- * Uses original header.php + footer.php for consistent site-wide nav.
  */
-$page_title  = 'Student Dashboard';
-
-/* ── Mock data (replace with DB query later) ── */
-$overall_attendance = 82.5; // overall %
-$classes_attended = 165;
-$classes_conducted = 200;
-$subjects_count = 5;
-
+require_once '../../config/database.php';
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
+
+// Access Control
+if (!isset($_SESSION['role'])) {
+    header("Location: ../authentication/login.php");
+    exit;
+}
+
+$student_id = $_SESSION['user_id'];
+$student_name = $_SESSION['name'];
+$student_zprn = isset($_SESSION['zprn']) ? $_SESSION['zprn'] : '';
+$student_class = isset($_SESSION['class']) ? $_SESSION['class'] : '';
+$student_division = isset($_SESSION['division']) ? $_SESSION['division'] : '';
+
+if ($_SESSION['role'] !== 'student') {
+    // Fetch first student in database to populate dashboard for preview
+    $stmt_s = $pdo->query("SELECT * FROM users WHERE role = 'student' LIMIT 1");
+    $first_student = $stmt_s->fetch();
+    if ($first_student) {
+        $student_id = $first_student['id'];
+        $student_name = $first_student['name'];
+        $student_zprn = $first_student['zprn'];
+        $student_class = $first_student['class'];
+        $student_division = $first_student['division'];
+    }
+}
+
+// Fetch stats
+$stmt_tot = $pdo->prepare("SELECT COUNT(*) FROM attendance WHERE student_id = ?");
+$stmt_tot->execute([$student_id]);
+$classes_conducted = $stmt_tot->fetchColumn();
+
+$stmt_pres = $pdo->prepare("SELECT COUNT(*) FROM attendance WHERE student_id = ? AND status = 'Present'");
+$stmt_pres->execute([$student_id]);
+$classes_attended = $stmt_pres->fetchColumn();
+
+$overall_attendance = $classes_conducted > 0 ? round(($classes_attended / $classes_conducted) * 100, 1) : 100.0;
+
+$subjects_count = $pdo->prepare("SELECT COUNT(DISTINCT subject_id) FROM attendance WHERE student_id = ?");
+$subjects_count->execute([$student_id]);
+$subjects_count = $subjects_count->fetchColumn();
+if ($subjects_count == 0) {
+    $subjects_count = $pdo->query("SELECT COUNT(*) FROM subjects")->fetchColumn();
+}
+
+// Fetch today's schedule
+$stmt_today_sched = $pdo->prepare("
+    SELECT s.*, subj.name AS subject_name, u.name AS faculty_name
+    FROM schedules s
+    JOIN subjects subj ON s.subject_id = subj.id
+    LEFT JOIN faculty_subjects fs ON subj.id = fs.subject_id
+    LEFT JOIN users u ON fs.faculty_id = u.id
+    WHERE s.division = ? AND s.class = ?
+");
+$stmt_today_sched->execute([$student_division, $student_class]);
+$student_schedules = $stmt_today_sched->fetchAll();
+
+// Fetch today's attendance status
+$stmt_student_att = $pdo->prepare("
+    SELECT * FROM attendance WHERE student_id = ? AND date = ?
+");
+$stmt_student_att->execute([$student_id, date('Y-m-d')]);
+$student_today_att_records = [];
+foreach ($stmt_student_att->fetchAll() as $row) {
+    $student_today_att_records[$row['subject_id']] = $row['status'];
+}
+
 $read_notifs = isset($_SESSION['read_notifs']) ? $_SESSION['read_notifs'] : [];
 $deleted_notifs = isset($_SESSION['deleted_notifs']) ? $_SESSION['deleted_notifs'] : [];
 
@@ -113,9 +171,9 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
                         <div class="col-lg-8 mb-3 mb-lg-0">
                             <div class="d-flex flex-wrap align-items-center gap-2 mb-2">
                                 <span class="faculty-badge badge-success-subtle"><i class="bi bi-circle-fill" style="font-size:.45rem;"></i> Status: Good Standing</span>
-                                <span class="faculty-badge badge-blue-subtle"><i class="bi bi-mortarboard-fill"></i> Semester V · Div A</span>
+                                <span class="faculty-badge badge-blue-subtle"><i class="bi bi-mortarboard-fill"></i> <?php echo htmlspecialchars($student_class); ?> · Div <?php echo htmlspecialchars($student_division); ?></span>
                             </div>
-                            <h2 class="h3 fw-bold mb-1" style="color:#f1f5f9;font-family:'Outfit',sans-serif;">Welcome back, Aarav Mehta 👋</h2>
+                            <h2 class="h3 fw-bold mb-1" style="color:#f1f5f9;font-family:'Outfit',sans-serif;">Welcome back, <?php echo htmlspecialchars($student_name); ?> 👋</h2>
                             <p class="mb-0" style="color:#94a3b8;font-size:.9rem;">
                                 Your overall attendance is <strong style="color:#f59e0b;"><?php echo $overall_attendance; ?>%</strong>. Keep maintaining it above the 75% threshold.
                             </p>
@@ -151,7 +209,7 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
                     </div>
                     <!-- New Notifications Card -->
                     <div class="col-xl-3 col-sm-6">
-                        <a href="<?php echo $base_path; ?>modules/notifications/student-notifications.php" class="faculty-stat-card interactive-stat-card">
+                        <a href="<?php echo $base_path; ?>notifications/student-notifications.php" class="faculty-stat-card interactive-stat-card">
                             <div class="faculty-stat-icon icon-cyan"><i class="bi bi-bell-fill"></i></div>
                             <div><div class="faculty-stat-val"><?php echo $unread_notifications; ?></div><div class="faculty-stat-lbl">New Notifications</div></div>
                         </a>
@@ -174,30 +232,24 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
                                 <table class="faculty-table">
                                     <thead><tr><th>Time / Slot</th><th>Subject</th><th>Faculty</th><th>Status</th></tr></thead>
                                     <tbody>
-                                        <tr>
-                                            <td><div class="fw-semibold" style="color:#f1f5f9;">09:00 – 10:00 AM</div><small style="color:#64748b;">Slot 1</small></td>
-                                            <td><span style="color:#f1f5f9;font-weight:600;">Data Structures &amp; Algorithms</span><br><small style="color:#64748b;">CS501 · Lecture</small></td>
-                                            <td>Prof. Rajesh Sharma</td>
-                                            <td><span class="faculty-badge badge-success-subtle"><i class="bi bi-check-circle-fill me-1"></i>Present</span></td>
-                                        </tr>
-                                        <tr>
-                                            <td><div class="fw-semibold" style="color:#f1f5f9;">10:15 – 11:15 AM</div><small style="color:#64748b;">Slot 2</small></td>
-                                            <td><span style="color:#f1f5f9;font-weight:600;">Database Management Systems</span><br><small style="color:#64748b;">CS502 · Lecture</small></td>
-                                            <td>Prof. Rajesh Sharma</td>
-                                            <td><span class="faculty-badge badge-success-subtle"><i class="bi bi-check-circle-fill me-1"></i>Present</span></td>
-                                        </tr>
-                                        <tr>
-                                            <td><div class="fw-semibold" style="color:#f1f5f9;">01:30 – 02:30 PM</div><small style="color:#64748b;">Slot 3</small></td>
-                                            <td><span style="color:#f1f5f9;font-weight:600;">Web Technology Lab</span><br><small style="color:#64748b;">CS503 · Practical</small></td>
-                                            <td>Dr. Amit Patel</td>
-                                            <td><span class="faculty-badge badge-danger-subtle"><i class="bi bi-x-circle-fill me-1"></i>Absent</span></td>
-                                        </tr>
-                                        <tr>
-                                            <td><div class="fw-semibold" style="color:#f1f5f9;">03:00 – 04:00 PM</div><small style="color:#64748b;">Slot 4</small></td>
-                                            <td><span style="color:#f1f5f9;font-weight:600;">Object-Oriented Programming</span><br><small style="color:#64748b;">CS504 · Lecture</small></td>
-                                            <td>Prof. Priya Rao</td>
-                                            <td><span class="faculty-badge badge-warning-subtle"><i class="bi bi-clock-history me-1"></i>Scheduled</span></td>
-                                        </tr>
+                                        <?php if (empty($student_schedules)): ?>
+                                            <tr>
+                                                <td colspan="4" class="text-center text-secondary py-4">No lectures scheduled today.</td>
+                                            </tr>
+                                        <?php else: ?>
+                                            <?php foreach ($student_schedules as $sched): 
+                                                $status = isset($student_today_att_records[$sched['subject_id']]) ? $student_today_att_records[$sched['subject_id']] : 'Scheduled';
+                                                $badge_class = ($status === 'Present') ? 'badge-success-subtle' : (($status === 'Absent') ? 'badge-danger-subtle' : 'badge-warning-subtle');
+                                                $badge_icon = ($status === 'Present') ? 'bi-check-circle-fill' : (($status === 'Absent') ? 'bi-x-circle-fill' : 'bi-clock-history');
+                                            ?>
+                                            <tr>
+                                                <td><div class="fw-semibold" style="color:#f1f5f9;"><?php echo htmlspecialchars($sched['start_time'] . ' – ' . $sched['end_time']); ?></div><small style="color:#64748b;"><?php echo htmlspecialchars($sched['day_of_week']); ?></small></td>
+                                                <td><span style="color:#f1f5f9;font-weight:600;"><?php echo htmlspecialchars($sched['subject_name']); ?></span><br><small style="color:#64748b;">Lecture</small></td>
+                                                <td><?php echo htmlspecialchars($sched['faculty_name'] ?? 'Not Assigned'); ?></td>
+                                                <td><span class="faculty-badge <?php echo $badge_class; ?>"><i class="bi <?php echo $badge_icon; ?> me-1"></i><?php echo htmlspecialchars($status); ?></span></td>
+                                            </tr>
+                                            <?php endforeach; ?>
+                                        <?php endif; ?>
                                     </tbody>
                                 </table>
                             </div>

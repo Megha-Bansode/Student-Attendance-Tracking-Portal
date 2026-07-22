@@ -7,15 +7,58 @@ $page_title       = 'Super Admin Dashboard';
 $page_breadcrumb  = 'AttendEase / Super Admin / Overview';
 $page_icon        = 'bi-grid-1x2-fill';
 
-/* Mock statistics data */
-$total_departments = 5;
-$total_courses     = 8;
-$total_subjects    = 32;
-$total_faculty     = 24;
-$total_students    = 1450;
-$today_attendance  = "92.4%";
-$present_today     = 1340;
-$absent_today      = 110;
+require_once '../../config/database.php';
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+// Access Control
+if (!isset($_SESSION['role'])) {
+    header("Location: ../authentication/login.php");
+    exit;
+}
+
+/* Dynamic statistics data */
+$total_departments = 1; // AI&ML Department
+$total_courses     = $pdo->query("SELECT COUNT(DISTINCT class) FROM users WHERE role = 'student'")->fetchColumn();
+if (!$total_courses) $total_courses = 1;
+$total_subjects    = $pdo->query("SELECT COUNT(*) FROM subjects")->fetchColumn();
+$total_faculty     = $pdo->query("SELECT COUNT(*) FROM users WHERE role = 'faculty'")->fetchColumn();
+$total_students    = $pdo->query("SELECT COUNT(*) FROM users WHERE role = 'student'")->fetchColumn();
+
+$today_date = date('Y-m-d');
+$stmt_pres = $pdo->prepare("SELECT COUNT(*) FROM attendance WHERE date = ? AND status = 'Present'");
+$stmt_pres->execute([$today_date]);
+$present_today = $stmt_pres->fetchColumn();
+
+$stmt_abs = $pdo->prepare("SELECT COUNT(*) FROM attendance WHERE date = ? AND status = 'Absent'");
+$stmt_abs->execute([$today_date]);
+$absent_today = $stmt_abs->fetchColumn();
+
+$total_today = $present_today + $absent_today;
+$today_attendance = $total_today > 0 ? round(($present_today / $total_today) * 100, 1) . "%" : "100%";
+
+// Department overview info
+$faculty_count_aiml = $pdo->query("SELECT COUNT(DISTINCT faculty_id) FROM faculty_subjects fs JOIN subjects s ON fs.subject_id = s.id WHERE s.class = 'First Year' OR s.class = 'AI&ML'")->fetchColumn();
+$student_count_aiml = $pdo->query("SELECT COUNT(*) FROM users WHERE role = 'student' AND (class = 'First Year' OR department = 'AI&ML')")->fetchColumn();
+
+$pres_cnt = $pdo->query("SELECT COUNT(*) FROM attendance a JOIN users u ON a.student_id = u.id WHERE (u.class = 'First Year' OR u.department = 'AI&ML') AND a.status = 'Present'")->fetchColumn();
+$tot_cnt = $pdo->query("SELECT COUNT(*) FROM attendance a JOIN users u ON a.student_id = u.id WHERE (u.class = 'First Year' OR u.department = 'AI&ML')")->fetchColumn();
+$aiml_attendance_rate = $tot_cnt > 0 ? round(($pres_cnt / $tot_cnt) * 100, 1) . "%" : "100.0%";
+
+// Dynamic audit logs
+$stmt_audit = $pdo->query("
+    SELECT a.date, subj.name AS subject_name, fac.name AS faculty_name, u.name AS student_name, a.status
+    FROM attendance a
+    JOIN subjects subj ON a.subject_id = subj.id
+    JOIN users u ON a.student_id = u.id
+    LEFT JOIN users fac ON a.marked_by = fac.id
+    ORDER BY a.id DESC
+    LIMIT 5
+");
+$audit_logs = $stmt_audit->fetchAll();
+
+
 
 include '../../includes/header.php';
 ?>
@@ -170,62 +213,22 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
                                     <tbody>
                                         <tr>
                                             <td>
-                                                <div class="fw-semibold text-white"><i class="bi bi-laptop me-2 text-primary"></i>Computer Engineering</div>
-                                                <small style="color:#64748b;">Code: CSE</small>
+                                                <div class="fw-semibold text-white"><i class="bi bi-laptop me-2 text-primary"></i>First Year AI&ML</div>
+                                                <small style="color:#64748b;">Code: FY-AIML</small>
                                             </td>
-                                            <td><span style="color:#cbd5e1;">Dr. Sarah Jenkins</span></td>
-                                            <td><span class="faculty-badge badge-info-subtle">8 Faculty</span></td>
-                                            <td><span class="fw-bold text-white">464</span></td>
+                                            <td><span style="color:#cbd5e1;">Megha Mam</span></td>
+                                            <td><span class="faculty-badge badge-info-subtle"><?php echo $faculty_count_aiml; ?> Faculty</span></td>
+                                            <td><span class="fw-bold text-white"><?php echo $student_count_aiml; ?></span></td>
                                             <td>
                                                 <div class="d-flex align-items-center gap-2">
                                                     <div class="progress flex-grow-1" style="height:6px; background:rgba(255,255,255,.08); border-radius:3px;">
-                                                        <div class="progress-bar bg-success" style="width:95.2%;"></div>
+                                                        <div class="progress-bar bg-success" style="width:<?php echo $aiml_attendance_rate; ?>;"></div>
                                                     </div>
-                                                    <small class="fw-bold text-white">95.2%</small>
+                                                    <small class="fw-bold text-white"><?php echo $aiml_attendance_rate; ?></small>
                                                 </div>
                                             </td>
                                             <td class="text-end">
-                                                <a href="<?php echo $base_path; ?>modules/departments/admin-departments.php" class="btn btn-sm btn-outline-info py-1 px-2.5 rounded-2"><i class="bi bi-arrow-right"></i></a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="fw-semibold text-white"><i class="bi bi-cpu me-2 text-info"></i>Information Technology</div>
-                                                <small style="color:#64748b;">Code: IT</small>
-                                            </td>
-                                            <td><span style="color:#cbd5e1;">Prof. Rajesh Sharma</span></td>
-                                            <td><span class="faculty-badge badge-info-subtle">6 Faculty</span></td>
-                                            <td><span class="fw-bold text-white">348</span></td>
-                                            <td>
-                                                <div class="d-flex align-items-center gap-2">
-                                                    <div class="progress flex-grow-1" style="height:6px; background:rgba(255,255,255,.08); border-radius:3px;">
-                                                        <div class="progress-bar bg-success" style="width:93.8%;"></div>
-                                                    </div>
-                                                    <small class="fw-bold text-white">93.8%</small>
-                                                </div>
-                                            </td>
-                                            <td class="text-end">
-                                                <a href="<?php echo $base_path; ?>modules/departments/admin-departments.php" class="btn btn-sm btn-outline-info py-1 px-2.5 rounded-2"><i class="bi bi-arrow-right"></i></a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="fw-semibold text-white"><i class="bi bi-broadcast me-2 text-warning"></i>Electronics &amp; Telecom</div>
-                                                <small style="color:#64748b;">Code: ENTC</small>
-                                            </td>
-                                            <td><span style="color:#cbd5e1;">Dr. Amit Patel</span></td>
-                                            <td><span class="faculty-badge badge-info-subtle">4 Faculty</span></td>
-                                            <td><span class="fw-bold text-white">261</span></td>
-                                            <td>
-                                                <div class="d-flex align-items-center gap-2">
-                                                    <div class="progress flex-grow-1" style="height:6px; background:rgba(255,255,255,.08); border-radius:3px;">
-                                                        <div class="progress-bar bg-warning" style="width:89.5%;"></div>
-                                                    </div>
-                                                    <small class="fw-bold text-white">89.5%</small>
-                                                </div>
-                                            </td>
-                                            <td class="text-end">
-                                                <a href="<?php echo $base_path; ?>modules/departments/admin-departments.php" class="btn btn-sm btn-outline-info py-1 px-2.5 rounded-2"><i class="bi bi-arrow-right"></i></a>
+                                                <a href="<?php echo $base_path; ?>users/admin-students.php" class="btn btn-sm btn-outline-info py-1 px-2.5 rounded-2"><i class="bi bi-arrow-right"></i></a>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -293,22 +296,22 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td style="color:#94a3b8;"><i class="bi bi-clock me-1"></i>Today, 02:15 PM</td>
-                                    <td><span class="fw-semibold text-white">Super Admin</span></td>
-                                    <td>Assigned CS504 to Prof. Rajesh Sharma</td>
-                                    <td>Subject Allocation</td>
-                                    <td style="color:#64748b;font-family:monospace;">192.168.1.45</td>
-                                    <td><span class="faculty-badge badge-success-subtle">Success</span></td>
-                                </tr>
-                                <tr>
-                                    <td style="color:#94a3b8;"><i class="bi bi-clock me-1"></i>Today, 01:40 PM</td>
-                                    <td><span class="fw-semibold text-white">Prof. Rajesh Sharma</span></td>
-                                    <td>Submitted Attendance for CS503</td>
-                                    <td>Attendance</td>
-                                    <td style="color:#64748b;font-family:monospace;">192.168.1.88</td>
-                                    <td><span class="faculty-badge badge-success-subtle">Success</span></td>
-                                </tr>
+                                <?php if (empty($audit_logs)): ?>
+                                    <tr>
+                                        <td colspan="6" class="text-center text-secondary py-4">No audit logs recorded yet.</td>
+                                    </tr>
+                                <?php else: ?>
+                                    <?php foreach ($audit_logs as $log): ?>
+                                    <tr>
+                                        <td style="color:#94a3b8;"><i class="bi bi-clock me-1"></i><?php echo htmlspecialchars($log['date']); ?></td>
+                                        <td><span class="fw-semibold text-white"><?php echo htmlspecialchars($log['faculty_name'] ?? 'System'); ?></span></td>
+                                        <td>Marked attendance for <?php echo htmlspecialchars($log['student_name']); ?>: <?php echo htmlspecialchars($log['status']); ?></td>
+                                        <td>Attendance</td>
+                                        <td style="color:#64748b;font-family:monospace;">127.0.0.1</td>
+                                        <td><span class="faculty-badge badge-success-subtle">Success</span></td>
+                                    </tr>
+                                    <?php endforeach; ?>
+                                <?php endif; ?>
                             </tbody>
                         </table>
                     </div>

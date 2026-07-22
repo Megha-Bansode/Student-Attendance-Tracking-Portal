@@ -817,3 +817,121 @@ html.preload-collapsed body.faculty-portal-body .footer-section {
     box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.1) !important;
     border-radius: 20px !important;
 }
+
+/* Premium Glassmorphic input styles for modal forms & search bars */
+.modal-content .form-control,
+.modal-content .form-select,
+.modal-content input,
+.modal-content select,
+.modal-content .form-control:focus,
+.modal-content .form-select:focus,
+#addStudentModal .form-control,
+#addStudentModal .form-select,
+#addDepartmentModal .form-control,
+#addDepartmentModal .form-select,
+#addFacultyModal .form-control,
+#addFacultyModal .form-select,
+#addSubjectModal .form-control,
+#addSubjectModal .form-select,
+#exportClassReportModal .form-control,
+#exportClassReportModal .form-select {
+    background-color: rgba(15, 23, 42, 0.7) !important;
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+    color: #ffffff !important;
+    border-radius: 10px;
+    padding: 0.65rem 0.9rem;
+    font-size: 0.9rem;
+    transition: all 0.25s ease;
+}
+
+.modal-content input::placeholder,
+.modal-content .form-control::placeholder,
+input::placeholder,
+textarea::placeholder {
+    color: #94a3b8 !important;
+    opacity: 1 !important;
+}
+
+.modal-content .form-control:focus,
+.modal-content .form-select:focus {
+    border-color: #3b82f6 !important;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25) !important;
+    background-color: rgba(15, 23, 42, 0.9) !important;
+}
+
+/* Options styling inside select dropdowns */
+.modal-content select option,
+.modal-content option {
+    background-color: #131c31 !important;
+    color: #ffffff !important;
+}
+
+/* Premium Search Bar & Filter styling */
+.input-group .form-control[placeholder*="Search"],
+.input-group .form-control[id*="Search"],
+#deptSearchInput,
+#directorySearchInput,
+#streamDateFilter,
+#streamTable_filter input {
+    background-color: rgba(255, 255, 255, 0.05) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    color: #ffffff !important;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    padding: 0.4rem 0.75rem;
+}
+
+.input-group-text {
+    background-color: rgba(255, 255, 255, 0.03) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    color: #94a3b8 !important;
+}
+
+/* Fix non-standard Bootstrap gap classes to prevent button and input overlaps */
+.gap-1.5 { gap: 0.375rem !important; }
+.gap-2.5 { gap: 0.625rem !important; }
+
+/* Premium Action Buttons Style (Edit & Delete) */
+.faculty-table .btn-outline-info,
+.faculty-table button[onclick*="prepareEdit"],
+.faculty-table button[title*="Edit"] {
+    background: rgba(56, 189, 248, 0.12) !important;
+    color: #38bdf8 !important;
+    border: 1px solid rgba(56, 189, 248, 0.2) !important;
+    border-radius: 6px !important;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    padding: 0.3rem 0.65rem !important;
+}
+
+.faculty-table .btn-outline-info:hover,
+.faculty-table button[onclick*="prepareEdit"]:hover,
+.faculty-table button[title*="Edit"]:hover {
+    background: rgba(56, 189, 248, 0.25) !important;
+    color: #ffffff !important;
+    border-color: rgba(56, 189, 248, 0.4) !important;
+    box-shadow: 0 0 10px rgba(56, 189, 248, 0.2);
+}
+
+.faculty-table .btn-outline-danger,
+.faculty-table a[href*="delete"],
+.faculty-table a[title*="Delete"],
+.faculty-table button[onclick*="alert('Department removed"] {
+    background: rgba(248, 113, 113, 0.12) !important;
+    color: #f87171 !important;
+    border: 1px solid rgba(248, 113, 113, 0.2) !important;
+    border-radius: 6px !important;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    padding: 0.3rem 0.65rem !important;
+}
+
+.faculty-table .btn-outline-danger:hover,
+.faculty-table a[href*="delete"]:hover,
+.faculty-table a[title*="Delete"]:hover,
+.faculty-table button[onclick*="alert('Department removed"]:hover {
+    background: rgba(248, 113, 113, 0.25) !important;
+    color: #ffffff !important;
+    border-color: rgba(248, 113, 113, 0.4) !important;
+    box-shadow: 0 0 10px rgba(248, 113, 113, 0.2);
+}

@@ -4,7 +4,7 @@
  * Dynamically loads notifications and persists state (read/unread/deleted) via PHP Sessions
  */
 $page_title  = 'Notifications';
-include '../../includes/header.php';
+include '../includes/header.php';
 
 // Initialize session to store read and deleted notification IDs
 if (session_status() === PHP_SESSION_NONE) {
@@ -32,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
     }
     
     if ($_POST['action'] === 'mark_all_read') {
-        $file_path = __DIR__ . '/../../config/notifications.json';
+        $file_path = __DIR__ . '/../config/notifications.json';
         if (file_exists($file_path)) {
             $all_notifs = json_decode(file_get_contents($file_path), true) ?: [];
             foreach ($all_notifs as $n) {
@@ -56,7 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
 }
 
 // Load notifications from config/notifications.json
-$file_path = __DIR__ . '/../../config/notifications.json';
+$file_path = __DIR__ . '/../config/notifications.json';
 $all_notifications = [];
 if (file_exists($file_path)) {
     $all_notifications = json_decode(file_get_contents($file_path), true) ?: [];
@@ -105,7 +105,7 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
     <div class="faculty-portal-wrapper">
 
         <!-- Sidebar -->
-        <?php include '../../includes/student-sidebar.php'; ?>
+        <?php include '../includes/student-sidebar.php'; ?>
 
         <!-- Main content -->
         <div class="faculty-main-content">
@@ -298,4 +298,4 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 <script src="<?php echo $base_path; ?>assets/js/dashboard.js"></script>
-<?php include '../../includes/footer.php'; ?>
+<?php include '../includes/footer.php'; ?>

@@ -1,16 +1,78 @@
 <?php
 /**
  * AttendEase - Faculty Dashboard
- * Uses original header.php + footer.php for consistent site-wide nav.
  */
-$page_title  = 'Faculty Dashboard';
+require_once '../../config/database.php';
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
-/* ── Mock data (replace with DB query later) ── */
-$assigned_subjects_count = 4;
-$total_students_count    = 240;
-$weekly_lectures_count   = 18;
-$todays_completed_count  = 3;
-$todays_total_count      = 4;
+// Access Control
+if (!isset($_SESSION['role'])) {
+    header("Location: ../authentication/login.php");
+    exit;
+}
+
+$faculty_id = $_SESSION['user_id'];
+$faculty_name = $_SESSION['name'];
+
+if ($_SESSION['role'] !== 'faculty') {
+    // Fetch first faculty in database to populate dashboard for preview
+    $stmt_f = $pdo->query("SELECT * FROM users WHERE role = 'faculty' LIMIT 1");
+    $first_faculty = $stmt_f->fetch();
+    if ($first_faculty) {
+        $faculty_id = $first_faculty['id'];
+        $faculty_name = $first_faculty['name'];
+    }
+}
+
+// Assigned subjects count
+$stmt_sub = $pdo->prepare("SELECT COUNT(*) FROM faculty_subjects WHERE faculty_id = ?");
+$stmt_sub->execute([$faculty_id]);
+$assigned_subjects_count = $stmt_sub->fetchColumn();
+
+// Total students count
+$total_students_count = $pdo->query("SELECT COUNT(*) FROM users WHERE role = 'student'")->fetchColumn();
+
+// Weekly lectures count
+$stmt_lectures = $pdo->prepare("SELECT COUNT(*) FROM schedules WHERE subject_id IN (SELECT subject_id FROM faculty_subjects WHERE faculty_id = ?)");
+$stmt_lectures->execute([$faculty_id]);
+$weekly_lectures_count = $stmt_lectures->fetchColumn();
+
+// Todays completed and total count
+$today_str = date('Y-m-d');
+$stmt_comp = $pdo->prepare("SELECT COUNT(DISTINCT (subject_id || '-' || date)) FROM attendance WHERE marked_by = ? AND date = ?");
+$stmt_comp->execute([$faculty_id, $today_str]);
+$todays_completed_count = $stmt_comp->fetchColumn();
+
+$todays_total_count = $weekly_lectures_count > 0 ? $weekly_lectures_count : 2;
+
+$stmt_today_sched = $pdo->prepare("
+    SELECT s.*, subj.name AS subject_name, subj.class AS subject_class
+    FROM schedules s
+    JOIN subjects subj ON s.subject_id = subj.id
+    JOIN faculty_subjects fs ON subj.id = fs.subject_id
+    WHERE fs.faculty_id = ?
+");
+$stmt_today_sched->execute([$faculty_id]);
+$today_schedules = $stmt_today_sched->fetchAll();
+
+$stmt_recent = $pdo->prepare("
+    SELECT a.date, subj.name AS subject_name, u.class, u.division,
+           SUM(CASE WHEN a.status = 'Present' THEN 1 ELSE 0 END) AS present_count,
+           COUNT(a.id) AS total_count
+    FROM attendance a
+    JOIN subjects subj ON a.subject_id = subj.id
+    JOIN users u ON a.student_id = u.id
+    WHERE a.marked_by = ?
+    GROUP BY a.date, a.subject_id, u.class, u.division
+    ORDER BY a.date DESC
+    LIMIT 5
+");
+$stmt_recent->execute([$faculty_id]);
+$recent_submissions = $stmt_recent->fetchAll();
+
+$page_title  = 'Faculty Dashboard';
 include '../../includes/header.php';
 ?>
 <link rel="stylesheet" href="<?php echo $base_path; ?>assets/css/dashboard.css">
@@ -81,7 +143,7 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
                                 <span class="faculty-badge badge-success-subtle"><i class="bi bi-circle-fill" style="font-size:.45rem;"></i> Active Session</span>
                                 <span class="faculty-badge badge-blue-subtle"><i class="bi bi-building"></i> CSE Department</span>
                             </div>
-                            <h2 class="h3 fw-bold mb-1" style="color:#f1f5f9;font-family:'Outfit',sans-serif;">Welcome back, Prof. Rajesh Sharma 👋</h2>
+                            <h2 class="h3 fw-bold mb-1" style="color:#f1f5f9;font-family:'Outfit',sans-serif;">Welcome back, <?php echo htmlspecialchars($faculty_name); ?> 👋</h2>
                             <p class="mb-0" style="color:#94a3b8;font-size:.9rem;">
                                 You have <strong style="color:#93c5fd;"><?php echo ($todays_total_count - $todays_completed_count); ?> class remaining</strong> to mark attendance for today.
                             </p>
@@ -139,34 +201,23 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
                                 <table class="faculty-table">
                                     <thead><tr><th>Time / Slot</th><th>Subject</th><th>Class</th><th>Status</th><th class="text-end">Action</th></tr></thead>
                                     <tbody>
-                                        <tr>
-                                            <td><div class="fw-semibold" style="color:#f1f5f9;">09:00 – 10:00 AM</div><small style="color:#64748b;">Slot 1</small></td>
-                                            <td><span style="color:#f1f5f9;font-weight:600;">Data Structures &amp; Algorithms</span><br><small style="color:#64748b;">CS501 · Lecture</small></td>
-                                            <td><span class="faculty-badge badge-info-subtle">TE CSE – Div A</span></td>
-                                            <td><span class="faculty-badge badge-success-subtle"><i class="bi bi-check-circle-fill me-1"></i>Done</span></td>
-                                            <td class="text-end"><a href="<?php echo $base_path; ?>modules/attendance/faculty-edit-attendance.php?subject=CS501&div=A" class="btn btn-sm btn-outline-light py-1 px-2" style="font-size:.78rem;"><i class="bi bi-pencil me-1"></i>Edit</a></td>
-                                        </tr>
-                                        <tr>
-                                            <td><div class="fw-semibold" style="color:#f1f5f9;">10:15 – 11:15 AM</div><small style="color:#64748b;">Slot 2</small></td>
-                                            <td><span style="color:#f1f5f9;font-weight:600;">Database Management Systems</span><br><small style="color:#64748b;">CS502 · Lecture</small></td>
-                                            <td><span class="faculty-badge badge-info-subtle">TE CSE – Div B</span></td>
-                                            <td><span class="faculty-badge badge-success-subtle"><i class="bi bi-check-circle-fill me-1"></i>Done</span></td>
-                                            <td class="text-end"><a href="<?php echo $base_path; ?>modules/attendance/faculty-edit-attendance.php?subject=CS502&div=B" class="btn btn-sm btn-outline-light py-1 px-2" style="font-size:.78rem;"><i class="bi bi-pencil me-1"></i>Edit</a></td>
-                                        </tr>
-                                        <tr>
-                                            <td><div class="fw-semibold" style="color:#f1f5f9;">01:30 – 02:30 PM</div><small style="color:#64748b;">Slot 3</small></td>
-                                            <td><span style="color:#f1f5f9;font-weight:600;">Web Technology Lab</span><br><small style="color:#64748b;">CS503 · Practical</small></td>
-                                            <td><span class="faculty-badge badge-info-subtle">BE CSE – Div A</span></td>
-                                            <td><span class="faculty-badge badge-success-subtle"><i class="bi bi-check-circle-fill me-1"></i>Done</span></td>
-                                            <td class="text-end"><a href="<?php echo $base_path; ?>modules/attendance/faculty-edit-attendance.php?subject=CS503&div=A" class="btn btn-sm btn-outline-light py-1 px-2" style="font-size:.78rem;"><i class="bi bi-pencil me-1"></i>Edit</a></td>
-                                        </tr>
-                                        <tr>
-                                            <td><div class="fw-semibold" style="color:#f1f5f9;">03:00 – 04:00 PM</div><small style="color:#64748b;">Slot 4</small></td>
-                                            <td><span style="color:#f1f5f9;font-weight:600;">Object-Oriented Programming</span><br><small style="color:#64748b;">CS504 · Lecture</small></td>
-                                            <td><span class="faculty-badge badge-info-subtle">SE CSE – Div C</span></td>
-                                            <td><span class="faculty-badge badge-warning-subtle"><i class="bi bi-clock-history me-1"></i>Pending</span></td>
-                                            <td class="text-end"><a href="<?php echo $base_path; ?>modules/attendance/faculty-mark-attendance.php?subject=CS504&div=C&slot=4" class="btn btn-sm btn-premium py-1 px-3" style="font-size:.78rem;"><i class="bi bi-check-lg me-1"></i>Mark Now</a></td>
-                                        </tr>
+                                        <?php if (empty($today_schedules)): ?>
+                                            <tr>
+                                                <td colspan="5" class="text-center text-secondary py-4">No scheduled lectures today.</td>
+                                            </tr>
+                                        <?php else: ?>
+                                            <?php foreach ($today_schedules as $sched): ?>
+                                            <tr>
+                                                <td><div class="fw-semibold" style="color:#f1f5f9;"><?php echo htmlspecialchars($sched['start_time'] . ' – ' . $sched['end_time']); ?></div><small style="color:#64748b;"><?php echo htmlspecialchars($sched['day_of_week']); ?></small></td>
+                                                <td><span style="color:#f1f5f9;font-weight:600;"><?php echo htmlspecialchars($sched['subject_name']); ?></span><br><small style="color:#64748b;">Lecture</small></td>
+                                                <td><span class="faculty-badge badge-info-subtle"><?php echo htmlspecialchars($sched['class'] . ' – Div ' . $sched['division']); ?></span></td>
+                                                <td><span class="faculty-badge badge-success-subtle"><i class="bi bi-circle-fill me-1" style="font-size:.4rem;"></i>Scheduled</span></td>
+                                                <td class="text-end">
+                                                    <a href="<?php echo $base_path; ?>modules/attendance/faculty-mark-attendance.php?subject_id=<?php echo $sched['subject_id']; ?>&division=<?php echo urlencode($sched['division']); ?>&class=<?php echo urlencode($sched['class']); ?>" class="btn btn-sm btn-premium py-1 px-3" style="font-size:.78rem;"><i class="bi bi-check-lg me-1"></i>Mark Now</a>
+                                                </td>
+                                            </tr>
+                                            <?php endforeach; ?>
+                                        <?php endif; ?>
                                     </tbody>
                                 </table>
                             </div>
@@ -216,30 +267,31 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
                         <table class="faculty-table">
                             <thead><tr><th>Time</th><th>Subject</th><th>Class</th><th>Present / Total</th><th>Rate</th><th>Status</th></tr></thead>
                             <tbody>
-                                <tr>
-                                    <td style="color:#94a3b8;"><i class="bi bi-clock me-1"></i>Today, 01:45 PM</td>
-                                    <td><span style="color:#f1f5f9;font-weight:600;">Web Technology Lab</span> <small style="color:#64748b;">(CS503)</small></td>
-                                    <td>BE CSE – Div A</td>
-                                    <td><span style="color:#34d399;font-weight:700;">58</span> / 60</td>
-                                    <td><div class="d-flex align-items-center gap-2"><div class="progress flex-grow-1" style="height:5px;background:rgba(255,255,255,.08);border-radius:3px;"><div class="progress-bar bg-success" style="width:96.6%;border-radius:3px;"></div></div><small class="fw-bold" style="color:#f1f5f9;">96.6%</small></div></td>
-                                    <td><span class="faculty-badge badge-success-subtle">Saved</span></td>
-                                </tr>
-                                <tr>
-                                    <td style="color:#94a3b8;"><i class="bi bi-clock me-1"></i>Today, 10:25 AM</td>
-                                    <td><span style="color:#f1f5f9;font-weight:600;">Database Management Systems</span> <small style="color:#64748b;">(CS502)</small></td>
-                                    <td>TE CSE – Div B</td>
-                                    <td><span style="color:#34d399;font-weight:700;">55</span> / 60</td>
-                                    <td><div class="d-flex align-items-center gap-2"><div class="progress flex-grow-1" style="height:5px;background:rgba(255,255,255,.08);border-radius:3px;"><div class="progress-bar bg-success" style="width:91.6%;border-radius:3px;"></div></div><small class="fw-bold" style="color:#f1f5f9;">91.6%</small></div></td>
-                                    <td><span class="faculty-badge badge-success-subtle">Saved</span></td>
-                                </tr>
-                                <tr>
-                                    <td style="color:#94a3b8;"><i class="bi bi-clock me-1"></i>Today, 09:10 AM</td>
-                                    <td><span style="color:#f1f5f9;font-weight:600;">Data Structures &amp; Algorithms</span> <small style="color:#64748b;">(CS501)</small></td>
-                                    <td>TE CSE – Div A</td>
-                                    <td><span style="color:#34d399;font-weight:700;">57</span> / 60</td>
-                                    <td><div class="d-flex align-items-center gap-2"><div class="progress flex-grow-1" style="height:5px;background:rgba(255,255,255,.08);border-radius:3px;"><div class="progress-bar bg-success" style="width:95%;border-radius:3px;"></div></div><small class="fw-bold" style="color:#f1f5f9;">95.0%</small></div></td>
-                                    <td><span class="faculty-badge badge-success-subtle">Saved</span></td>
-                                </tr>
+                                <?php if (empty($recent_submissions)): ?>
+                                    <tr>
+                                        <td colspan="6" class="text-center text-secondary py-4">No recent attendance submissions.</td>
+                                    </tr>
+                                <?php else: ?>
+                                    <?php foreach ($recent_submissions as $rec): 
+                                        $rate = $rec['total_count'] > 0 ? round(($rec['present_count'] / $rec['total_count']) * 100, 1) : 100;
+                                    ?>
+                                    <tr>
+                                        <td style="color:#94a3b8;"><i class="bi bi-clock me-1"></i><?php echo htmlspecialchars($rec['date']); ?></td>
+                                        <td><span style="color:#f1f5f9;font-weight:600;"><?php echo htmlspecialchars($rec['subject_name']); ?></span></td>
+                                        <td><?php echo htmlspecialchars($rec['class'] . ' – Div ' . $rec['division']); ?></td>
+                                        <td><span style="color:#34d399;font-weight:700;"><?php echo $rec['present_count']; ?></span> / <?php echo $rec['total_count']; ?></td>
+                                        <td>
+                                            <div class="d-flex align-items-center gap-2">
+                                                <div class="progress flex-grow-1" style="height:5px;background:rgba(255,255,255,.08);border-radius:3px;">
+                                                    <div class="progress-bar bg-success" style="width:<?php echo $rate; ?>%;border-radius:3px;"></div>
+                                                </div>
+                                                <small class="fw-bold" style="color:#f1f5f9;"><?php echo $rate; ?>%</small>
+                                            </div>
+                                        </td>
+                                        <td><span class="faculty-badge badge-success-subtle">Saved</span></td>
+                                    </tr>
+                                    <?php endforeach; ?>
+                                <?php endif; ?>
                             </tbody>
                         </table>
                     </div>

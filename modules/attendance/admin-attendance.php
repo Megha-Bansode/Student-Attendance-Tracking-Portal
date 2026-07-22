@@ -3,6 +3,45 @@
  * AttendEase - Super Admin Attendance Audit & Management
  * Aligned with Faculty Dashboard design & AttendEase web portal theme
  */
+require_once '../../config/database.php';
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+// Access Control
+if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
+    header("Location: ../authentication/login.php");
+    exit;
+}
+
+// Fetch stats
+$today_date = date('Y-m-d');
+$stmt_pres = $pdo->prepare("SELECT COUNT(*) FROM attendance WHERE date = ? AND status = 'Present'");
+$stmt_pres->execute([$today_date]);
+$pres_today = $stmt_pres->fetchColumn();
+
+$stmt_tot = $pdo->prepare("SELECT COUNT(*) FROM attendance WHERE date = ?");
+$stmt_tot->execute([$today_date]);
+$tot_today = $stmt_tot->fetchColumn();
+
+$today_presence_rate = $tot_today > 0 ? round(($pres_today / $tot_today) * 100, 1) . "%" : "100%";
+$lectures_conducted = $pdo->query("SELECT COUNT(DISTINCT (date || '-' || subject_id)) FROM attendance")->fetchColumn();
+
+// Fetch dynamic stream records
+$stmt_stream = $pdo->query("
+    SELECT a.date, subj.name AS subject_name, u.class, u.division, u.department,
+           fac.name AS faculty_name,
+           SUM(CASE WHEN a.status = 'Present' THEN 1 ELSE 0 END) AS present_count,
+           COUNT(a.id) AS total_count
+    FROM attendance a
+    JOIN subjects subj ON a.subject_id = subj.id
+    JOIN users u ON a.student_id = u.id
+    LEFT JOIN users fac ON a.marked_by = fac.id
+    GROUP BY a.date, a.subject_id, u.class, u.division
+    ORDER BY a.date DESC
+");
+$stream_records = $stmt_stream->fetchAll();
+
 $page_title       = 'Attendance Audit & Records';
 $page_breadcrumb  = 'AttendEase / Super Admin / Attendance Audit';
 $page_icon        = 'bi-calendar-check-fill';
@@ -39,7 +78,7 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
                         <div class="faculty-stat-card">
                             <div class="faculty-stat-icon icon-emerald"><i class="bi bi-calendar-check-fill"></i></div>
                             <div>
-                                <div class="faculty-stat-val">92.4%</div>
+                                <div class="faculty-stat-val"><?php echo $today_presence_rate; ?></div>
                                 <div class="faculty-stat-lbl">Today's Presence Rate</div>
                             </div>
                         </div>
@@ -48,7 +87,7 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
                         <div class="faculty-stat-card">
                             <div class="faculty-stat-icon icon-purple"><i class="bi bi-journal-check"></i></div>
                             <div>
-                                <div class="faculty-stat-val">28 / 32</div>
+                                <div class="faculty-stat-val"><?php echo $lectures_conducted; ?></div>
                                 <div class="faculty-stat-lbl">Lectures Conducted</div>
                             </div>
                         </div>
@@ -57,7 +96,7 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
                         <div class="faculty-stat-card">
                             <div class="faculty-stat-icon icon-amber"><i class="bi bi-pencil-square"></i></div>
                             <div>
-                                <div class="faculty-stat-val">2 Pending</div>
+                                <div class="faculty-stat-val">0 Pending</div>
                                 <div class="faculty-stat-lbl">Edit Approval Requests</div>
                             </div>
                         </div>
@@ -80,46 +119,12 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
                             <h3 class="faculty-card-title"><i class="bi bi-pencil-square" style="color:#fbbf24;"></i> Pending Faculty Correction Requests</h3>
                             <p class="faculty-card-subtitle">Review &amp; approve historical attendance edit requests older than 48 hours</p>
                         </div>
-                        <span class="faculty-badge badge-warning-subtle">2 Approvals Action Needed</span>
+                        <span class="faculty-badge badge-warning-subtle">0 Approvals Action Needed</span>
                     </div>
 
-                    <div class="faculty-table-responsive">
-                        <table class="faculty-table">
-                            <thead>
-                                <tr>
-                                    <th>Faculty Name</th>
-                                    <th>Subject &amp; Code</th>
-                                    <th>Class / Div</th>
-                                    <th>Date of Class</th>
-                                    <th>Reason for Edit</th>
-                                    <th class="text-end">Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td><span class="fw-semibold text-white">Prof. Rajesh Sharma</span></td>
-                                    <td>Data Structures (CS501)</td>
-                                    <td>TE CSE – Div A</td>
-                                    <td>19 Jul 2026</td>
-                                    <td><span style="color:#cbd5e1;">Medical certificate submitted by Roll No. 2026CS103</span></td>
-                                    <td class="text-end">
-                                        <button class="btn btn-sm btn-success py-1 px-3 me-1" onclick="alert('Request Approved!')"><i class="bi bi-check-lg me-1"></i>Approve</button>
-                                        <button class="btn btn-sm btn-outline-danger py-1 px-2" onclick="alert('Request Rejected!')"><i class="bi bi-x-lg"></i></button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><span class="fw-semibold text-white">Dr. Sarah Jenkins</span></td>
-                                    <td>Operating Systems (IT301)</td>
-                                    <td>SE IT – Div A</td>
-                                    <td>18 Jul 2026</td>
-                                    <td><span style="color:#cbd5e1;">Biometric scanner sync delay adjustment</span></td>
-                                    <td class="text-end">
-                                        <button class="btn btn-sm btn-success py-1 px-3 me-1" onclick="alert('Request Approved!')"><i class="bi bi-check-lg me-1"></i>Approve</button>
-                                        <button class="btn btn-sm btn-outline-danger py-1 px-2" onclick="alert('Request Rejected!')"><i class="bi bi-x-lg"></i></button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                    <div class="faculty-table-responsive text-center py-4 text-muted">
+                        <i class="bi bi-check-circle text-success" style="font-size: 2rem;"></i>
+                        <p class="mt-2 mb-0">No pending faculty correction requests found.</p>
                     </div>
                 </div>
 
@@ -131,18 +136,17 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
                             <p class="faculty-card-subtitle">Real-time record of all class attendance submissions across departments</p>
                         </div>
                         <div class="d-flex align-items-center gap-2">
-                            <input type="date" class="form-control form-control-sm bg-dark text-light border-secondary" value="<?php echo date('Y-m-d'); ?>">
-                            <button class="btn btn-sm btn-outline-light"><i class="bi bi-filter"></i> Filter</button>
+                            <input type="date" id="streamDateFilter" class="form-control form-control-sm text-light border-secondary" value="<?php echo date('Y-m-d'); ?>" style="background: rgba(255,255,255,0.06); backdrop-filter: blur(4px);">
                         </div>
                     </div>
 
                     <div class="faculty-table-responsive">
-                        <table class="faculty-table">
+                        <table class="faculty-table" id="streamTable">
                             <thead>
                                 <tr>
-                                    <th>Time Submitted</th>
+                                    <th>Date</th>
                                     <th>Department</th>
-                                    <th>Subject &amp; Code</th>
+                                    <th>Subject</th>
                                     <th>Faculty</th>
                                     <th>Present / Total</th>
                                     <th>Percentage</th>
@@ -150,24 +154,25 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>Today, 01:45 PM</td>
-                                    <td>Computer Engineering</td>
-                                    <td>Web Technology Lab (CS503)</td>
-                                    <td>Prof. Rajesh Sharma</td>
-                                    <td><span class="fw-bold text-success">58</span> / 60</td>
-                                    <td>96.6%</td>
-                                    <td><span class="faculty-badge badge-success-subtle">Verified</span></td>
-                                </tr>
-                                <tr>
-                                    <td>Today, 10:25 AM</td>
-                                    <td>Computer Engineering</td>
-                                    <td>Database Management (CS502)</td>
-                                    <td>Prof. Rajesh Sharma</td>
-                                    <td><span class="fw-bold text-success">55</span> / 60</td>
-                                    <td>91.6%</td>
-                                    <td><span class="faculty-badge badge-success-subtle">Verified</span></td>
-                                </tr>
+                                <?php if (empty($stream_records)): ?>
+                                    <tr>
+                                        <td colspan="7" class="text-center text-secondary py-4">No attendance streams logged yet.</td>
+                                    </tr>
+                                <?php else: ?>
+                                    <?php foreach ($stream_records as $rec): 
+                                        $percentage = $rec['total_count'] > 0 ? round(($rec['present_count'] / $rec['total_count']) * 100, 1) : 100;
+                                    ?>
+                                    <tr data-date="<?php echo htmlspecialchars($rec['date']); ?>">
+                                        <td><?php echo htmlspecialchars($rec['date']); ?></td>
+                                        <td><?php echo htmlspecialchars($rec['department'] ?? 'AI&ML'); ?></td>
+                                        <td><?php echo htmlspecialchars($rec['subject_name']); ?></td>
+                                        <td><?php echo htmlspecialchars($rec['faculty_name'] ?? 'Not Assigned'); ?></td>
+                                        <td><span class="fw-bold text-success"><?php echo $rec['present_count']; ?></span> / <?php echo $rec['total_count']; ?></td>
+                                        <td><?php echo $percentage; ?>%</td>
+                                        <td><span class="faculty-badge badge-success-subtle">Verified</span></td>
+                                    </tr>
+                                    <?php endforeach; ?>
+                                <?php endif; ?>
                             </tbody>
                         </table>
                     </div>
@@ -178,6 +183,22 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
         </div>
     </div>
 </div>
+
+<script>
+// Filter table by Date
+document.getElementById('streamDateFilter').addEventListener('change', function() {
+    const selectedDate = this.value;
+    const rows = document.querySelectorAll('#streamTable tbody tr');
+    rows.forEach(row => {
+        const rowDate = row.getAttribute('data-date');
+        if (!selectedDate || rowDate === selectedDate) {
+            row.style.display = '';
+        } else {
+            row.style.display = 'none';
+        }
+    });
+});
+</script>
 
 <script src="<?php echo $base_path; ?>assets/js/dashboard.js"></script>
 <?php include '../../includes/footer.php'; ?>

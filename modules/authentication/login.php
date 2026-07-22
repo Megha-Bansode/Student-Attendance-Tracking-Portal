@@ -1,4 +1,62 @@
-<?php include '../../includes/header.php'; ?>
+<?php
+require_once '../../config/database.php';
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+if (isset($_GET['logout'])) {
+    session_unset();
+    session_destroy();
+    header("Location: login.php");
+    exit;
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $role = isset($_POST['role']) ? $_POST['role'] : '';
+    $username = '';
+    $password = isset($_POST['password']) ? $_POST['password'] : '';
+
+    if ($role === 'student') {
+        $username = isset($_POST['zprn']) ? trim($_POST['zprn']) : '';
+        $stmt = $pdo->prepare("SELECT * FROM users WHERE role = 'student' AND (zprn = ? OR username = ?)");
+        $stmt->execute([$username, $username]);
+    } elseif ($role === 'faculty') {
+        $username = isset($_POST['faculty_id']) ? trim($_POST['faculty_id']) : '';
+        $stmt = $pdo->prepare("SELECT * FROM users WHERE role = 'faculty' AND (username = ? OR id = ?)");
+        $stmt->execute([$username, $username]);
+    } elseif ($role === 'admin') {
+        $username = isset($_POST['email']) ? trim($_POST['email']) : '';
+        $stmt = $pdo->prepare("SELECT * FROM users WHERE role = 'admin' AND username = ?");
+        $stmt->execute([$username]);
+    }
+
+    if (isset($stmt)) {
+        $user = $stmt->fetch();
+        if ($user && ($password === $user['password'] || password_verify($password, $user['password']))) {
+            $_SESSION['user_id'] = $user['id'];
+            $_SESSION['role'] = $user['role'];
+            $_SESSION['name'] = $user['name'];
+            $_SESSION['username'] = $user['username'];
+            $_SESSION['zprn'] = $user['zprn'];
+            $_SESSION['class'] = $user['class'];
+            $_SESSION['division'] = $user['division'];
+
+            if ($role === 'student') {
+                header("Location: ../dashboard/student-dashboard.php");
+            } elseif ($role === 'faculty') {
+                header("Location: ../dashboard/faculty-dashboard.php");
+            } elseif ($role === 'admin') {
+                header("Location: ../dashboard/admin-dashboard.php");
+            }
+            exit;
+        } else {
+            header("Location: login.php?error=1");
+            exit;
+        }
+    }
+}
+include '../../includes/header.php';
+?>
 
 <!-- Custom Modular Styles & Scripts for Split Login (Zero impact on index.php) -->
 <link rel="stylesheet" href="<?php echo $base_path; ?>assets/css/forms.css">
@@ -111,7 +169,7 @@
                             <label for="studentPrn" class="compact-label">ZPRN (Roll Number)</label>
                             <div class="input-with-icon">
                                 <i class="bi bi-hash input-icon-left"></i>
-                                <input type="text" name="zprn" class="custom-compact-input" id="studentPrn" placeholder="125UAM1134" value="125UAM1134" required>
+                                <input type="text" name="zprn" class="custom-compact-input" id="studentPrn" placeholder="Username" required>
                             </div>
                         </div>
 
@@ -122,7 +180,7 @@
                             </div>
                             <div class="input-with-icon">
                                 <i class="bi bi-lock-fill input-icon-left"></i>
-                                <input type="password" name="password" class="custom-compact-input" id="studentPassword" placeholder="Password@123" value="Password@123" required>
+                                <input type="password" name="password" class="custom-compact-input" id="studentPassword" placeholder="Password" required>
                                 <button type="button" class="btn-toggle-eye" data-target="studentPassword" aria-label="Toggle password visibility">
                                     <i class="bi bi-eye"></i>
                                 </button>
@@ -152,7 +210,7 @@
                             <label for="facultyId" class="compact-label">Faculty ID / Email</label>
                             <div class="input-with-icon">
                                 <i class="bi bi-briefcase-fill input-icon-left"></i>
-                                <input type="text" name="faculty_id" class="custom-compact-input" id="facultyId" placeholder="faculty@login" value="faculty@login" required>
+                                <input type="text" name="faculty_id" class="custom-compact-input" id="facultyId" placeholder="Username" required>
                             </div>
                         </div>
 
@@ -163,7 +221,7 @@
                             </div>
                             <div class="input-with-icon">
                                 <i class="bi bi-lock-fill input-icon-left"></i>
-                                <input type="password" name="password" class="custom-compact-input" id="facultyPassword" placeholder="Faculty@123" required>
+                                <input type="password" name="password" class="custom-compact-input" id="facultyPassword" placeholder="Password" required>
                                 <button type="button" class="btn-toggle-eye" data-target="facultyPassword" aria-label="Toggle password visibility">
                                     <i class="bi bi-eye"></i>
                                 </button>
@@ -193,7 +251,7 @@
                             <label for="adminEmail" class="compact-label">Email Address</label>
                             <div class="input-with-icon">
                                 <i class="bi bi-envelope-fill input-icon-left"></i>
-                                <input type="email" name="email" class="custom-compact-input" id="adminEmail" placeholder="admin@college.edu" required>
+                                <input type="text" name="email" class="custom-compact-input" id="adminEmail" placeholder="Username" required>
                             </div>
                         </div>
 
@@ -204,7 +262,7 @@
                             </div>
                             <div class="input-with-icon">
                                 <i class="bi bi-lock-fill input-icon-left"></i>
-                                <input type="password" name="password" class="custom-compact-input" id="adminPassword" placeholder="Admin@123" required>
+                                <input type="password" name="password" class="custom-compact-input" id="adminPassword" placeholder="Password" required>
                                 <button type="button" class="btn-toggle-eye" data-target="adminPassword" aria-label="Toggle password visibility">
                                     <i class="bi bi-eye"></i>
                                 </button>

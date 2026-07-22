@@ -37,6 +37,20 @@ $current_page = basename($_SERVER['PHP_SELF']);
         </li>
 
         <li class="faculty-nav-item">
+            <a href="<?php echo $base_path; ?>modules/dashboard/admin-dashboard.php" class="faculty-nav-link">
+                <i class="bi bi-shield-check text-primary"></i>
+                <span>Admin View</span>
+            </a>
+        </li>
+
+        <li class="faculty-nav-item">
+            <a href="<?php echo $base_path; ?>modules/dashboard/student-dashboard.php" class="faculty-nav-link">
+                <i class="bi bi-mortarboard-fill text-warning"></i>
+                <span>Student View</span>
+            </a>
+        </li>
+
+        <li class="faculty-nav-item">
             <a href="<?php echo $base_path; ?>modules/subjects/faculty-subject-allocation.php"
                class="faculty-nav-link <?php echo ($current_page === 'faculty-subject-allocation.php') ? 'active' : ''; ?>"
                <?php echo ($current_page === 'faculty-subject-allocation.php') ? 'aria-current="page"' : ''; ?>>
@@ -67,7 +81,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
 
     <!-- Sign Out -->
     <div class="faculty-sidebar-footer">
-        <a href="<?php echo $base_path; ?>modules/authentication/login.php" class="faculty-logout-btn" title="Return to Login">
+        <a href="<?php echo $base_path; ?>modules/authentication/login.php?logout=1" class="faculty-logout-btn" title="Return to Login">
             <i class="bi bi-box-arrow-right"></i>
             <span>Sign Out</span>
         </a>

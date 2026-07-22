@@ -37,7 +37,7 @@ $contact_link = $is_index ? '#contact' : $base_path.'index.php#contact';
     
     <!-- Custom Style Sheet -->
     <link rel="stylesheet" href="<?php echo $base_path; ?>assets/css/style.css">
-    <?php if (in_array($current_page, ['attendance-history.php', 'monthly-report.php', 'student-summary.php'])): ?>
+    <?php if (in_array($current_page, ['reports/attendance-history.php', 'reports/monthly-report.php', 'reports/student-summary.php'])): ?>
     <link rel="stylesheet" href="<?php echo $base_path; ?>assets/css/reports.css">
     <?php endif; ?>
 </head>
@@ -90,13 +90,13 @@ $contact_link = $is_index ? '#contact' : $base_path.'index.php#contact';
                                     <a class="nav-link" href="<?php echo $features_link; ?>" id="nav-link-features">Features</a>
                                 </li>
                                 <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle <?php echo in_array($current_page, ['attendance-history.php', 'monthly-report.php', 'student-summary.php']) ? 'active' : ''; ?>" href="#" id="navbarDropdownReports" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <a class="nav-link dropdown-toggle <?php echo in_array($current_page, ['reports/attendance-history.php', 'reports/monthly-report.php', 'reports/student-summary.php']) ? 'active' : ''; ?>" href="#" id="navbarDropdownReports" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                         <i class="bi bi-bar-chart-line-fill text-primary"></i> Faculty Reports
                                     </a>
                                     <ul class="dropdown-menu dropdown-menu-dark border-0 shadow-lg" aria-labelledby="navbarDropdownReports">
-                                        <li><a class="dropdown-item <?php echo $current_page == 'attendance-history.php' ? 'active' : ''; ?>" href="<?php echo $base_path; ?>attendance-history.php"><i class="bi bi-clock-history me-2"></i> Attendance History</a></li>
-                                        <li><a class="dropdown-item <?php echo $current_page == 'monthly-report.php' ? 'active' : ''; ?>" href="<?php echo $base_path; ?>monthly-report.php"><i class="bi bi-calendar-month me-2"></i> Monthly Attendance Report</a></li>
-                                        <li><a class="dropdown-item <?php echo $current_page == 'student-summary.php' ? 'active' : ''; ?>" href="<?php echo $base_path; ?>student-summary.php"><i class="bi bi-person-lines-fill me-2"></i> Student-wise Summary</a></li>
+                                        <li><a class="dropdown-item <?php echo $current_page == 'reports/attendance-history.php' ? 'active' : ''; ?>" href="<?php echo $base_path; ?>reports/attendance-history.php"><i class="bi bi-clock-history me-2"></i> Attendance History</a></li>
+                                        <li><a class="dropdown-item <?php echo $current_page == 'reports/monthly-report.php' ? 'active' : ''; ?>" href="<?php echo $base_path; ?>reports/monthly-report.php"><i class="bi bi-calendar-month me-2"></i> Monthly Attendance Report</a></li>
+                                        <li><a class="dropdown-item <?php echo $current_page == 'reports/student-summary.php' ? 'active' : ''; ?>" href="<?php echo $base_path; ?>reports/student-summary.php"><i class="bi bi-person-lines-fill me-2"></i> Student-wise Summary</a></li>
                                     </ul>
                                 </li>
                                 <li class="nav-item">

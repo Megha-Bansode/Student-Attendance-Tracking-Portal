@@ -2,31 +2,79 @@
 /**
  * AttendEase - Faculty Edit Attendance Page
  */
+require_once '../../config/database.php';
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+// Access Control
+if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'faculty') {
+    header("Location: ../authentication/login.php");
+    exit;
+}
+
+$faculty_id = $_SESSION['user_id'];
+$faculty_name = $_SESSION['name'];
+
+// Fetch Assigned Subjects
+$stmt_fac_sub = $pdo->prepare("
+    SELECT s.* FROM subjects s
+    JOIN faculty_subjects fs ON s.id = fs.subject_id
+    WHERE fs.faculty_id = ?
+");
+$stmt_fac_sub->execute([$faculty_id]);
+$fac_subjects = $stmt_fac_sub->fetchAll();
+
+$selected_subject_id = isset($_GET['subject_id']) ? intval($_GET['subject_id']) : (count($fac_subjects) > 0 ? $fac_subjects[0]['id'] : 0);
+$selected_div        = isset($_GET['div'])        ? $_GET['div']        : 'A';
+$selected_class      = isset($_GET['class'])      ? $_GET['class']      : 'AI&ML';
+$selected_date       = isset($_GET['date'])       ? $_GET['date']       : date('Y-m-d');
+
+$is_search_active = ($selected_subject_id > 0 && !empty($selected_div));
+
+// Fetch students and their current attendance records for selected slot/date
+$students_att = [];
+if ($is_search_active) {
+    $stmt_att = $pdo->prepare("
+        SELECT u.id AS student_id, u.name, u.zprn, a.status AS attendance_status
+        FROM users u
+        LEFT JOIN attendance a ON u.id = a.student_id AND a.date = ? AND a.subject_id = ?
+        WHERE u.role = 'student' AND u.class = ? AND u.division = ?
+        ORDER BY u.name ASC
+    ");
+    $stmt_att->execute([$selected_date, $selected_subject_id, $selected_class, $selected_div]);
+    $students_att = $stmt_att->fetchAll();
+}
+
+// Process Edit Form Submission
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $attendance_date = $_POST['attendance_date'];
+    $subject_id      = intval($_POST['subject_id']);
+    $division        = $_POST['division'];
+    $class           = $_POST['class'];
+    $attendance_data = isset($_POST['attendance']) ? $_POST['attendance'] : [];
+
+    // Find students of this class and division
+    $stmt_s = $pdo->prepare("SELECT id FROM users WHERE role = 'student' AND class = ? AND division = ?");
+    $stmt_s->execute([$class, $division]);
+    $student_ids = $stmt_s->fetchAll(PDO::FETCH_COLUMN);
+
+    if (!empty($student_ids)) {
+        $in_query = implode(',', array_fill(0, count($student_ids), '?'));
+        $stmt_del = $pdo->prepare("DELETE FROM attendance WHERE date = ? AND subject_id = ? AND student_id IN ($in_query)");
+        $stmt_del->execute(array_merge([$attendance_date, $subject_id], $student_ids));
+    }
+
+    $stmt_ins = $pdo->prepare("INSERT INTO attendance (student_id, subject_id, date, status, marked_by) VALUES (?, ?, ?, ?, ?)");
+    foreach ($attendance_data as $student_id => $status) {
+        $status_capitalized = ($status === 'Present' || $status === 'present') ? 'Present' : 'Absent';
+        $stmt_ins->execute([intval($student_id), $subject_id, $attendance_date, $status_capitalized, $faculty_id]);
+    }
+    header("Location: ../dashboard/faculty-dashboard.php?updated=1");
+    exit;
+}
+
 $page_title = 'Edit Attendance';
-
-$selected_subject = isset($_GET['subject']) ? $_GET['subject'] : '';
-$selected_div     = isset($_GET['div'])     ? $_GET['div']     : '';
-$selected_date    = isset($_GET['date'])    ? $_GET['date']    : date('Y-m-d');
-$selected_slot    = '';
-
-$is_search_active = (!empty($selected_subject) && !empty($selected_div));
-
-/* ── Mock Students (replace with DB query) ── */
-$mock_students = [
-    ['roll'=>'101','prn'=>'2023CSE0101','name'=>'Aarav Sharma',    'status'=>'present','remarks'=>''],
-    ['roll'=>'102','prn'=>'2023CSE0102','name'=>'Ananya Deshmukh', 'status'=>'present','remarks'=>''],
-    ['roll'=>'103','prn'=>'2023CSE0103','name'=>'Devansh Kulkarni','status'=>'present','remarks'=>''],
-    ['roll'=>'104','prn'=>'2023CSE0104','name'=>'Diya Patel',      'status'=>'absent', 'remarks'=>'Medical Leave'],
-    ['roll'=>'105','prn'=>'2023CSE0105','name'=>'Ishan Verma',     'status'=>'present','remarks'=>''],
-    ['roll'=>'106','prn'=>'2023CSE0106','name'=>'Kavya Joshi',     'status'=>'present','remarks'=>''],
-    ['roll'=>'107','prn'=>'2023CSE0107','name'=>'Manish Mehta',    'status'=>'present','remarks'=>''],
-    ['roll'=>'108','prn'=>'2023CSE0108','name'=>'Neha Gupta',      'status'=>'absent', 'remarks'=>'Unexcused'],
-    ['roll'=>'109','prn'=>'2023CSE0109','name'=>'Pranav Rao',      'status'=>'present','remarks'=>''],
-    ['roll'=>'110','prn'=>'2023CSE0110','name'=>'Riya Shah',       'status'=>'present','remarks'=>''],
-    ['roll'=>'111','prn'=>'2023CSE0111','name'=>'Siddharth Nair',  'status'=>'present','remarks'=>''],
-    ['roll'=>'112','prn'=>'2023CSE0112','name'=>'Tanvi Patil',     'status'=>'present','remarks'=>''],
-];
-
 include '../../includes/header.php';
 ?>
 <link rel="stylesheet" href="<?php echo $base_path; ?>assets/css/dashboard.css">
@@ -72,34 +120,34 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
             </div>
 
             <!-- Search Form -->
-            <form action="<?php echo $base_path; ?>modules/attendance/faculty-edit-attendance.php" method="GET" class="mb-4">
+            <form action="faculty-edit-attendance.php" method="GET" class="mb-4">
                 <div class="faculty-card">
                     <div class="faculty-card-header mb-3 pb-2">
                         <h3 class="faculty-card-title"><i class="bi bi-search" style="color:#818cf8;"></i> Find Submitted Record</h3>
                     </div>
                     <div class="row g-3 align-items-end">
-                        <div class="col-xl-4 col-md-6">
+                        <div class="col-xl-3 col-md-6">
                             <label for="editDateInput" class="faculty-form-label"><i class="bi bi-calendar3 me-1" style="color:#60a5fa;"></i> Date</label>
                             <input type="date" id="editDateInput" name="date" class="faculty-input" value="<?php echo htmlspecialchars($selected_date); ?>" max="<?php echo date('Y-m-d'); ?>" required>
                         </div>
                         <div class="col-xl-4 col-md-6">
                             <label for="editSubjectSelect" class="faculty-form-label"><i class="bi bi-journal-text me-1" style="color:#60a5fa;"></i> Subject</label>
-                            <select id="editSubjectSelect" name="subject" class="faculty-select" required>
-                                <option value="">-- Select Subject --</option>
-                                <option value="CS501" <?php echo ($selected_subject==='CS501')?'selected':''; ?>>CS501 – Data Structures</option>
-                                <option value="CS502" <?php echo ($selected_subject==='CS502')?'selected':''; ?>>CS502 – DBMS</option>
-                                <option value="CS503" <?php echo ($selected_subject==='CS503')?'selected':''; ?>>CS503 – Web Tech Lab</option>
+                            <select id="editSubjectSelect" name="subject_id" class="faculty-select" required>
+                                <?php foreach ($fac_subjects as $fs): ?>
+                                    <option value="<?php echo $fs['id']; ?>" <?php echo ($selected_subject_id == $fs['id']) ? 'selected' : ''; ?>>
+                                        <?php echo htmlspecialchars($fs['name']); ?>
+                                    </option>
+                                <?php endforeach; ?>
                             </select>
                         </div>
-                        <div class="col-xl-2 col-md-6">
+                        <div class="col-xl-3 col-md-6">
                             <label for="editDivisionSelect" class="faculty-form-label"><i class="bi bi-building me-1" style="color:#60a5fa;"></i> Division</label>
                             <select id="editDivisionSelect" name="div" class="faculty-select" required>
-                                <option value="">-- Div --</option>
-                                <option value="A" <?php echo ($selected_div==='A')?'selected':''; ?>>Div A</option>
-                                <option value="B" <?php echo ($selected_div==='B')?'selected':''; ?>>Div B</option>
-                                <option value="C" <?php echo ($selected_div==='C')?'selected':''; ?>>Div C</option>
+                                <option value="A" <?php echo ($selected_div==='A')?'selected':''; ?>>Division A</option>
+                                <option value="B" <?php echo ($selected_div==='B')?'selected':''; ?>>Division B</option>
                             </select>
                         </div>
+                        <input type="hidden" name="class" value="<?php echo htmlspecialchars($selected_class); ?>">
                         <div class="col-xl-2 col-md-6">
                             <button type="submit" class="btn btn-premium w-100"><i class="bi bi-search me-1"></i> Fetch</button>
                         </div>
@@ -109,39 +157,18 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
 
             <?php if ($is_search_active): ?>
             <!-- Edit Form -->
-            <form id="markAttendanceForm" action="<?php echo $base_path; ?>modules/attendance/faculty-edit-attendance.php" method="POST" novalidate>
+            <form id="markAttendanceForm" action="faculty-edit-attendance.php" method="POST">
+                <input type="hidden" name="attendance_date" value="<?php echo htmlspecialchars($selected_date); ?>">
+                <input type="hidden" name="subject_id" value="<?php echo htmlspecialchars($selected_subject_id); ?>">
+                <input type="hidden" name="class" value="<?php echo htmlspecialchars($selected_class); ?>">
+                <input type="hidden" name="division" value="<?php echo htmlspecialchars($selected_div); ?>">
+
                 <div class="faculty-card">
                     <!-- Sheet header with live counters -->
                     <div class="d-flex flex-column flex-lg-row align-items-lg-center justify-content-between gap-3 mb-4 pb-3" style="border-bottom:1px solid rgba(255,255,255,.06);">
                         <div>
-                            <h3 class="faculty-card-title mb-1"><i class="bi bi-pencil-square" style="color:#38bdf8;"></i> Updating Record: <?php echo htmlspecialchars($selected_subject); ?> (Div <?php echo htmlspecialchars($selected_div); ?>)</h3>
+                            <h3 class="faculty-card-title mb-1"><i class="bi bi-pencil-square" style="color:#38bdf8;"></i> Updating Record: Division <?php echo htmlspecialchars($selected_div); ?></h3>
                             <p class="faculty-card-subtitle">Originally marked on <?php echo date('M d, Y', strtotime($selected_date)); ?></p>
-                        </div>
-                        <div class="counter-box-group">
-                            <div class="counter-pill">
-                                <span style="color:#64748b;">Total</span>
-                                <span class="counter-pill-val" style="color:#f1f5f9;" id="statTotalStudents">0</span>
-                            </div>
-                            <div class="counter-pill" style="border-color:rgba(16,185,129,.35);">
-                                <i class="bi bi-check-circle-fill" style="color:#34d399;"></i>
-                                <span class="counter-pill-val" style="color:#34d399;" id="statPresentCount">0</span>
-                            </div>
-                            <div class="counter-pill" style="border-color:rgba(239,68,68,.35);">
-                                <i class="bi bi-x-circle-fill" style="color:#f87171;"></i>
-                                <span class="counter-pill-val" style="color:#f87171;" id="statAbsentCount">0</span>
-                            </div>
-                            <div class="counter-pill" style="border-color:rgba(96,165,250,.35);">
-                                <i class="bi bi-percent" style="color:#60a5fa;"></i>
-                                <span class="counter-pill-val" style="color:#60a5fa;" id="statAttendanceRate">0%</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Alert message -->
-                    <div class="alert alert-warning d-flex align-items-center mb-3" style="background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.25);color:#fcd34d;border-radius:10px;">
-                        <i class="bi bi-exclamation-triangle-fill fs-5 me-3"></i>
-                        <div style="font-size:.875rem;">
-                            <strong>Note:</strong> Editing is logged. Any changes will notify students whose status was flipped.
                         </div>
                     </div>
 
@@ -150,49 +177,54 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
                         <table class="faculty-table" id="studentAttendanceTable">
                             <thead>
                                 <tr>
-                                    <th style="width:70px;">Roll</th>
-                                    <th style="width:150px;">PRN</th>
+                                    <th>Roll / PRN</th>
                                     <th>Student Name</th>
                                     <th class="text-center" style="width:210px;">Status</th>
-                                    <th>Remarks (Required for changes)</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php foreach ($mock_students as $s): ?>
+                                <?php if (empty($students_att)): ?>
                                     <tr>
-                                        <td class="fw-bold" style="color:#f1f5f9;"><?php echo htmlspecialchars($s['roll']); ?></td>
-                                        <td><span class="faculty-badge badge-secondary-subtle"><?php echo htmlspecialchars($s['prn']); ?></span></td>
-                                        <td style="color:#f1f5f9;font-weight:500;"><i class="bi bi-person-circle me-2" style="color:#475569;"></i><?php echo htmlspecialchars($s['name']); ?></td>
-                                        <td class="text-center">
-                                            <input type="hidden" name="attendance[<?php echo $s['prn']; ?>]" class="student-status-input" value="<?php echo $s['status']; ?>">
-                                            <div class="attendance-toggle-group">
-                                                <button type="button" class="attendance-toggle-btn btn-present <?php echo ($s['status']==='present')?'active':''; ?>"><i class="bi bi-check-lg"></i> Present</button>
-                                                <button type="button" class="attendance-toggle-btn btn-absent  <?php echo ($s['status']==='absent') ?'active':''; ?>"><i class="bi bi-x-lg"></i> Absent</button>
-                                            </div>
-                                        </td>
-                                        <td><input type="text" name="remarks[<?php echo $s['prn']; ?>]" class="faculty-input py-1 px-2" style="font-size:.8rem;" placeholder="Reason for change..." value="<?php echo htmlspecialchars($s['remarks']); ?>"></td>
+                                        <td colspan="3" class="text-center text-secondary py-4">No student records found.</td>
                                     </tr>
-                                <?php endforeach; ?>
+                                <?php else: ?>
+                                    <?php foreach ($students_att as $s): 
+                                        $is_present = ($s['attendance_status'] === 'Present' || $s['attendance_status'] === null); // default to present if not marked
+                                    ?>
+                                        <tr>
+                                            <td class="fw-bold" style="color:#f1f5f9;"><?php echo htmlspecialchars($s['zprn']); ?></td>
+                                            <td style="color:#f1f5f9;font-weight:500;"><i class="bi bi-person-circle me-2" style="color:#475569;"></i><?php echo htmlspecialchars($s['name']); ?></td>
+                                            <td class="text-center">
+                                                <div class="d-flex justify-content-center gap-2">
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="radio" name="attendance[<?php echo $s['student_id']; ?>]" id="pres_<?php echo $s['student_id']; ?>" value="Present" <?php echo $is_present ? 'checked' : ''; ?>>
+                                                        <label class="form-check-label text-success fw-bold" for="pres_<?php echo $s['student_id']; ?>">Present</label>
+                                                    </div>
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="radio" name="attendance[<?php echo $s['student_id']; ?>]" id="abs_<?php echo $s['student_id']; ?>" value="Absent" <?php echo !$is_present ? 'checked' : ''; ?>>
+                                                        <label class="form-check-label text-danger fw-bold" for="abs_<?php echo $s['student_id']; ?>">Absent</label>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                <?php endif; ?>
                             </tbody>
                         </table>
                     </div>
 
                     <!-- Submit Row -->
                     <div class="d-flex align-items-center justify-content-between pt-4 mt-2" style="border-top:1px solid rgba(255,255,255,.06);">
-                        <a href="<?php echo $base_path; ?>modules/attendance/faculty-edit-attendance.php" class="btn btn-outline-light rounded-pill px-4"><i class="bi bi-x-lg me-1"></i> Cancel Edit</a>
-                        <button type="submit" class="btn btn-premium px-4 py-2" id="btnSubmitAttendance">
-                            <i class="bi bi-cloud-arrow-up-fill me-1"></i> Update Changes
-                        </button>
+                        <a href="../dashboard/faculty-dashboard.php" class="btn btn-outline-light rounded-pill px-4"><i class="bi bi-arrow-left me-1"></i> Back</a>
+                        <?php if (!empty($students_att)): ?>
+                            <button type="submit" class="btn btn-premium px-4 py-2" id="btnSubmitAttendance">
+                                <i class="bi bi-cloud-arrow-up-fill me-1"></i> Save changes
+                            </button>
+                        <?php endif; ?>
                     </div>
                 </div>
+
             </form>
-            <?php else: ?>
-            <!-- Placeholder when no search is active -->
-            <div class="faculty-card text-center py-5">
-                <i class="bi bi-search display-4" style="color:#334155;"></i>
-                <h4 class="fw-bold mt-3 mb-1" style="color:#f1f5f9;font-family:'Outfit',sans-serif;">No Record Selected</h4>
-                <p class="mb-0" style="color:#64748b;">Use the search form above to find and edit a submitted attendance record.</p>
-            </div>
             <?php endif; ?>
 
         </main>
@@ -200,5 +232,4 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
     </div>
 </div>
 </div>
-<script src="<?php echo $base_path; ?>assets/js/dashboard.js"></script>
 <?php include '../../includes/footer.php'; ?>
