@@ -1,0 +1,379 @@
+/* Faculty Attendance Reports & Analytics Stylesheet */
+
+/* Top Dashboard Header & Sub-navbar */
+.reports-hero-header {
+    background: linear-gradient(180deg, rgba(30, 41, 59, 0.6) 0%, rgba(15, 23, 42, 0.8) 100%);
+    border-bottom: 1px solid var(--border-glass);
+    padding: 2.5rem 0 1.5rem 0;
+    margin-bottom: 2rem;
+}
+
+.reports-nav-tabs {
+    border-bottom: 1px solid var(--border-glass);
+    display: flex;
+    gap: 0.5rem;
+    overflow-x: auto;
+    padding-bottom: 2px;
+}
+
+.reports-nav-tabs .nav-link {
+    color: var(--text-muted);
+    font-weight: 600;
+    font-size: 0.95rem;
+    padding: 0.75rem 1.25rem;
+    border-radius: 12px 12px 0 0;
+    border: 1px solid transparent;
+    transition: var(--transition-fast);
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.reports-nav-tabs .nav-link:hover {
+    color: var(--text-white);
+    background: rgba(255, 255, 255, 0.04);
+}
+
+.reports-nav-tabs .nav-link.active {
+    color: var(--primary-light);
+    background: rgba(99, 102, 241, 0.12);
+    border-color: var(--border-glass);
+    border-bottom-color: transparent;
+    box-shadow: 0 -4px 12px rgba(99, 102, 241, 0.15);
+}
+
+/* Glass Cards & Metric Panels */
+.glass-card {
+    background: var(--bg-glass);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--border-glass);
+    border-radius: 16px;
+    padding: 1.5rem;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+    transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.glass-card:hover {
+    border-color: rgba(99, 102, 241, 0.3);
+}
+
+.stat-card-widget {
+    position: relative;
+    overflow: hidden;
+}
+
+.stat-card-widget .stat-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.stat-icon.primary {
+    background: rgba(99, 102, 241, 0.15);
+    color: var(--primary-light);
+    border: 1px solid rgba(99, 102, 241, 0.3);
+}
+
+.stat-icon.success {
+    background: rgba(16, 185, 129, 0.15);
+    color: var(--success);
+    border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.stat-icon.warning {
+    background: rgba(245, 158, 11, 0.15);
+    color: var(--warning);
+    border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+.stat-icon.danger {
+    background: rgba(239, 68, 68, 0.15);
+    color: var(--danger);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.stat-icon.accent {
+    background: rgba(14, 165, 233, 0.15);
+    color: var(--accent-light);
+    border: 1px solid rgba(14, 165, 233, 0.3);
+}
+
+.stat-card-widget .stat-value {
+    font-family: var(--font-heading);
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--text-white);
+    line-height: 1.1;
+}
+
+.stat-card-widget .stat-label {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 0.25rem;
+}
+
+.stat-card-widget .stat-trend {
+    font-size: 0.8rem;
+    margin-top: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+/* Filter Controls Box */
+.filter-box {
+    background: rgba(30, 41, 59, 0.7);
+    border: 1px solid var(--border-glass);
+    border-radius: 14px;
+    padding: 1.25rem;
+    margin-bottom: 1.5rem;
+}
+
+.filter-box label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 0.4rem;
+}
+
+.filter-box .form-control,
+.filter-box .form-select {
+    background-color: rgba(15, 23, 42, 0.8);
+    border: 1px solid var(--border-glass);
+    color: var(--text-light);
+    border-radius: 10px;
+    padding: 0.6rem 0.9rem;
+    font-size: 0.9rem;
+}
+
+.filter-box .form-control:focus,
+.filter-box .form-select:focus {
+    background-color: var(--bg-dark-900);
+    border-color: var(--primary);
+    box-shadow: 0 0 0 0.25rem var(--primary-glow);
+    color: var(--text-white);
+}
+
+.filter-box .form-select option {
+    background-color: var(--bg-dark-900);
+    color: var(--text-white);
+}
+
+/* Dark Styled Tables */
+.custom-report-table {
+    width: 100%;
+    margin-bottom: 0;
+    color: var(--text-light);
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.custom-report-table th {
+    background: rgba(30, 41, 59, 0.9);
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 1rem;
+    border-bottom: 1px solid var(--border-glass);
+}
+
+.custom-report-table td {
+    padding: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    vertical-align: middle;
+    font-size: 0.9rem;
+}
+
+.custom-report-table tr:last-child td {
+    border-bottom: none;
+}
+
+.custom-report-table tbody tr {
+    transition: background-color var(--transition-fast);
+}
+
+.custom-report-table tbody tr:hover {
+    background-color: rgba(99, 102, 241, 0.05);
+}
+
+/* Custom Badges */
+.badge-status {
+    padding: 0.35em 0.75em;
+    font-size: 0.75rem;
+    font-weight: 600;
+    border-radius: 50px;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+}
+
+.badge-status-present {
+    background: rgba(16, 185, 129, 0.15);
+    color: #34d399;
+    border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.badge-status-absent {
+    background: rgba(239, 68, 68, 0.15);
+    color: #f87171;
+    border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.badge-status-late {
+    background: rgba(245, 158, 11, 0.15);
+    color: #fbbf24;
+    border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+.badge-status-defaulter {
+    background: rgba(239, 68, 68, 0.2);
+    color: #fca5a5;
+    border: 1px solid rgba(239, 68, 68, 0.4);
+    animation: pulseGlow 2s infinite;
+}
+
+.badge-status-safe {
+    background: rgba(16, 185, 129, 0.2);
+    color: #6ee7b7;
+    border: 1px solid rgba(16, 185, 129, 0.4);
+}
+
+.badge-status-warning {
+    background: rgba(245, 158, 11, 0.2);
+    color: #fde047;
+    border: 1px solid rgba(245, 158, 11, 0.4);
+}
+
+@keyframes pulseGlow {
+    0%, 100% { box-shadow: 0 0 5px rgba(239, 68, 68, 0.2); }
+    50% { box-shadow: 0 0 12px rgba(239, 68, 68, 0.5); }
+}
+
+/* Custom Progress Bar */
+.progress-dark {
+    height: 8px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.progress-dark .progress-bar {
+    border-radius: 10px;
+}
+
+/* Modals */
+.modal-glass .modal-content {
+    background-color: var(--bg-dark-900);
+    border: 1px solid var(--border-glass);
+    border-radius: 20px;
+    color: var(--text-light);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+}
+
+.modal-glass .modal-header {
+    border-bottom: 1px solid var(--border-glass);
+    padding: 1.25rem 1.5rem;
+}
+
+.modal-glass .modal-footer {
+    border-top: 1px solid var(--border-glass);
+    padding: 1rem 1.5rem;
+}
+
+.btn-close-white {
+    filter: invert(1) grayscale(100%) brightness(200%);
+}
+
+/* Action Buttons */
+.btn-action-icon {
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    border-radius: 8px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--border-glass);
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-light);
+    transition: var(--transition-fast);
+}
+
+.btn-action-icon:hover {
+    background: var(--primary);
+    color: var(--text-white);
+    border-color: var(--primary);
+}
+
+/* Student Avatar Card */
+.student-avatar {
+    width: 54px;
+    height: 54px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--text-white);
+    box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+}
+
+.student-card-selectable {
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.student-card-selectable:hover,
+.student-card-selectable.selected {
+    border-color: var(--primary-light);
+    background: rgba(99, 102, 241, 0.1);
+    transform: translateY(-2px);
+}
+
+/* Print Formatting */
+@media print {
+    body {
+        background-color: #ffffff !important;
+        color: #000000 !important;
+    }
+    header, footer, .filter-box, .reports-nav-tabs, .btn, .no-print {
+        display: none !important;
+    }
+    .glass-card {
+        background: none !important;
+        border: 1px solid #ddd !important;
+        box-shadow: none !important;
+        color: #000000 !important;
+    }
+    .custom-report-table th {
+        background: #f1f5f9 !important;
+        color: #000000 !important;
+    }
+    .custom-report-table td {
+        color: #000000 !important;
+        border-bottom: 1px solid #ddd !important;
+    }
+    .print-only {
+        display: block !important;
+    }
+}
+
+.print-only {
+    display: none;
+}

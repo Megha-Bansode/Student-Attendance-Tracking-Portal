@@ -21,6 +21,9 @@ $contact_link = $is_index ? '#contact' : 'index.php#contact';
     
     <!-- Custom Style Sheet -->
     <link rel="stylesheet" href="assets/css/style.css">
+    <?php if (in_array($current_page, ['attendance-history.php', 'monthly-report.php', 'student-summary.php'])): ?>
+    <link rel="stylesheet" href="assets/css/reports.css">
+    <?php endif; ?>
 </head>
 <body>
     <!-- Background glow particles -->
@@ -53,6 +56,16 @@ $contact_link = $is_index ? '#contact' : 'index.php#contact';
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="<?php echo $features_link; ?>" id="nav-link-features">Features</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle <?php echo in_array($current_page, ['attendance-history.php', 'monthly-report.php', 'student-summary.php']) ? 'active' : ''; ?>" href="#" id="navbarDropdownReports" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-bar-chart-line-fill text-primary"></i> Faculty Reports
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-dark border-0 shadow-lg" aria-labelledby="navbarDropdownReports">
+                                <li><a class="dropdown-item <?php echo $current_page == 'attendance-history.php' ? 'active' : ''; ?>" href="attendance-history.php"><i class="bi bi-clock-history me-2"></i> Attendance History</a></li>
+                                <li><a class="dropdown-item <?php echo $current_page == 'monthly-report.php' ? 'active' : ''; ?>" href="monthly-report.php"><i class="bi bi-calendar-month me-2"></i> Monthly Attendance Report</a></li>
+                                <li><a class="dropdown-item <?php echo $current_page == 'student-summary.php' ? 'active' : ''; ?>" href="student-summary.php"><i class="bi bi-person-lines-fill me-2"></i> Student-wise Summary</a></li>
+                            </ul>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="<?php echo $contact_link; ?>" id="nav-link-contact">Contact</a>
