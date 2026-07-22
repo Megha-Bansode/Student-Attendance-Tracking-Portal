@@ -206,6 +206,28 @@ function initMonthlyChart() {
                 }
             }
         });
+    } else {
+        // Fallback 2D canvas drawing when offline or CDN blocked
+        const c2d = ctx.getContext('2d');
+        if (c2d) {
+            ctx.width = ctx.parentElement.clientWidth || 600;
+            ctx.height = 250;
+            c2d.strokeStyle = '#6366f1';
+            c2d.lineWidth = 3;
+            c2d.beginPath();
+            c2d.moveTo(20, 180);
+            c2d.lineTo(100, 140);
+            c2d.lineTo(180, 70);
+            c2d.lineTo(260, 110);
+            c2d.lineTo(340, 50);
+            c2d.lineTo(420, 90);
+            c2d.lineTo(500, 40);
+            c2d.stroke();
+
+            c2d.fillStyle = '#94a3b8';
+            c2d.font = '14px Inter, sans-serif';
+            c2d.fillText('Monthly Trend (Chart.js graph preview)', 20, 30);
+        }
     }
 }
 

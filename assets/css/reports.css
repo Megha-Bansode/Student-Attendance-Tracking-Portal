@@ -1,8 +1,11 @@
-/* Faculty Attendance Reports & Analytics Stylesheet */
+/* Main content top spacing for fixed navbar */
+.main-content.style-pt {
+    padding-top: 6rem;
+}
 
 /* Top Dashboard Header & Sub-navbar */
 .reports-hero-header {
-    background: linear-gradient(180deg, rgba(30, 41, 59, 0.6) 0%, rgba(15, 23, 42, 0.8) 100%);
+    background: linear-gradient(180deg, rgba(30, 41, 59, 0.8) 0%, rgba(15, 23, 42, 0.95) 100%);
     border-bottom: 1px solid var(--border-glass);
     padding: 2.5rem 0 1.5rem 0;
     margin-bottom: 2rem;
