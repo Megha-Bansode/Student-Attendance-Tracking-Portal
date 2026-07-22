@@ -20,7 +20,7 @@
                     AttendEase provides a seamless, secure, and modern portal to record attendance, track student history, and generate comprehensive compliance reports. 
                 </p>
                 <div class="d-flex flex-column flex-sm-row justify-content-center justify-content-lg-start gap-3">
-                    <a href="login.php" class="btn-premium" id="hero-cta-get-started">
+                    <a href="<?php echo $base_path; ?>modules/authentication/login.php" class="btn-premium" id="hero-cta-get-started">
                         Get Started <i class="bi bi-arrow-right"></i>
                     </a>
                     <a href="#about" class="btn-premium-outline" id="hero-cta-learn-more">
@@ -301,7 +301,7 @@
             <p class="text-muted mb-4 mx-auto" style="max-width: 600px;">
                 Bring transparency, save teachers' time, and fulfill regulatory compliance in just a few clicks. Request institutional setup instructions or check the portal out.
             </p>
-            <a href="login.php" class="btn-premium px-5 py-3 fs-5" id="cta-login-btn">
+            <a href="<?php echo $base_path; ?>modules/authentication/login.php" class="btn-premium px-5 py-3 fs-5" id="cta-login-btn">
                 Access Portal Login <i class="bi bi-box-arrow-in-right"></i>
             </a>
         </div>

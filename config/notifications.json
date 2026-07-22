@@ -1,0 +1,57 @@
+[
+    {
+        "id": 1,
+        "type": "alert",
+        "title": "Critical: Low Attendance in CS503",
+        "message": "Your current attendance in Web Technology Lab is 70.0%. Please attend the upcoming lectures to stay above the 75% threshold.",
+        "created_at": "2026-07-22 07:00:00",
+        "unread": true,
+        "icon": "bi-exclamation-triangle-fill",
+        "icon_color": "#ef4444",
+        "bg_glow": "rgba(239, 68, 68, 0.05)"
+    },
+    {
+        "id": 2,
+        "type": "info",
+        "title": "Lecture Rescheduled: CS501",
+        "message": "The Data Structures lecture on Thursday, July 24th has been rescheduled from 09:00 AM to 11:30 AM.",
+        "created_at": "2026-07-21 09:00:00",
+        "unread": true,
+        "icon": "bi-clock-history",
+        "icon_color": "#38bdf8",
+        "bg_glow": "rgba(56, 189, 248, 0.05)"
+    },
+    {
+        "id": 3,
+        "type": "success",
+        "title": "Condonation Request Approved",
+        "message": "Your medical certificate for absence on July 10th has been verified and approved by HOD.",
+        "created_at": "2026-07-19 12:00:00",
+        "unread": false,
+        "icon": "bi-check-circle-fill",
+        "icon_color": "#10b981",
+        "bg_glow": "rgba(16, 185, 129, 0.02)"
+    },
+    {
+        "id": 4,
+        "type": "info",
+        "title": "Mid-Semester Timetable Released",
+        "message": "Mid-semester exams will begin from August 10, 2026. The full timetable has been published on the bulletin board.",
+        "created_at": "2026-07-17 14:00:00",
+        "unread": false,
+        "icon": "bi-info-circle-fill",
+        "icon_color": "#818cf8",
+        "bg_glow": "rgba(129, 140, 248, 0.02)"
+    },
+    {
+        "id": 5,
+        "type": "alert",
+        "title": "Defaulter Warning: Attendance below 75%",
+        "message": "Please attend extra lectures to clear your backlog.",
+        "created_at": "2026-07-22 03:56:12",
+        "unread": true,
+        "icon": "bi-exclamation-triangle-fill",
+        "icon_color": "#ef4444",
+        "bg_glow": "rgba(239, 68, 68, 0.05)"
+    }
+]

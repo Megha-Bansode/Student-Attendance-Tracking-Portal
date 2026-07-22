@@ -5,7 +5,7 @@
                 <!-- Column 1: Info and Description -->
                 <div class="col-lg-4 col-md-6">
                     <div class="footer-logo d-flex align-items-center gap-2">
-                        <img src="assets/images/logo.svg" alt="Portal Logo" width="30" height="30">
+                        <img src="<?php echo $base_path; ?>assets/images/logo/logo.svg" alt="Portal Logo" width="30" height="30">
                         <span>Attend<span class="brand-gradient">Ease</span></span>
                     </div>
                     <p class="footer-desc">
@@ -26,7 +26,7 @@
                         <li><a href="<?php echo $home_link; ?>" id="footer-link-home"><i class="bi bi-chevron-right"></i> Home</a></li>
                         <li><a href="<?php echo $about_link; ?>" id="footer-link-about"><i class="bi bi-chevron-right"></i> About Us</a></li>
                         <li><a href="<?php echo $features_link; ?>" id="footer-link-features"><i class="bi bi-chevron-right"></i> Key Features</a></li>
-                        <li><a href="login.php" id="footer-link-login"><i class="bi bi-chevron-right"></i> Login Portal</a></li>
+                        <li><a href="<?php echo $base_path; ?>modules/authentication/login.php" id="footer-link-login"><i class="bi bi-chevron-right"></i> Login Portal</a></li>
                     </ul>
                 </div>
 
@@ -72,12 +72,12 @@
     <!-- Bootstrap 5 JS Bundle CDN -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Custom Main Script -->
-    <script src="assets/js/main.js"></script>
+    <script src="<?php echo $base_path; ?>assets/js/app.js"></script>
     <?php if (in_array($current_page, ['attendance-history.php', 'monthly-report.php', 'student-summary.php'])): ?>
     <!-- Chart.js CDN for Analytics Visualizations -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
     <!-- Faculty Reports JavaScript -->
-    <script src="assets/js/reports.js"></script>
+    <script src="<?php echo $base_path; ?>assets/js/reports.js"></script>
     <?php endif; ?>
 </body>
 </html>

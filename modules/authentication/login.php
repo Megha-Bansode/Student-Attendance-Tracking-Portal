@@ -1,7 +1,7 @@
-<?php include 'includes/header.php'; ?>
+<?php include '../../includes/header.php'; ?>
 
 <!-- Custom Modular Styles & Scripts for Split Login (Zero impact on index.php) -->
-<link rel="stylesheet" href="assets/css/login.css">
+<link rel="stylesheet" href="<?php echo $base_path; ?>assets/css/forms.css">
 
 <!-- Scoped Split Login Section -->
 <section class="split-login-section">
@@ -105,13 +105,13 @@
 
                 <!-- 1. STUDENT FORM (DEFAULT) -->
                 <div class="tab-fade-pane active" id="pane-student">
-                    <form action="login.php" method="POST" class="split-login-form" id="form-student-login">
+                    <form action="<?php echo $base_path; ?>modules/authentication/login.php" method="POST" class="split-login-form" id="form-student-login">
                         <input type="hidden" name="role" value="student">
                         <div class="compact-form-group">
                             <label for="studentPrn" class="compact-label">ZPRN (Roll Number)</label>
                             <div class="input-with-icon">
                                 <i class="bi bi-hash input-icon-left"></i>
-                                <input type="text" name="zprn" class="custom-compact-input" id="studentPrn" placeholder="12UAM1134" required>
+                                <input type="text" name="zprn" class="custom-compact-input" id="studentPrn" placeholder="125UAM1134" value="125UAM1134" required>
                             </div>
                         </div>
 
@@ -122,7 +122,7 @@
                             </div>
                             <div class="input-with-icon">
                                 <i class="bi bi-lock-fill input-icon-left"></i>
-                                <input type="password" name="password" class="custom-compact-input" id="studentPassword" placeholder="Password@123" required>
+                                <input type="password" name="password" class="custom-compact-input" id="studentPassword" placeholder="Password@123" value="Password@123" required>
                                 <button type="button" class="btn-toggle-eye" data-target="studentPassword" aria-label="Toggle password visibility">
                                     <i class="bi bi-eye"></i>
                                 </button>
@@ -146,13 +146,13 @@
 
                 <!-- 2. FACULTY FORM -->
                 <div class="tab-fade-pane" id="pane-faculty">
-                    <form action="login.php" method="POST" class="split-login-form" id="form-faculty-login">
+                    <form action="<?php echo $base_path; ?>modules/authentication/login.php" method="POST" class="split-login-form" id="form-faculty-login">
                         <input type="hidden" name="role" value="faculty">
                         <div class="compact-form-group">
                             <label for="facultyId" class="compact-label">Faculty ID / Email</label>
                             <div class="input-with-icon">
                                 <i class="bi bi-briefcase-fill input-icon-left"></i>
-                                <input type="text" name="faculty_id" class="custom-compact-input" id="facultyId" placeholder="FAC2026101" required>
+                                <input type="text" name="faculty_id" class="custom-compact-input" id="facultyId" placeholder="faculty@login" value="faculty@login" required>
                             </div>
                         </div>
 
@@ -187,7 +187,7 @@
 
                 <!-- 3. ADMIN FORM -->
                 <div class="tab-fade-pane" id="pane-admin">
-                    <form action="login.php" method="POST" class="split-login-form" id="form-admin-login">
+                    <form action="<?php echo $base_path; ?>modules/authentication/login.php" method="POST" class="split-login-form" id="form-admin-login">
                         <input type="hidden" name="role" value="admin">
                         <div class="compact-form-group">
                             <label for="adminEmail" class="compact-label">Email Address</label>
@@ -230,7 +230,7 @@
 
             <!-- Footer Link back home -->
             <div class="split-form-footer">
-                Protected by role-based access control • <a href="index.php" id="login-back-home">Home</a>
+                Protected by role-based access control • <a href="<?php echo $base_path; ?>index.php" id="login-back-home">Home</a>
             </div>
 
         </div>
@@ -240,6 +240,6 @@
 </section>
 
 <!-- Scoped Interactivity JavaScript -->
-<script src="assets/js/login.js"></script>
+<script src="<?php echo $base_path; ?>assets/js/validation.js"></script>
 
-<?php include 'includes/footer.php'; ?>
+<?php include '../../includes/footer.php'; ?>
