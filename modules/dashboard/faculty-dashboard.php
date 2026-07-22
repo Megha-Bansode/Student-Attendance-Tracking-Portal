@@ -14,6 +14,23 @@ $todays_total_count      = 4;
 include '../../includes/header.php';
 ?>
 <link rel="stylesheet" href="<?php echo $base_path; ?>assets/css/dashboard.css">
+<style>
+/* Interactive hover for stats */
+.interactive-stat-card {
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
+    cursor: pointer;
+    text-decoration: none !important;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+.interactive-stat-card:hover {
+    transform: translateY(-5px);
+    background: rgba(255, 255, 255, 0.08) !important;
+    border-color: rgba(96, 165, 250, 0.3) !important;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25) !important;
+}
+</style>
 <script>
 document.body.classList.add('faculty-portal-body');
 if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') === 'true') {
@@ -77,29 +94,33 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
 
                 <!-- Stat Cards -->
                 <div class="row g-3 mb-4">
+                    <!-- Assigned Subjects Card -->
                     <div class="col-xl-3 col-sm-6">
-                        <div class="faculty-stat-card">
+                        <a href="<?php echo $base_path; ?>modules/subjects/faculty-subject-allocation.php" class="faculty-stat-card interactive-stat-card">
                             <div class="faculty-stat-icon icon-purple"><i class="bi bi-journal-bookmark-fill"></i></div>
                             <div><div class="faculty-stat-val"><?php echo $assigned_subjects_count; ?></div><div class="faculty-stat-lbl">Assigned Subjects</div></div>
-                        </div>
+                        </a>
                     </div>
+                    <!-- Total Students Card -->
                     <div class="col-xl-3 col-sm-6">
-                        <div class="faculty-stat-card">
+                        <div class="faculty-stat-card interactive-stat-card" data-bs-toggle="modal" data-bs-target="#studentsModal">
                             <div class="faculty-stat-icon icon-cyan"><i class="bi bi-people-fill"></i></div>
                             <div><div class="faculty-stat-val"><?php echo $total_students_count; ?></div><div class="faculty-stat-lbl">Total Students</div></div>
                         </div>
                     </div>
+                    <!-- Weekly Classes Card -->
                     <div class="col-xl-3 col-sm-6">
-                        <div class="faculty-stat-card">
+                        <div class="faculty-stat-card interactive-stat-card" data-bs-toggle="modal" data-bs-target="#weeklyClassesModal">
                             <div class="faculty-stat-icon icon-emerald"><i class="bi bi-calendar-check-fill"></i></div>
                             <div><div class="faculty-stat-val"><?php echo $weekly_lectures_count; ?></div><div class="faculty-stat-lbl">Weekly Classes</div></div>
                         </div>
                     </div>
+                    <!-- Today's Attendance Card -->
                     <div class="col-xl-3 col-sm-6">
-                        <div class="faculty-stat-card">
+                        <a href="<?php echo $base_path; ?>modules/attendance/faculty-mark-attendance.php" class="faculty-stat-card interactive-stat-card">
                             <div class="faculty-stat-icon icon-amber"><i class="bi bi-clock-history"></i></div>
                             <div><div class="faculty-stat-val"><?php echo $todays_completed_count; ?>/<?php echo $todays_total_count; ?></div><div class="faculty-stat-lbl">Today's Attendance</div></div>
-                        </div>
+                        </a>
                     </div>
                 </div>
 
@@ -167,7 +188,7 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
                                 <a href="<?php echo $base_path; ?>modules/attendance/faculty-edit-attendance.php" class="text-decoration-none p-3 rounded-3 d-flex align-items-center justify-content-between" style="background:rgba(14,165,233,.12);border:1px solid rgba(56,189,248,.25);">
                                     <div class="d-flex align-items-center gap-3">
                                         <div class="rounded-circle d-flex align-items-center justify-content-center flex-shrink-0" style="width:38px;height:38px;background:linear-gradient(135deg,#0ea5e9,#38bdf8);"><i class="bi bi-pencil-square text-white"></i></div>
-                                        <div><h6 class="mb-0 fw-semibold" style="color:#f1f5f9;font-family:'Outfit',sans-serif;">Edit Attendance</h6><small style="color:#64748b;">Modify within 48 hours</small></div>
+                                        <div class="text-start"><h6 class="mb-0 fw-semibold" style="color:#f1f5f9;font-family:'Outfit',sans-serif;">Edit Attendance</h6><small style="color:#64748b;">Modify within 48 hours</small></div>
                                     </div>
                                     <i class="bi bi-chevron-right" style="color:#64748b;"></i>
                                 </a>
@@ -186,7 +207,7 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
                 </div>
 
                 <!-- Recent Activity -->
-                <div class="faculty-card mb-0">
+                <div class="faculty-card mb-0 mt-4">
                     <div class="faculty-card-header">
                         <h3 class="faculty-card-title"><i class="bi bi-activity" style="color:#38bdf8;"></i> Recent Attendance Submissions</h3>
                         <span class="faculty-badge badge-secondary-subtle">Last 24 Hours</span>
@@ -226,6 +247,74 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
 
             </main>
 
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Total Students Details -->
+<div class="modal fade" id="studentsModal" tabindex="-1" aria-labelledby="studentsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" style="background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(25px); border: 1px solid rgba(6, 182, 212, 0.25); border-radius: 16px;">
+            <div class="modal-header border-0 pb-0">
+                <h5 class="modal-title text-white font-outfit" id="studentsModalLabel"><i class="bi bi-people-fill text-info me-2"></i> Enrolled Students Breakdown</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body py-4">
+                <div class="d-flex flex-column gap-3">
+                    <div class="d-flex justify-content-between align-items-center border-bottom border-light-subtle pb-2">
+                        <span class="text-white fw-semibold">TE CSE – Division A</span>
+                        <span class="badge bg-info-subtle text-info">60 Students</span>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center border-bottom border-light-subtle pb-2">
+                        <span class="text-white fw-semibold">TE CSE – Division B</span>
+                        <span class="badge bg-info-subtle text-info">60 Students</span>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center border-bottom border-light-subtle pb-2">
+                        <span class="text-white fw-semibold">BE CSE – Division A</span>
+                        <span class="badge bg-info-subtle text-info">60 Students</span>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="text-white fw-semibold">SE CSE – Division C</span>
+                        <span class="badge bg-info-subtle text-info">60 Students</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Weekly Classes Details -->
+<div class="modal fade" id="weeklyClassesModal" tabindex="-1" aria-labelledby="weeklyClassesModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" style="background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(25px); border: 1px solid rgba(16, 185, 129, 0.25); border-radius: 16px;">
+            <div class="modal-header border-0 pb-0">
+                <h5 class="modal-title text-white font-outfit" id="weeklyClassesModalLabel"><i class="bi bi-calendar-check-fill text-success me-2"></i> Weekly Classes Schedule</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body py-4">
+                <div class="d-flex flex-column gap-3">
+                    <div class="d-flex justify-content-between align-items-center border-bottom border-light-subtle pb-2">
+                        <span class="text-white fw-semibold">Monday</span>
+                        <span class="badge bg-success-subtle text-success">4 Lectures</span>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center border-bottom border-light-subtle pb-2">
+                        <span class="text-white fw-semibold">Tuesday</span>
+                        <span class="badge bg-success-subtle text-success">4 Lectures</span>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center border-bottom border-light-subtle pb-2">
+                        <span class="text-white fw-semibold">Wednesday</span>
+                        <span class="badge bg-success-subtle text-success">3 Lectures</span>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center border-bottom border-light-subtle pb-2">
+                        <span class="text-white fw-semibold">Thursday</span>
+                        <span class="badge bg-success-subtle text-success">4 Lectures</span>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="text-white fw-semibold">Friday</span>
+                        <span class="badge bg-success-subtle text-success">3 Lectures</span>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

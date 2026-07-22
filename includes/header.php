@@ -13,7 +13,8 @@ $current_page = basename($_SERVER['PHP_SELF']);
 $is_index = ($current_page == 'index.php' || $current_page == '' || $current_page == '/');
 $is_admin = (strpos($current_page, 'admin-') === 0);
 $is_faculty = (strpos($current_page, 'faculty-') === 0);
-$is_portal = ($is_admin || $is_faculty);
+$is_student = (strpos($current_page, 'student-') === 0);
+$is_portal = ($is_admin || $is_faculty || $is_student);
 $is_logged_in = !($is_index || $current_page == 'login.php');
 
 $home_link = $is_index ? '#home' : $base_path.'index.php#home';
@@ -47,13 +48,15 @@ $contact_link = $is_index ? '#contact' : $base_path.'index.php#contact';
         <nav class="navbar navbar-expand-lg navbar-dark bg-transparent py-0">
             <div class="container-fluid px-lg-4">
                 <!-- Branding / Logo -->
-                <a class="navbar-brand d-flex align-items-center gap-2" href="<?php echo $is_portal ? ($is_admin ? $base_path.'modules/dashboard/admin-dashboard.php' : $base_path.'modules/dashboard/faculty-dashboard.php') : $base_path.'index.php'; ?>" id="nav-brand">
+                <a class="navbar-brand d-flex align-items-center gap-2" href="<?php echo $is_portal ? ($is_admin ? $base_path.'modules/dashboard/admin-dashboard.php' : ($is_faculty ? $base_path.'modules/dashboard/faculty-dashboard.php' : $base_path.'modules/dashboard/student-dashboard.php')) : $base_path.'index.php'; ?>" id="nav-brand">
                     <img src="<?php echo $base_path; ?>assets/images/logo/logo.svg" alt="Portal Logo" width="34" height="34">
                     <span class="fw-bold font-outfit" style="font-size:1.2rem; letter-spacing: -0.3px;">Attend<span class="brand-gradient">Ease</span></span>
                     <?php if ($is_admin): ?>
                         <span class="badge rounded-pill bg-primary-subtle text-primary border border-primary-subtle ms-2 d-none d-sm-inline-block" style="font-size:0.72rem; font-weight:600; padding:0.3em 0.75em;">Super Admin Console</span>
                     <?php elseif ($is_faculty): ?>
                         <span class="badge rounded-pill bg-info-subtle text-info border border-info-subtle ms-2 d-none d-sm-inline-block" style="font-size:0.72rem; font-weight:600; padding:0.3em 0.75em;">Faculty Portal</span>
+                    <?php elseif ($is_student): ?>
+                        <span class="badge rounded-pill bg-warning-subtle text-warning border border-warning-subtle ms-2 d-none d-sm-inline-block" style="font-size:0.72rem; font-weight:600; padding:0.3em 0.75em;">Student Portal</span>
                     <?php endif; ?>
                 </a>
                 

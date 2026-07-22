@@ -213,7 +213,16 @@ document.addEventListener('DOMContentLoaded', function () {
                         window.location.href = '../dashboard/faculty-dashboard.php';
                     }
                 } else if (activeRole === 'student') {
-                    showToast(`❌ Invalid Student ZPRN or Password.`, true);
+                    const prnInput = document.getElementById('studentPrn');
+                    const passInput = document.getElementById('studentPassword');
+                    const prnVal = prnInput ? prnInput.value.trim().toUpperCase() : '';
+                    const passVal = passInput ? passInput.value.trim() : '';
+
+                    if (prnVal === '125UAM1134' && passVal === 'Password@123') {
+                        window.location.href = '../dashboard/student-dashboard.php';
+                    } else {
+                        showToast(`❌ Invalid Student ZPRN or Password.`, true);
+                    }
                 }
             }, 1000);
         });

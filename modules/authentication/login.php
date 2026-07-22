@@ -111,7 +111,7 @@
                             <label for="studentPrn" class="compact-label">ZPRN (Roll Number)</label>
                             <div class="input-with-icon">
                                 <i class="bi bi-hash input-icon-left"></i>
-                                <input type="text" name="zprn" class="custom-compact-input" id="studentPrn" placeholder="12UAM1134" required>
+                                <input type="text" name="zprn" class="custom-compact-input" id="studentPrn" placeholder="125UAM1134" value="125UAM1134" required>
                             </div>
                         </div>
 
@@ -122,7 +122,7 @@
                             </div>
                             <div class="input-with-icon">
                                 <i class="bi bi-lock-fill input-icon-left"></i>
-                                <input type="password" name="password" class="custom-compact-input" id="studentPassword" placeholder="Password@123" required>
+                                <input type="password" name="password" class="custom-compact-input" id="studentPassword" placeholder="Password@123" value="Password@123" required>
                                 <button type="button" class="btn-toggle-eye" data-target="studentPassword" aria-label="Toggle password visibility">
                                     <i class="bi bi-eye"></i>
                                 </button>

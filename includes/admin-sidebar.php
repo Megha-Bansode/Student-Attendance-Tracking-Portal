@@ -100,6 +100,16 @@ $current_page = basename($_SERVER['PHP_SELF']);
         </li>
 
         <li class="faculty-nav-item">
+            <a href="<?php echo $base_path; ?>modules/notifications/admin-notifications.php"
+               class="faculty-nav-link <?php echo ($current_page === 'admin-notifications.php') ? 'active' : ''; ?>"
+               <?php echo ($current_page === 'admin-notifications.php') ? 'aria-current="page"' : ''; ?>>
+                <i class="bi bi-bell-fill"></i>
+                <span>Manage Notifications</span>
+            </a>
+        </li>
+
+
+        <li class="faculty-nav-item">
             <a href="<?php echo $base_path; ?>modules/semesters/admin-semesters.php"
                class="faculty-nav-link <?php echo ($current_page === 'admin-semesters.php') ? 'active' : ''; ?>"
                <?php echo ($current_page === 'admin-semesters.php') ? 'aria-current="page"' : ''; ?>>
