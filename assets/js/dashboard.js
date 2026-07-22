@@ -63,6 +63,7 @@ function initMobileSidebar() {
         sidebar.classList.add('collapsed');
         const mainContent = document.querySelector('.faculty-main-content');
         if (mainContent) mainContent.classList.add('expanded');
+        document.body.classList.add('sidebar-collapsed');
     }
     
     // Remove preload class to enable transitions again
@@ -77,6 +78,7 @@ function initMobileSidebar() {
             sidebar.classList.toggle('collapsed');
             const mainContent = document.querySelector('.faculty-main-content');
             if (mainContent) mainContent.classList.toggle('expanded');
+            document.body.classList.toggle('sidebar-collapsed');
             
             // Save state
             const isCollapsed = sidebar.classList.contains('collapsed');

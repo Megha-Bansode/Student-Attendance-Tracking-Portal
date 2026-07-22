@@ -132,26 +132,56 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
                         <h3 class="faculty-card-title"><i class="bi bi-info-circle" style="color: #f59e0b;"></i> Attendance Requirements &amp; Policies</h3>
                     </div>
                     <div class="p-3">
-                        <ul class="list-unstyled mb-0 d-flex flex-column gap-3">
-                            <li class="d-flex gap-2">
-                                <i class="bi bi-check-circle-fill text-success" style="font-size: 1.1rem;"></i>
-                                <div style="color: #cbd5e1;">
-                                    <strong>75% Mandatory Attendance:</strong> According to college policies, students must have a minimum of 75% attendance overall to sit for final exams.
+                        <div class="d-flex flex-column gap-3">
+                            <!-- Mandatory Attendance Alert -->
+                            <div class="alert d-flex align-items-center mb-0 shadow-sm" style="background: rgba(16, 185, 129, 0.08); border: 1px solid rgba(16, 185, 129, 0.2); border-left: 4px solid #10b981; border-radius: 10px; color: #cbd5e1;">
+                                <div class="rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 48px; height: 48px; background: rgba(16, 185, 129, 0.15); flex-shrink: 0;">
+                                    <i class="bi bi-check-circle-fill fs-4 text-success"></i>
                                 </div>
-                            </li>
-                            <li class="d-flex gap-2">
-                                <i class="bi bi-exclamation-triangle-fill text-warning" style="font-size: 1.1rem;"></i>
-                                <div style="color: #cbd5e1;">
-                                    <strong>Condonation Criteria:</strong> Medical issues or representation in college sports/events must be supported with proper documentation within 7 working days.
+                                <div>
+                                    <strong class="text-white d-block mb-1 fs-6">75% Mandatory Attendance</strong>
+                                    <span style="font-size: 0.9rem;">According to college policies, students must have a minimum of 75% attendance overall to sit for final exams.</span>
                                 </div>
-                            </li>
-                            <li class="d-flex gap-2">
-                                <i class="bi bi-bell-fill text-danger" style="font-size: 1.1rem;"></i>
-                                <div style="color: #cbd5e1;">
-                                    <strong>Automated Alerts:</strong> The system sends warnings to your dashboard and registered email address once your attendance drops below 75% in any subject.
+                            </div>
+                            
+                            <!-- Condonation Criteria Alert -->
+                            <div class="alert d-flex align-items-center mb-0 shadow-sm" style="background: rgba(245, 158, 11, 0.08); border: 1px solid rgba(245, 158, 11, 0.2); border-left: 4px solid #f59e0b; border-radius: 10px; color: #cbd5e1;">
+                                <div class="rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 48px; height: 48px; background: rgba(245, 158, 11, 0.15); flex-shrink: 0;">
+                                    <i class="bi bi-exclamation-triangle-fill fs-4 text-warning"></i>
                                 </div>
-                            </li>
-                        </ul>
+                                <div>
+                                    <strong class="text-white d-block mb-1 fs-6">Condonation Criteria</strong>
+                                    <span style="font-size: 0.9rem;">Medical issues or representation in college sports/events must be supported with proper documentation within 7 working days.</span>
+                                </div>
+                            </div>
+
+                            <!-- Automated Alerts (Animated) -->
+                            <div class="alert d-flex align-items-center mb-0 shadow position-relative overflow-hidden" style="background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.2); border-left: 4px solid #ef4444; border-radius: 10px; color: #cbd5e1; animation: shadowPulse 2s infinite;">
+                                <!-- Optional decorative glow -->
+                                <div style="position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(239,68,68,0.05) 0%, transparent 60%); pointer-events: none;"></div>
+                                
+                                <div class="rounded-circle d-flex align-items-center justify-content-center me-3 position-relative" style="width: 48px; height: 48px; background: rgba(239, 68, 68, 0.15); flex-shrink: 0; z-index: 1;">
+                                    <i class="bi bi-bell-fill fs-4 text-danger" style="animation: ringBell 3s infinite;"></i>
+                                </div>
+                                <div class="position-relative" style="z-index: 1;">
+                                    <strong class="text-white d-block mb-1 fs-6">Automated Alerts</strong>
+                                    <span style="font-size: 0.9rem;">The system sends warnings to your dashboard and registered email address once your attendance drops below 75% in any subject.</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <style>
+                            @keyframes ringBell {
+                                0%, 10% { transform: rotate(0); }
+                                2%, 6% { transform: rotate(15deg); }
+                                4%, 8% { transform: rotate(-15deg); }
+                            }
+                            @keyframes shadowPulse {
+                                0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.2); }
+                                70% { box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
+                                100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+                            }
+                        </style>
                     </div>
                 </div>
 
