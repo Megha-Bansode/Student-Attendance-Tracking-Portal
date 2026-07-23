@@ -333,17 +333,21 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
                         <circle class="pie-slice" cx="18" cy="18" r="15.9155" style="fill: none; stroke: #f59e0b; stroke-width: 3.2; stroke-dasharray: 0, 100; stroke-linecap: round; transition: stroke-dasharray 1.2s cubic-bezier(0.4, 0, 0.2, 1);"></circle>
                     </svg>
                     <div class="position-absolute top-50 start-50 translate-middle text-center">
-                        <span class="fs-2 fw-bold text-white font-outfit" id="modalPercentage">82.5%</span>
+                        <span class="fs-2 fw-bold text-white font-outfit" id="modalPercentage"><?php echo $overall_attendance; ?>%</span>
                         <div class="text-muted" style="font-size: 0.75rem;">Attended</div>
                     </div>
                 </div>
                 
-                <h4 class="mt-4 text-white font-outfit h5">Aarav Mehta — Semester V</h4>
+                <h4 class="mt-4 text-white font-outfit h5"><?php echo htmlspecialchars($student_name); ?> — <?php echo htmlspecialchars($student_class); ?></h4>
                 <p class="text-light-subtitle px-3" style="font-size: 0.88rem; color: #94a3b8;">
-                    You have attended <strong class="text-success">165</strong> out of <strong class="text-white">200</strong> total lectures. Your attendance is in the safe zone.
+                    You have attended <strong class="text-success"><?php echo $classes_attended; ?></strong> out of <strong class="text-white"><?php echo $classes_conducted; ?></strong> total lectures. Your attendance is in the <?php echo ($overall_attendance >= 75) ? 'safe' : 'defaulter'; ?> zone.
                 </p>
                 <div class="d-flex justify-content-center gap-3 mt-3">
-                    <span class="badge bg-success-subtle text-success px-3 py-2 rounded-pill"><i class="bi bi-check-circle-fill"></i> Safe Standing</span>
+                    <?php if ($overall_attendance >= 75): ?>
+                        <span class="badge bg-success-subtle text-success px-3 py-2 rounded-pill"><i class="bi bi-check-circle-fill"></i> Safe Standing</span>
+                    <?php else: ?>
+                        <span class="badge bg-danger-subtle text-danger px-3 py-2 rounded-pill"><i class="bi bi-exclamation-triangle-fill"></i> Defaulter Standing</span>
+                    <?php endif; ?>
                     <span class="badge bg-warning-subtle text-warning px-3 py-2 rounded-pill"><i class="bi bi-clock-history"></i> Last Checked: Today</span>
                 </div>
             </div>
@@ -446,7 +450,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const slice = myModal.querySelector('.pie-slice');
             if (slice) {
                 // Set dasharray to trigger drawing animation
-                slice.style.strokeDasharray = '82.5, 100';
+                slice.style.strokeDasharray = '<?php echo $overall_attendance; ?>, 100';
             }
         });
         myModal.addEventListener('hidden.bs.modal', function () {

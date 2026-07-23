@@ -40,6 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['zprn'] = $user['zprn'];
             $_SESSION['class'] = $user['class'];
             $_SESSION['division'] = $user['division'];
+            $_SESSION['department'] = $user['department'];
 
             if ($role === 'student') {
                 header("Location: ../dashboard/student-dashboard.php");

@@ -14,12 +14,27 @@ $current_page = basename($_SERVER['PHP_SELF']);
         </button>
     </div>
 
+    <?php
+    $display_name = isset($_SESSION['name']) ? $_SESSION['name'] : 'Aarav Mehta';
+    $display_zprn = isset($_SESSION['zprn']) ? $_SESSION['zprn'] : '125UAM1134';
+    $initials = '';
+    if (!empty($display_name)) {
+        $parts = explode(' ', $display_name);
+        if (count($parts) >= 2) {
+            $initials = strtoupper(substr($parts[0], 0, 1) . substr($parts[1], 0, 1));
+        } else {
+            $initials = strtoupper(substr($display_name, 0, 2));
+        }
+    } else {
+        $initials = 'AM';
+    }
+    ?>
     <!-- Student Identity Card -->
     <div class="faculty-profile-card">
-        <div class="faculty-avatar" aria-hidden="true" style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); border-color: rgba(245, 158, 11, 0.4);">AM</div>
+        <div class="faculty-avatar" aria-hidden="true" style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); border-color: rgba(245, 158, 11, 0.4);"><?php echo htmlspecialchars($initials); ?></div>
         <div class="faculty-profile-info">
-            <p class="faculty-profile-name" title="Aarav Mehta">Aarav Mehta</p>
-            <p class="faculty-profile-dept"><i class="bi bi-person-fill-badge me-1"></i> Roll: 125UAM1134</p>
+            <p class="faculty-profile-name" title="<?php echo htmlspecialchars($display_name); ?>"><?php echo htmlspecialchars($display_name); ?></p>
+            <p class="faculty-profile-dept"><i class="bi bi-person-fill-badge me-1"></i> Roll: <?php echo htmlspecialchars($display_zprn); ?></p>
         </div>
     </div>
 
@@ -35,19 +50,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
             </a>
         </li>
 
-        <li class="faculty-nav-item">
-            <a href="<?php echo $base_path; ?>modules/dashboard/admin-dashboard.php" class="faculty-nav-link">
-                <i class="bi bi-shield-check text-primary"></i>
-                <span>Admin View</span>
-            </a>
-        </li>
 
-        <li class="faculty-nav-item">
-            <a href="<?php echo $base_path; ?>modules/dashboard/faculty-dashboard.php" class="faculty-nav-link">
-                <i class="bi bi-person-workspace text-info"></i>
-                <span>Faculty View</span>
-            </a>
-        </li>
 
         <li class="faculty-nav-item">
             <a href="<?php echo $base_path; ?>modules/attendance/student-daily-attendance.php"

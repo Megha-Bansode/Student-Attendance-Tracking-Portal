@@ -15,12 +15,27 @@ $current_page = basename($_SERVER['PHP_SELF']);
         </button>
     </div>
 
+    <?php
+    $display_name = isset($_SESSION['name']) ? $_SESSION['name'] : 'Super Admin';
+    $display_role = isset($_SESSION['role']) ? ucfirst($_SESSION['role']) . ' Admin' : 'System Admin';
+    $initials = '';
+    if (!empty($display_name)) {
+        $parts = explode(' ', $display_name);
+        if (count($parts) >= 2) {
+            $initials = strtoupper(substr($parts[0], 0, 1) . substr($parts[1], 0, 1));
+        } else {
+            $initials = strtoupper(substr($display_name, 0, 2));
+        }
+    } else {
+        $initials = 'SA';
+    }
+    ?>
     <!-- Super Admin Identity Card -->
     <div class="faculty-profile-card">
-        <div class="faculty-avatar" aria-hidden="true" style="background: linear-gradient(135deg, #2563eb 0%, #6366f1 100%); border-color: rgba(96, 165, 250, 0.4);">SA</div>
+        <div class="faculty-avatar" aria-hidden="true" style="background: linear-gradient(135deg, #2563eb 0%, #6366f1 100%); border-color: rgba(96, 165, 250, 0.4);"><?php echo htmlspecialchars($initials); ?></div>
         <div class="faculty-profile-info">
-            <p class="faculty-profile-name" title="Super Administrator">Super Admin</p>
-            <p class="faculty-profile-dept"><i class="bi bi-shield-check me-1 text-info"></i> System Admin</p>
+            <p class="faculty-profile-name" title="<?php echo htmlspecialchars($display_name); ?>"><?php echo htmlspecialchars($display_name); ?></p>
+            <p class="faculty-profile-dept"><i class="bi bi-shield-check me-1 text-info"></i> <?php echo htmlspecialchars($display_role); ?></p>
         </div>
     </div>
 

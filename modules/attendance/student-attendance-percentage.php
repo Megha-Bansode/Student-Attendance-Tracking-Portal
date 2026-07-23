@@ -2,9 +2,63 @@
 /**
  * AttendEase - Student Attendance Percentage Analysis
  */
+require_once '../../config/database.php';
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+// Access Control
+if (!isset($_SESSION['role'])) {
+    header("Location: ../authentication/login.php");
+    exit;
+}
+
+$student_id = $_SESSION['user_id'];
+$student_name = $_SESSION['name'];
+$student_zprn = isset($_SESSION['zprn']) ? $_SESSION['zprn'] : '';
+$student_class = isset($_SESSION['class']) ? $_SESSION['class'] : '';
+$student_division = isset($_SESSION['division']) ? $_SESSION['division'] : '';
+
+if ($_SESSION['role'] !== 'student') {
+    // Fetch first student in database to populate dashboard for preview
+    $stmt_s = $pdo->query("SELECT * FROM users WHERE role = 'student' LIMIT 1");
+    $first_student = $stmt_s->fetch();
+    if ($first_student) {
+        $student_id = $first_student['id'];
+        $student_name = $first_student['name'];
+        $student_zprn = $first_student['zprn'];
+        $student_class = $first_student['class'];
+        $student_division = $first_student['division'];
+    }
+}
+
+// Fetch stats
+$stmt_tot = $pdo->prepare("SELECT COUNT(*) FROM attendance WHERE student_id = ?");
+$stmt_tot->execute([$student_id]);
+$classes_conducted = $stmt_tot->fetchColumn();
+
+$stmt_pres = $pdo->prepare("SELECT COUNT(*) FROM attendance WHERE student_id = ? AND status = 'Present'");
+$stmt_pres->execute([$student_id]);
+$classes_attended = $stmt_pres->fetchColumn();
+
+$overall_attendance = $classes_conducted > 0 ? round(($classes_attended / $classes_conducted) * 100, 1) : 100.0;
+
 $page_title  = 'Attendance Percentage';
 include '../../includes/header.php';
 ?>
+<style>
+.progress-gauge-path {
+    animation: fillGauge 1.4s cubic-bezier(0.1, 0.8, 0.2, 1) forwards;
+}
+@keyframes fillGauge {
+    from {
+        stroke-dasharray: 0, 100;
+    }
+    to {
+        stroke-dasharray: <?php echo $overall_attendance; ?>, 100;
+    }
+}
+</style>
 <link rel="stylesheet" href="<?php echo $base_path; ?>assets/css/dashboard.css">
 <script>
 document.body.classList.add('faculty-portal-body');
@@ -53,21 +107,31 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
                             <!-- Circular Graphic simulation -->
                             <div class="position-relative mx-auto my-3" style="width: 180px; height: 180px;">
                                 <svg class="w-100 h-100" viewBox="0 0 36 36">
-                                    <path class="text-secondary" style="opacity: 0.1; fill: none; stroke: currentColor; stroke-width: 3.5;"
+                                    <path class="text-secondary" style="opacity: 0.1; fill: none; stroke: rgba(255, 255, 255, 0.05); stroke-width: 3.5;"
                                         d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
-                                    <path class="text-warning" style="fill: none; stroke: #f59e0b; stroke-width: 3.5; stroke-dasharray: 82.5, 100; stroke-linecap: round; transition: stroke-dasharray 1s ease 0s;"
+                                    <path class="text-warning progress-gauge-path" style="fill: none; stroke: #f59e0b; stroke-width: 3.5; stroke-dasharray: 0, 100; stroke-linecap: round;"
                                         d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
                                 </svg>
                                 <div class="position-absolute top-50 start-50 translate-middle">
-                                    <span class="fs-2 fw-bold text-white">82.5%</span>
+                                    <span class="fs-2 fw-bold text-white"><?php echo $overall_attendance; ?>%</span>
                                     <div class="text-muted" style="font-size: 0.75rem;">Attendance</div>
                                 </div>
                             </div>
 
                             <div class="mt-4">
-                                <span class="badge bg-success-subtle text-success px-3 py-2 rounded-pill"><i class="bi bi-shield-fill-check me-1"></i> Above Minimum (75%)</span>
+                                <?php if ($overall_attendance >= 75): ?>
+                                    <span class="badge bg-success-subtle text-success px-3 py-2 rounded-pill"><i class="bi bi-shield-fill-check me-1"></i> Above Minimum (75%)</span>
+                                <?php else: ?>
+                                    <span class="badge bg-danger-subtle text-danger px-3 py-2 rounded-pill"><i class="bi bi-exclamation-triangle-fill me-1"></i> Defaulter Warning</span>
+                                <?php endif; ?>
                             </div>
-                            <p class="text-light-subtitle mt-3 mb-0" style="font-size: 0.85rem;">You need to attend 12 more lectures consecutively to reach 85% attendance standing.</p>
+                            <p class="text-light-subtitle mt-3 mb-0" style="font-size: 0.85rem;">
+                                <?php if ($overall_attendance >= 75): ?>
+                                    Your attendance is in the safe zone at <strong class="text-success"><?php echo $overall_attendance; ?>%</strong>. Keep attending lectures to maintain your academic eligibility.
+                                <?php else: ?>
+                                    Your attendance is critical at <strong class="text-danger"><?php echo $overall_attendance; ?>%</strong>. Please attend more lectures to clear the 75% minimum threshold.
+                                <?php endif; ?>
+                            </p>
                         </div>
                     </div>
 

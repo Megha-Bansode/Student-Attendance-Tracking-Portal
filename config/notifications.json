@@ -46,8 +46,8 @@
     {
         "id": 6,
         "type": "alert",
-        "title": "Attendance Alert: Second Year AI&ML Div B",
-        "message": "The following students have attendance below 75% in Second Year AI&ML (Div B):\nMAURYA SHIVAM BRAJESH (125UAM2134) with 72%,\nNAGARE SARTHAK PARMESHWAR (125UAM2123) with 60%,\nNIKHIL SHASHIKANT GAIKWAD (125UAM2129) with 70%",
+        "title": "Attendance Alert: First Year AI&ML Div B",
+        "message": "The following students have attendance below 75% in First Year AI&ML (Div B):\nMAURYA SHIVAM BRAJESH (125UAM1134) with 72%,\nNAGARE SARTHAK PARMESHWAR (125UAM1123) with 60%,\nNIKHIL SHASHIKANT GAIKWAD (125UAM1129) with 70%",
         "created_at": "2026-07-22 16:25:57",
         "unread": true,
         "icon": "bi-exclamation-triangle-fill",

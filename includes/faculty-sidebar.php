@@ -15,12 +15,34 @@ $current_page = basename($_SERVER['PHP_SELF']);
         </button>
     </div>
 
+    <?php
+    $display_name = isset($_SESSION['name']) ? $_SESSION['name'] : 'Prof. Rajesh Sharma';
+    $display_dept = isset($_SESSION['department']) ? $_SESSION['department'] : 'Computer Engineering';
+    $initials = '';
+    if (!empty($display_name)) {
+        // Strip prefixes like "Prof." or "Dr." for clean initials calculation
+        $calc_name = $display_name;
+        if (strpos(strtolower($calc_name), 'prof.') === 0) {
+            $calc_name = trim(substr($calc_name, 5));
+        } elseif (strpos(strtolower($calc_name), 'dr.') === 0) {
+            $calc_name = trim(substr($calc_name, 3));
+        }
+        $parts = explode(' ', $calc_name);
+        if (count($parts) >= 2) {
+            $initials = strtoupper(substr($parts[0], 0, 1) . substr($parts[1], 0, 1));
+        } else {
+            $initials = strtoupper(substr($calc_name, 0, 2));
+        }
+    } else {
+        $initials = 'RS';
+    }
+    ?>
     <!-- Faculty Identity Card -->
     <div class="faculty-profile-card">
-        <div class="faculty-avatar" aria-hidden="true">RS</div>
+        <div class="faculty-avatar" aria-hidden="true"><?php echo htmlspecialchars($initials); ?></div>
         <div class="faculty-profile-info">
-            <p class="faculty-profile-name" title="Prof. Rajesh Sharma">Prof. Rajesh Sharma</p>
-            <p class="faculty-profile-dept"><i class="bi bi-building me-1"></i> Computer Engineering</p>
+            <p class="faculty-profile-name" title="<?php echo htmlspecialchars($display_name); ?>"><?php echo htmlspecialchars($display_name); ?></p>
+            <p class="faculty-profile-dept"><i class="bi bi-building me-1"></i> <?php echo htmlspecialchars($display_dept); ?></p>
         </div>
     </div>
 
