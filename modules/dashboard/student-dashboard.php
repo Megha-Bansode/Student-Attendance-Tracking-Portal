@@ -94,6 +94,11 @@ if (file_exists($file_path)) {
     }
 }
 
+// Fetch student's condonations
+$stmt_cond = $pdo->prepare("SELECT * FROM condonations WHERE student_id = ? ORDER BY submitted_at DESC LIMIT 5");
+$stmt_cond->execute([$student_id]);
+$condonations = $stmt_cond->fetchAll();
+
 include '../../includes/header.php';
 
 ?>
@@ -266,44 +271,46 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
                                 </div>
                             </div>
                             <div class="p-3">
-                                <div class="mb-3">
-                                    <div class="d-flex align-items-center gap-3 p-2.5 rounded interactive-stat-card" data-bs-toggle="modal" data-bs-target="#leaveModal1" style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); padding: 10px; border-radius: 10px;">
-                                        <div class="rounded d-flex align-items-center justify-content-center" style="width:38px; height:38px; background: rgba(16, 185, 129, 0.15); color: #10b981; flex-shrink: 0;">
-                                            <i class="bi bi-check-circle-fill" style="font-size: 1.1rem;"></i>
-                                        </div>
-                                        <div class="flex-grow-1">
-                                            <div class="fw-semibold text-white" style="font-size: 0.85rem;">Medical Leave (July 10)</div>
-                                            <div class="text-muted" style="font-size: 0.75rem;">Verified by HOD • 1 Day Approved</div>
-                                        </div>
-                                        <i class="bi bi-chevron-right text-muted" style="font-size: 0.85rem;"></i>
+                                <?php if (empty($condonations)): ?>
+                                    <div class="text-center py-4 text-secondary" style="font-size: 0.85rem;">
+                                        No condonation requests submitted.
                                     </div>
-                                </div>
-                                <div class="mb-3">
-                                    <div class="d-flex align-items-center gap-3 p-2.5 rounded interactive-stat-card" data-bs-toggle="modal" data-bs-target="#leaveModal2" style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); padding: 10px; border-radius: 10px;">
-                                        <div class="rounded d-flex align-items-center justify-content-center" style="width:38px; height:38px; background: rgba(245, 158, 11, 0.15); color: #f59e0b; flex-shrink: 0;">
-                                            <i class="bi bi-clock-history" style="font-size: 1.1rem;"></i>
+                                <?php else: ?>
+                                    <?php foreach ($condonations as $cond): 
+                                        $status = $cond['status'];
+                                        $type = $cond['type'];
+                                        $date = date('M d', strtotime($cond['date']));
+                                        
+                                        $bg = 'rgba(245, 158, 11, 0.15)';
+                                        $color = '#f59e0b';
+                                        $icon = 'bi-clock-history';
+                                        
+                                        if ($status === 'Approved') {
+                                            $bg = 'rgba(16, 185, 129, 0.15)';
+                                            $color = '#10b981';
+                                            $icon = 'bi-check-circle-fill';
+                                        } elseif ($status === 'Rejected') {
+                                            $bg = 'rgba(239, 68, 68, 0.15)';
+                                            $color = '#ef4444';
+                                            $icon = 'bi-x-circle-fill';
+                                        }
+                                    ?>
+                                    <div class="mb-3">
+                                        <div class="d-flex align-items-center gap-3 p-2.5 rounded interactive-stat-card" data-bs-toggle="modal" data-bs-target="#leaveModal<?php echo $cond['id']; ?>" style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); padding: 10px; border-radius: 10px;">
+                                            <div class="rounded d-flex align-items-center justify-content-center" style="width:38px; height:38px; background: <?php echo $bg; ?>; color: <?php echo $color; ?>; flex-shrink: 0;">
+                                                <i class="bi <?php echo $icon; ?>" style="font-size: 1.1rem;"></i>
+                                            </div>
+                                            <div class="flex-grow-1">
+                                                <div class="fw-semibold text-white" style="font-size: 0.85rem;"><?php echo htmlspecialchars($type); ?> Leave (<?php echo htmlspecialchars($date); ?>)</div>
+                                                <div class="text-muted" style="font-size: 0.75rem;">Status: <?php echo htmlspecialchars($status); ?> • <?php echo htmlspecialchars($cond['reason']); ?></div>
+                                            </div>
+                                            <i class="bi bi-chevron-right text-muted" style="font-size: 0.85rem;"></i>
                                         </div>
-                                        <div class="flex-grow-1">
-                                            <div class="fw-semibold text-white" style="font-size: 0.85rem;">Sports Leave (July 18)</div>
-                                            <div class="text-muted" style="font-size: 0.75rem;">Pending HOD Approval • Inter-College</div>
-                                        </div>
-                                        <i class="bi bi-chevron-right text-muted" style="font-size: 0.85rem;"></i>
                                     </div>
-                                </div>
-                                <div class="mb-3">
-                                    <div class="d-flex align-items-center gap-3 p-2.5 rounded interactive-stat-card" data-bs-toggle="modal" data-bs-target="#leaveModal3" style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); padding: 10px; border-radius: 10px;">
-                                        <div class="rounded d-flex align-items-center justify-content-center" style="width:38px; height:38px; background: rgba(14, 165, 233, 0.15); color: #0ea5e9; flex-shrink: 0;">
-                                            <i class="bi bi-hourglass-split" style="font-size: 1.1rem;"></i>
-                                        </div>
-                                        <div class="flex-grow-1">
-                                            <div class="fw-semibold text-white" style="font-size: 0.85rem;">Duty Leave (July 15)</div>
-                                            <div class="text-muted" style="font-size: 0.75rem;">Under Review • Seminar Attendance</div>
-                                        </div>
-                                        <i class="bi bi-chevron-right text-muted" style="font-size: 0.85rem;"></i>
-                                    </div>
-                                </div>
+                                    <?php endforeach; ?>
+                                <?php endif; ?>
                                 <div class="mt-2 pt-2 border-top border-light-subtle d-grid gap-2">
-                                    <button class="btn btn-sm btn-outline-light text-start py-2 px-3" style="font-size: 0.82rem; border-color: rgba(255,255,255,0.15);" onclick="showFacultyToast('Redirecting to Condonation application page...', 'info')"><i class="bi bi-plus-lg me-2"></i> Apply for Condonation</button>
+                                    <a href="<?php echo $base_path; ?>modules/attendance/student-apply-condonation.php" class="btn btn-sm btn-outline-light text-start py-2 px-3" style="font-size: 0.82rem; border-color: rgba(255,255,255,0.15);"><i class="bi bi-plus-lg me-2"></i> Apply for Condonation</a>
                                 </div>
                             </div>
                         </div>
@@ -355,92 +362,46 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
     </div>
 </div>
 
-<!-- Leave Modal 1 (Medical Leave) -->
-<div class="modal fade" id="leaveModal1" tabindex="-1" aria-labelledby="leaveModal1Label" aria-hidden="true">
+<!-- Dynamic Leave Modals -->
+<?php foreach ($condonations as $cond): 
+    $status = $cond['status'];
+    $color = ($status === 'Approved') ? '#10b981' : (($status === 'Rejected') ? '#ef4444' : '#f59e0b');
+    $badgeClass = ($status === 'Approved') ? 'bg-success-subtle text-success' : (($status === 'Rejected') ? 'bg-danger-subtle text-danger' : 'bg-warning-subtle text-warning');
+    
+    $icon = 'bi-file-earmark-medical';
+    if ($cond['type'] === 'Sports') $icon = 'bi-trophy';
+    if ($cond['type'] === 'Duty') $icon = 'bi-briefcase';
+?>
+<div class="modal fade" id="leaveModal<?php echo $cond['id']; ?>" tabindex="-1" aria-labelledby="leaveModal<?php echo $cond['id']; ?>Label" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content" style="background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(25px); border: 1px solid rgba(16, 185, 129, 0.25); border-radius: 16px;">
+        <div class="modal-content" style="background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(25px); border: 1px solid <?php echo $color; ?>40; border-radius: 16px;">
             <div class="modal-header border-0 pb-0">
-                <h5 class="modal-title text-white font-outfit" id="leaveModal1Label"><i class="bi bi-check-circle-fill text-success me-2"></i> Leave Request Details</h5>
+                <h5 class="modal-title text-white font-outfit" id="leaveModal<?php echo $cond['id']; ?>Label"><i class="bi bi-info-circle-fill me-2" style="color: <?php echo $color; ?>;"></i> Leave Request Details</h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body py-4">
                 <div class="d-flex align-items-center gap-3 mb-4">
-                    <div class="rounded-circle d-flex align-items-center justify-content-center" style="width:48px; height:48px; background: rgba(16, 185, 129, 0.15); color: #10b981;">
-                        <i class="bi bi-file-earmark-medical" style="font-size: 1.5rem;"></i>
+                    <div class="rounded-circle d-flex align-items-center justify-content-center" style="width:48px; height:48px; background: <?php echo $color; ?>20; color: <?php echo $color; ?>;">
+                        <i class="bi <?php echo $icon; ?>" style="font-size: 1.5rem;"></i>
                     </div>
                     <div>
-                        <h4 class="text-white h6 mb-1 fw-bold">Medical Leave (Fever &amp; Recovery)</h4>
-                        <span class="badge bg-success-subtle text-success">Approved</span>
+                        <h4 class="text-white h6 mb-1 fw-bold"><?php echo htmlspecialchars($cond['type']); ?> Leave Application</h4>
+                        <span class="badge <?php echo $badgeClass; ?>"><?php echo htmlspecialchars($status); ?></span>
                     </div>
                 </div>
-                <div class="d-flex flex-column gap-3 text-light-subtitle" style="font-size: 0.88rem;">
-                    <div><strong>Date Applied:</strong> July 11, 2026</div>
-                    <div><strong>Date of Absence:</strong> July 10, 2026 (1 Day)</div>
-                    <div><strong>Document:</strong> <span class="text-info"><i class="bi bi-file-earmark-pdf me-1"></i>medical_certificate.pdf</span></div>
-                    <div><strong>Remarks:</strong> Verified by Dr. Rajesh Sharma (HOD). Attendance marked as Condoned.</div>
+                <div class="d-flex flex-column gap-3 text-light-subtitle" style="font-size: 0.88rem; color: #cbd5e1;">
+                    <div><strong>Date Applied:</strong> <?php echo htmlspecialchars($cond['submitted_at']); ?></div>
+                    <div><strong>Date of Absence:</strong> <?php echo htmlspecialchars($cond['date']); ?></div>
+                    <?php if (!empty($cond['document'])): ?>
+                        <div><strong>Document:</strong> <span class="text-info"><i class="bi bi-file-earmark-pdf me-1"></i><?php echo htmlspecialchars($cond['document']); ?></span></div>
+                    <?php endif; ?>
+                    <div><strong>Reason:</strong> <?php echo htmlspecialchars($cond['reason']); ?></div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
-<!-- Leave Modal 2 (Sports Leave) -->
-<div class="modal fade" id="leaveModal2" tabindex="-1" aria-labelledby="leaveModal2Label" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content" style="background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(25px); border: 1px solid rgba(245, 158, 11, 0.25); border-radius: 16px;">
-            <div class="modal-header border-0 pb-0">
-                <h5 class="modal-title text-white font-outfit" id="leaveModal2Label"><i class="bi bi-clock-history text-warning me-2"></i> Leave Request Details</h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body py-4">
-                <div class="d-flex align-items-center gap-3 mb-4">
-                    <div class="rounded-circle d-flex align-items-center justify-content-center" style="width:48px; height:48px; background: rgba(245, 158, 11, 0.15); color: #f59e0b;">
-                        <i class="bi bi-trophy" style="font-size: 1.5rem;"></i>
-                    </div>
-                    <div>
-                        <h4 class="text-white h6 mb-1 fw-bold">Sports Leave (Inter-College Cricket)</h4>
-                        <span class="badge bg-warning-subtle text-warning">Pending Review</span>
-                    </div>
-                </div>
-                <div class="d-flex flex-column gap-3 text-light-subtitle" style="font-size: 0.88rem;">
-                    <div><strong>Date Applied:</strong> July 19, 2026</div>
-                    <div><strong>Date of Absence:</strong> July 18, 2026 (1 Day)</div>
-                    <div><strong>Document:</strong> <span class="text-info"><i class="bi bi-file-earmark-pdf me-1"></i>sports_invitation.pdf</span></div>
-                    <div><strong>Remarks:</strong> Under verification by Physical Education Director.</div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Leave Modal 3 (Duty Leave) -->
-<div class="modal fade" id="leaveModal3" tabindex="-1" aria-labelledby="leaveModal3Label" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content" style="background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(25px); border: 1px solid rgba(14, 165, 233, 0.25); border-radius: 16px;">
-            <div class="modal-header border-0 pb-0">
-                <h5 class="modal-title text-white font-outfit" id="leaveModal3Label"><i class="bi bi-hourglass-split text-info me-2"></i> Leave Request Details</h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body py-4">
-                <div class="d-flex align-items-center gap-3 mb-4">
-                    <div class="rounded-circle d-flex align-items-center justify-content-center" style="width:48px; height:48px; background: rgba(14, 165, 233, 0.15); color: #0ea5e9;">
-                        <i class="bi bi-briefcase" style="font-size: 1.5rem;"></i>
-                    </div>
-                    <div>
-                        <h4 class="text-white h6 mb-1 fw-bold">Duty Leave (AI &amp; ML Seminar)</h4>
-                        <span class="badge bg-info-subtle text-info">Under Review</span>
-                    </div>
-                </div>
-                <div class="d-flex flex-column gap-3 text-light-subtitle" style="font-size: 0.88rem;">
-                    <div><strong>Date Applied:</strong> July 16, 2026</div>
-                    <div><strong>Date of Absence:</strong> July 15, 2026 (1 Day)</div>
-                    <div><strong>Document:</strong> <span class="text-info"><i class="bi bi-file-earmark-pdf me-1"></i>seminar_attendance_certificate.pdf</span></div>
-                    <div><strong>Remarks:</strong> Forwarded to Faculty Mentor for verification.</div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+<?php endforeach; ?>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {

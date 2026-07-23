@@ -72,6 +72,16 @@ $stmt_recent = $pdo->prepare("
 $stmt_recent->execute([$faculty_id]);
 $recent_submissions = $stmt_recent->fetchAll();
 
+// Fetch pending condonations for alerts
+$stmt_pending_cond = $pdo->query("
+    SELECT c.*, u.name AS student_name, u.class AS student_class, u.division AS student_division
+    FROM condonations c
+    JOIN users u ON c.student_id = u.id
+    WHERE c.status = 'Pending'
+    ORDER BY c.submitted_at DESC
+");
+$pending_condonations = $stmt_pending_cond->fetchAll();
+
 $page_title  = 'Faculty Dashboard';
 include '../../includes/header.php';
 ?>
@@ -224,11 +234,12 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
                         </div>
                     </div>
                     <div class="col-lg-4">
-                        <div class="faculty-card h-100 mb-0">
+                        <!-- Quick Actions -->
+                        <div class="faculty-card mb-4">
                             <div class="faculty-card-header">
                                 <h3 class="faculty-card-title"><i class="bi bi-lightning-charge-fill" style="color:#fbbf24;"></i> Quick Actions</h3>
                             </div>
-                            <div class="d-flex flex-column gap-3">
+                            <div class="d-flex flex-column gap-3 p-3">
                                 <a href="<?php echo $base_path; ?>modules/attendance/faculty-mark-attendance.php" class="text-decoration-none p-3 rounded-3 d-flex align-items-center justify-content-between" style="background:rgba(37,99,235,.12);border:1px solid rgba(96,165,250,.25);">
                                     <div class="d-flex align-items-center gap-3">
                                         <div class="rounded-circle d-flex align-items-center justify-content-center flex-shrink-0" style="width:38px;height:38px;background:linear-gradient(135deg,#2563eb,#6366f1);"><i class="bi bi-check2-circle text-white"></i></div>
@@ -243,16 +254,37 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
                                     </div>
                                     <i class="bi bi-chevron-right" style="color:#64748b;"></i>
                                 </a>
-                                <a href="<?php echo $base_path; ?>modules/subjects/faculty-subject-allocation.php" class="text-decoration-none p-3 rounded-3 d-flex align-items-center justify-content-between" style="background:rgba(16,185,129,.12);border:1px solid rgba(52,211,153,.25);">
-                                    <div class="d-flex align-items-center gap-3">
-                                        <div class="rounded-circle d-flex align-items-center justify-content-center flex-shrink-0" style="width:38px;height:38px;background:linear-gradient(135deg,#059669,#10b981);"><i class="bi bi-diagram-3-fill text-white"></i></div>
-                                        <div><h6 class="mb-0 fw-semibold" style="color:#f1f5f9;font-family:'Outfit',sans-serif;">Subject Allocations</h6><small style="color:#64748b;">View assigned courses</small></div>
-                                    </div>
-                                    <i class="bi bi-chevron-right" style="color:#64748b;"></i>
-                                </a>
                             </div>
-                            <hr style="border-color:rgba(255,255,255,.07);margin:1.25rem 0;">
-                            <p class="small mb-0" style="color:#64748b;line-height:1.5;"><i class="bi bi-info-circle me-1" style="color:#60a5fa;"></i>Editing is open for <strong style="color:#93c5fd;">48 hours</strong> after class completion. Locked entries need admin authorization.</p>
+                        </div>
+
+                        <!-- Student Condonations Alerts -->
+                        <div class="faculty-card mb-0">
+                            <div class="faculty-card-header">
+                                <h3 class="faculty-card-title"><i class="bi bi-bell-fill" style="color:#f59e0b;"></i> Condonation Alerts</h3>
+                                <p class="faculty-card-subtitle">Pending HOD/Admin approvals</p>
+                            </div>
+                            <div class="p-3">
+                                <?php if (empty($pending_condonations)): ?>
+                                    <div class="text-center py-3 text-secondary" style="font-size: 0.82rem;">
+                                        No pending student condonation applications.
+                                    </div>
+                                <?php else: ?>
+                                    <?php foreach ($pending_condonations as $p_cond): ?>
+                                        <div class="p-2.5 rounded-3 mb-2" style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05);">
+                                            <div class="d-flex justify-content-between align-items-start mb-1">
+                                                <span class="fw-semibold text-white" style="font-size: 0.85rem;"><?php echo htmlspecialchars($p_cond['student_name']); ?></span>
+                                                <span class="badge bg-warning-subtle text-warning" style="font-size: 0.7rem;">Pending</span>
+                                            </div>
+                                            <div style="font-size: 0.78rem; color: #94a3b8;">
+                                                Applied for <strong class="text-info"><?php echo htmlspecialchars($p_cond['type']); ?> Leave</strong> on <?php echo htmlspecialchars($p_cond['date']); ?>.
+                                            </div>
+                                            <div class="text-muted mt-1" style="font-size: 0.72rem; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;">
+                                                Reason: <?php echo htmlspecialchars($p_cond['reason']); ?>
+                                            </div>
+                                        </div>
+                                    <?php endforeach; ?>
+                                <?php endif; ?>
+                            </div>
                         </div>
                     </div>
                 </div>

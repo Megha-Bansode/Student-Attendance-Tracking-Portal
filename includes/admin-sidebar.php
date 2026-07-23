@@ -129,6 +129,15 @@ $current_page = basename($_SERVER['PHP_SELF']);
         </li>
 
         <li class="faculty-nav-item">
+            <a href="<?php echo $base_path; ?>modules/attendance/admin-condonations.php"
+               class="faculty-nav-link <?php echo ($current_page === 'admin-condonations.php') ? 'active' : ''; ?>"
+               <?php echo ($current_page === 'admin-condonations.php') ? 'aria-current="page"' : ''; ?>>
+                <i class="bi bi-file-earmark-check-fill text-warning"></i>
+                <span>Condonation Requests</span>
+            </a>
+        </li>
+
+        <li class="faculty-nav-item">
             <a href="<?php echo $base_path; ?>notifications/admin-notifications.php"
                class="faculty-nav-link <?php echo ($current_page === 'admin-notifications.php') ? 'active' : ''; ?>"
                <?php echo ($current_page === 'admin-notifications.php') ? 'aria-current="page"' : ''; ?>>

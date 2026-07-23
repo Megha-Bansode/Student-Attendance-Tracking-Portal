@@ -62,6 +62,27 @@ try {
         marked_by INTEGER
     )");
 
+    $pdo->exec("CREATE TABLE IF NOT EXISTS condonations (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        student_id INTEGER,
+        type TEXT,
+        date TEXT,
+        reason TEXT,
+        document TEXT,
+        status TEXT DEFAULT 'Pending',
+        submitted_at TEXT
+    )");
+
+    // Seed condonations if empty
+    $stmtCondonations = $pdo->query("SELECT COUNT(*) FROM condonations");
+    if ($stmtCondonations->fetchColumn() == 0) {
+        $stmtInsCond = $pdo->prepare("INSERT INTO condonations (student_id, type, date, reason, document, status, submitted_at) VALUES (?, ?, ?, ?, ?, ?, ?)");
+        // Seed for student Shivam Maurya (id 12)
+        $stmtInsCond->execute([12, 'Medical', '2026-07-10', 'Fever recovery leave.', 'medical_certificate.pdf', 'Approved', '2026-07-11 09:00:00']);
+        $stmtInsCond->execute([12, 'Sports', '2026-07-18', 'Represented college in Inter-College Cricket tournament.', 'sports_invitation.pdf', 'Pending', '2026-07-19 14:30:00']);
+        $stmtInsCond->execute([12, 'Duty', '2026-07-15', 'Attended AI & ML national seminar.', 'seminar_certificate.pdf', 'Pending', '2026-07-16 10:15:00']);
+    }
+
     // Seed departments if empty
     $stmtDept = $pdo->query("SELECT COUNT(*) FROM departments");
     if ($stmtDept->fetchColumn() == 0) {
