@@ -58,6 +58,7 @@ $avg_attendance = $total_records > 0 ? round(($present_records / $total_records)
 
 // Fetch all students and compute stats
 $students = $pdo->query("SELECT * FROM users WHERE role = 'student' ORDER BY name ASC")->fetchAll();
+$departments_list = $pdo->query("SELECT * FROM departments ORDER BY name ASC")->fetchAll();
 $student_stats = [];
 $low_attendance_count = 0;
 
@@ -264,10 +265,10 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
                         <div class="col-6 mb-3">
                             <label class="form-label text-slate-300 font-semibold">Department</label>
                             <select name="department" id="modal_department" class="form-select bg-dark text-white border-secondary" required>
-                                <option value="AI&ML">AI&ML</option>
-                                <option value="CS">CS</option>
-                                <option value="IT">IT</option>
-                                <option value="ENTC">ENTC</option>
+                                <option value="">-- Select Dept --</option>
+                                <?php foreach ($departments_list as $dept): ?>
+                                    <option value="<?php echo htmlspecialchars($dept['code']); ?>"><?php echo htmlspecialchars($dept['name']); ?></option>
+                                <?php endforeach; ?>
                             </select>
                         </div>
                         <div class="col-6 mb-3">

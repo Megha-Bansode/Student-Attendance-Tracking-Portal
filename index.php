@@ -1,5 +1,24 @@
-<?php include 'includes/header.php'; ?>
+<?php 
+require_once 'config/database.php';
+include 'includes/header.php'; 
 
+// Fetch dynamic stats
+$total_students = $pdo->query("SELECT COUNT(*) FROM users WHERE role = 'student'")->fetchColumn();
+$total_faculty = $pdo->query("SELECT COUNT(*) FROM users WHERE role = 'faculty'")->fetchColumn();
+$total_departments = $pdo->query("SELECT COUNT(*) FROM departments")->fetchColumn();
+
+// Calculate average attendance % for the latest date
+$latest_date = $pdo->query("SELECT MAX(date) FROM attendance")->fetchColumn();
+$present_count = $pdo->prepare("SELECT COUNT(*) FROM attendance WHERE date = ? AND status = 'Present'");
+$present_count->execute([$latest_date]);
+$present_val = $present_count->fetchColumn();
+
+$total_att_count = $pdo->prepare("SELECT COUNT(*) FROM attendance WHERE date = ?");
+$total_att_count->execute([$latest_date]);
+$total_val = $total_att_count->fetchColumn();
+
+$avg_attendance = ($total_val > 0) ? round(($present_val / $total_val) * 100, 1) : 0;
+?>
 <!-- Home Section / Hero Banner -->
 <section id="home" class="hero-section">
     <!-- Interactive Background Canvas -->
@@ -46,19 +65,19 @@
                             <div class="col-4">
                                 <div class="stat-box-mini">
                                     <span class="lbl">Students</span>
-                                    <span class="val">1,540</span>
+                                    <span class="val"><?php echo number_format($total_students); ?></span>
                                 </div>
                             </div>
                             <div class="col-4">
                                 <div class="stat-box-mini">
                                     <span class="lbl">Present Today</span>
-                                    <span class="val text-success">1,463</span>
+                                    <span class="val text-success"><?php echo number_format($present_val); ?></span>
                                 </div>
                             </div>
                             <div class="col-4">
                                 <div class="stat-box-mini">
                                     <span class="lbl">Attendance %</span>
-                                    <span class="val text-info">95.0%</span>
+                                    <span class="val text-info"><?php echo $avg_attendance; ?>%</span>
                                 </div>
                             </div>
                         </div>
@@ -84,7 +103,7 @@
                         <!-- Typewriter Console Output -->
                         <div class="console-box-mini p-2">
                             <div class="console-line"><span class="text-success">[OK]</span> Syncing database...</div>
-                            <div class="console-line"><span class="text-warning">[WARN]</span> Alert sent: Aarav Mehta (68.5%)</div>
+                            <div class="console-line"><span class="text-warning">[WARN]</span> Alert sent: Tanay Shelar (68.5%)</div>
                             <div class="console-line"><span class="text-info">[INFO]</span> Attendance updated for IT Sem-IV</div>
                         </div>
                     </div>
@@ -101,28 +120,28 @@
             <!-- Counter 1 -->
             <div class="col-md-3 col-6">
                 <div class="counter-item">
-                    <div class="counter-number" data-target="1500+" id="stat-students">1500+</div>
+                    <div class="counter-number" data-target="<?php echo $total_students; ?>+" id="stat-students"><?php echo $total_students; ?>+</div>
                     <div class="counter-label">Active Students</div>
                 </div>
             </div>
             <!-- Counter 2 -->
             <div class="col-md-3 col-6">
                 <div class="counter-item">
-                    <div class="counter-number" data-target="120+" id="stat-faculty">120+</div>
+                    <div class="counter-number" data-target="<?php echo $total_faculty; ?>+" id="stat-faculty"><?php echo $total_faculty; ?>+</div>
                     <div class="counter-label">Expert Faculty</div>
                 </div>
             </div>
             <!-- Counter 3 -->
             <div class="col-md-3 col-6">
                 <div class="counter-item">
-                    <div class="counter-number" data-target="98%" id="stat-attendance">98%</div>
+                    <div class="counter-number" data-target="<?php echo $avg_attendance; ?>%" id="stat-attendance"><?php echo $avg_attendance; ?>%</div>
                     <div class="counter-label">Daily Avg Rate</div>
                 </div>
             </div>
             <!-- Counter 4 -->
             <div class="col-md-3 col-6">
                 <div class="counter-item">
-                    <div class="counter-number" data-target="15+" id="stat-departments">15+</div>
+                    <div class="counter-number" data-target="<?php echo $total_departments; ?>+" id="stat-departments"><?php echo $total_departments; ?>+</div>
                     <div class="counter-label">Departments</div>
                 </div>
             </div>

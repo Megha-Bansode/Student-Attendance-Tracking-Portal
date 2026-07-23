@@ -74,14 +74,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
             </a>
         </li>
 
-        <li class="faculty-nav-item">
-            <a href="<?php echo $base_path; ?>modules/courses/admin-courses.php"
-               class="faculty-nav-link <?php echo ($current_page === 'admin-courses.php') ? 'active' : ''; ?>"
-               <?php echo ($current_page === 'admin-courses.php') ? 'aria-current="page"' : ''; ?>>
-                <i class="bi bi-book"></i>
-                <span>Courses</span>
-            </a>
-        </li>
+
 
         <li class="faculty-nav-item">
             <a href="<?php echo $base_path; ?>modules/subjects/admin-subjects.php"

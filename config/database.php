@@ -83,53 +83,101 @@ try {
         $stmtInsCond->execute([12, 'Duty', '2026-07-15', 'Attended AI & ML national seminar.', 'seminar_certificate.pdf', 'Pending', '2026-07-16 10:15:00']);
     }
 
-    // Seed departments if empty
-    $stmtDept = $pdo->query("SELECT COUNT(*) FROM departments");
-    if ($stmtDept->fetchColumn() == 0) {
-        $stmtInsDept = $pdo->prepare("INSERT INTO departments (code, name, hod, established, intake) VALUES (?, ?, ?, ?, ?)");
-        $stmtInsDept->execute(['CSE', 'Computer Engineering', 'Dr. Sarah Jenkins', 2010, 120]);
-        $stmtInsDept->execute(['IT', 'Information Technology', 'Prof. Rajesh Sharma', 2012, 60]);
-        $stmtInsDept->execute(['ENTC', 'Electronics & Telecommunication', 'Dr. Amit Patel', 2008, 60]);
-    }
+
 
     // Seed data if database is empty
     $stmt = $pdo->query("SELECT COUNT(*) FROM users");
     if ($stmt->fetchColumn() == 0) {
+        // Seed initial departments
+        $stmtInsDept = $pdo->prepare("INSERT INTO departments (code, name, hod, established, intake) VALUES (?, ?, ?, ?, ?)");
+        $stmtInsDept->execute(['CSE', 'Computer Engineering', 'Dr. Sarah Jenkins', 2010, 120]);
+        $stmtInsDept->execute(['IT', 'Information Technology', 'Prof. Rajesh Sharma', 2012, 60]);
+        $stmtInsDept->execute(['ENTC', 'Electronics & Telecommunication', 'Dr. Amit Patel', 2008, 60]);
+
         // Seed Admin
         $stmtAdmin = $pdo->prepare("INSERT INTO users (username, password, role, name) VALUES (?, ?, ?, ?)");
         $stmtAdmin->execute(['Admin@college.edu', 'Admin@123', 'admin', 'Super Admin']);
 
         // Seed Faculty
-        $stmtFaculty = $pdo->prepare("INSERT INTO users (username, password, role, name) VALUES (?, ?, ?, ?)");
-        $stmtFaculty->execute(['Faculty@123', 'Faculty@123', 'faculty', 'Megha Mam']);
+        $stmtFaculty = $pdo->prepare("INSERT INTO users (username, password, role, name, class, division) VALUES (?, ?, ?, ?, ?, ?)");
+        $stmtFaculty->execute(['Faculty@123', 'Faculty@123', 'faculty', 'Megha Mam', 'First Year', 'A']);
         $meghaId = $pdo->lastInsertId();
 
-        $stmtFaculty->execute(['faculty2', 'Faculty@123', 'faculty', 'Second Faculty']);
+        $stmtFaculty->execute(['faculty2', 'Faculty@123', 'faculty', 'Second Faculty', 'Second Year', 'A']);
         $faculty2Id = $pdo->lastInsertId();
 
-        // Seed subjects (First Year)
+        // Seed subjects
         $stmtSubject = $pdo->prepare("INSERT INTO subjects (name, class) VALUES (?, ?)");
         $stmtSubject->execute(['Probability and statistics', 'First Year']);
         $probStatsId = $pdo->lastInsertId();
+        
+        $stmtSubject->execute(['Data Structures', 'Second Year']);
+        $dsId = $pdo->lastInsertId();
 
-        // Assign subject to Megha Mam
+        // Assign subjects to faculty
         $stmtAlloc = $pdo->prepare("INSERT INTO faculty_subjects (faculty_id, subject_id) VALUES (?, ?)");
         $stmtAlloc->execute([$meghaId, $probStatsId]);
+        $stmtAlloc->execute([$faculty2Id, $dsId]);
 
-        // Seed Students - Division A (First Year, AI&ML)
+        // Generate Random Students
+        $first_names = ['Aarav', 'Vihaan', 'Aditya', 'Arjun', 'Sai', 'Rohan', 'Krishna', 'Ishaan', 'Shaurya', 'Atharv', 'Ananya', 'Diya', 'Avni', 'Kavya', 'Isha', 'Riya', 'Aisha', 'Zara', 'Neha', 'Pooja', 'Rahul', 'Amit', 'Vikram', 'Raj', 'Sanjay'];
+        $last_names = ['Sharma', 'Verma', 'Gupta', 'Kumar', 'Singh', 'Patel', 'Joshi', 'Mishra', 'Reddy', 'Rao', 'Das', 'Roy', 'Nair', 'Pillai', 'Menon', 'Bose', 'Sengupta', 'Chatterjee', 'Iyer', 'Murthy'];
+        
         $stmtStudent = $pdo->prepare("INSERT INTO users (username, password, role, name, zprn, class, department, division) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-        $stmtStudent->execute(['125UAM1209', '125UAM1209', 'student', 'Tanay shelar', '125UAM1209', 'First Year', 'AI&ML', 'A']);
-        $stmtStudent->execute(['125UAM1192', '125UAM1192', 'student', 'Aryan jedhe', '125UAM1192', 'First Year', 'AI&ML', 'A']);
-        $stmtStudent->execute(['125UAM1169', '125UAM1169', 'student', 'Sarthak Anbhule', '125UAM1169', 'First Year', 'AI&ML', 'A']);
+        
+        $classes = ['First Year' => 'A', 'Second Year' => 'A'];
+        $student_ids = [];
+        $zprn_counter = 1000;
+        
+        foreach ($classes as $class_name => $division) {
+            for ($i = 0; $i < 30; $i++) { // 30 students per class
+                $fn = $first_names[array_rand($first_names)];
+                $ln = $last_names[array_rand($last_names)];
+                $name = $fn . ' ' . $ln;
+                $zprn = '125UAM' . $zprn_counter++;
+                $username = $zprn;
+                
+                // Exclude Aarav Mehta
+                if (strtolower($name) === 'aarav mehta' || strtolower($name) === 'arav mehta') {
+                    $name = 'Tanay Shelar';
+                }
+                
+                $stmtStudent->execute([$username, $username, 'student', $name, $zprn, $class_name, 'CSE', $division]);
+                $student_ids[] = ['id' => $pdo->lastInsertId(), 'class' => $class_name, 'division' => $division];
+            }
+        }
 
-        // Seed Students - Division B (First Year, AI&ML)
-        $stmtStudent->execute(['125UAM1134', '125UAM1134', 'student', 'Shivam Maurya', '125UAM1134', 'First Year', 'AI&ML', 'B']);
-        $stmtStudent->execute(['125UAM1129', '125UAM1129', 'student', 'Nikhil Gaikwad', '125UAM1129', 'First Year', 'AI&ML', 'B']);
+        // Generate Random Attendance for the last 7 days
+        $stmtAttendance = $pdo->prepare("INSERT INTO attendance (student_id, subject_id, date, status, marked_by) VALUES (?, ?, ?, ?, ?)");
+        
+        for ($i = 6; $i >= 0; $i--) {
+            $date = date('Y-m-d', strtotime("-$i days"));
+            // Skip Sundays
+            if (date('N', strtotime($date)) == 7) continue;
 
-        // Seed schedules for Megha Mam (First Year)
+            foreach ($student_ids as $stu) {
+                // Determine subject and faculty based on class
+                if ($stu['class'] == 'First Year') {
+                    $sub_id = $probStatsId;
+                    $fac_id = $meghaId;
+                } else {
+                    $sub_id = $dsId;
+                    $fac_id = $faculty2Id;
+                }
+                
+                // 90% chance of being present
+                $status = (rand(1, 100) <= 90) ? 'Present' : 'Absent';
+                $stmtAttendance->execute([$stu['id'], $sub_id, $date, $status, $fac_id]);
+            }
+        }
+
+        // Seed schedules
         $stmtSchedule = $pdo->prepare("INSERT INTO schedules (subject_id, division, class, day_of_week, start_time, end_time) VALUES (?, ?, ?, ?, ?, ?)");
-        $stmtSchedule->execute([$probStatsId, 'A', 'First Year', 'Monday', '09:00 AM', '10:00 AM']);
-        $stmtSchedule->execute([$probStatsId, 'B', 'First Year', 'Wednesday', '11:00 AM', '12:00 PM']);
+        $days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+        foreach ($days as $day) {
+            $stmtSchedule->execute([$probStatsId, 'A', 'First Year', $day, '09:00 AM', '10:00 AM']);
+            $stmtSchedule->execute([$dsId, 'A', 'Second Year', $day, '10:15 AM', '11:15 AM']);
+        }
     }
 
 } catch (PDOException $e) {

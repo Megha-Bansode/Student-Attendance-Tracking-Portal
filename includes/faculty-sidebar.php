@@ -59,16 +59,11 @@ $current_page = basename($_SERVER['PHP_SELF']);
         </li>
 
         <li class="faculty-nav-item">
-            <a href="<?php echo $base_path; ?>modules/dashboard/admin-dashboard.php" class="faculty-nav-link">
-                <i class="bi bi-shield-check text-primary"></i>
-                <span>Admin View</span>
-            </a>
-        </li>
-
-        <li class="faculty-nav-item">
-            <a href="<?php echo $base_path; ?>modules/dashboard/student-dashboard.php" class="faculty-nav-link">
-                <i class="bi bi-mortarboard-fill text-warning"></i>
-                <span>Student View</span>
+            <a href="<?php echo $base_path; ?>modules/dashboard/faculty-profile.php"
+               class="faculty-nav-link <?php echo ($current_page === 'faculty-profile.php') ? 'active' : ''; ?>"
+               <?php echo ($current_page === 'faculty-profile.php') ? 'aria-current="page"' : ''; ?>>
+                <i class="bi bi-person-fill text-info"></i>
+                <span>My Profile</span>
             </a>
         </li>
 

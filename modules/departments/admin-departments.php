@@ -14,22 +14,32 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
     exit;
 }
 
+$error_msg = isset($_SESSION['flash_error']) ? $_SESSION['flash_error'] : '';
+$success_msg = isset($_SESSION['flash_success']) ? $_SESSION['flash_success'] : '';
+unset($_SESSION['flash_error'], $_SESSION['flash_success']);
+
 // Handle Add/Edit Department
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'save_department') {
-    $id = isset($_POST['id']) ? intval($_POST['id']) : 0;
-    $code = strtoupper(trim($_POST['code']));
-    $name = trim($_POST['name']);
-    $hod = trim($_POST['hod']);
-    $established = intval($_POST['established']);
-    $intake = intval($_POST['intake']);
-    $status = trim($_POST['status'] ?? 'Active');
+    try {
+        $id = isset($_POST['id']) ? intval($_POST['id']) : 0;
+        $code = strtoupper(trim($_POST['code']));
+        $name = trim($_POST['name']);
+        $hod = trim($_POST['hod']);
+        $established = intval($_POST['established']);
+        $intake = intval($_POST['intake']);
+        $status = trim($_POST['status'] ?? 'Active');
 
-    if ($id > 0) {
-        $stmt = $pdo->prepare("UPDATE departments SET code = ?, name = ?, hod = ?, established = ?, intake = ?, status = ? WHERE id = ?");
-        $stmt->execute([$code, $name, $hod, $established, $intake, $status, $id]);
-    } else {
-        $stmt = $pdo->prepare("INSERT INTO departments (code, name, hod, established, intake, status) VALUES (?, ?, ?, ?, ?, ?)");
-        $stmt->execute([$code, $name, $hod, $established, $intake, $status]);
+        if ($id > 0) {
+            $stmt = $pdo->prepare("UPDATE departments SET code = ?, name = ?, hod = ?, established = ?, intake = ?, status = ? WHERE id = ?");
+            $stmt->execute([$code, $name, $hod, $established, $intake, $status, $id]);
+            $_SESSION['flash_success'] = "Department updated successfully.";
+        } else {
+            $stmt = $pdo->prepare("INSERT INTO departments (code, name, hod, established, intake, status) VALUES (?, ?, ?, ?, ?, ?)");
+            $stmt->execute([$code, $name, $hod, $established, $intake, $status]);
+            $_SESSION['flash_success'] = "Department added successfully.";
+        }
+    } catch (PDOException $e) {
+        $_SESSION['flash_error'] = "Database Error: " . $e->getMessage();
     }
     header("Location: admin-departments.php");
     exit;
@@ -37,15 +47,39 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
 
 // Handle Delete Department
 if (isset($_GET['delete_id'])) {
-    $delete_id = intval($_GET['delete_id']);
-    $stmt = $pdo->prepare("DELETE FROM departments WHERE id = ?");
-    $stmt->execute([$delete_id]);
+    try {
+        $delete_id = intval($_GET['delete_id']);
+        $stmt = $pdo->prepare("DELETE FROM departments WHERE id = ?");
+        $stmt->execute([$delete_id]);
+        $_SESSION['flash_success'] = "Department deleted successfully.";
+    } catch (PDOException $e) {
+        $_SESSION['flash_error'] = "Could not delete department.";
+    }
+    header("Location: admin-departments.php");
+    exit;
+}
+
+// Handle Add Faculty to Department
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'add_faculty_to_dept') {
+    try {
+        $faculty_id = intval($_POST['faculty_id']);
+        $dept_code = trim($_POST['dept_code']);
+        $stmt = $pdo->prepare("UPDATE users SET department = ? WHERE id = ?");
+        $stmt->execute([$dept_code, $faculty_id]);
+        $_SESSION['flash_success'] = "Faculty added to department successfully.";
+    } catch (PDOException $e) {
+        $_SESSION['flash_error'] = "Error assigning faculty.";
+    }
     header("Location: admin-departments.php");
     exit;
 }
 
 // Fetch all departments
 $departments = $pdo->query("SELECT * FROM departments ORDER BY name ASC")->fetchAll();
+
+// Fetch all faculty for assignment modal
+$all_faculty = $pdo->query("SELECT id, name, department FROM users WHERE role = 'faculty' ORDER BY name ASC")->fetchAll();
+
 
 // Count stats
 $total_departments = count($departments);
@@ -76,6 +110,17 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
 }
 </script>
 
+<style>
+/* Creative Animation */
+@keyframes slideInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+.animated-row {
+    animation: slideInUp 0.5s ease forwards;
+    opacity: 0;
+}
+</style>
 <div class="faculty-portal">
     <div class="faculty-portal-wrapper">
 
@@ -90,6 +135,13 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
 
             <!-- Content Body -->
             <main class="faculty-content-body">
+                
+                <?php if ($error_msg): ?>
+                    <div class="alert alert-danger bg-danger text-white border-0 py-2"><?php echo $error_msg; ?></div>
+                <?php endif; ?>
+                <?php if ($success_msg): ?>
+                    <div class="alert alert-success bg-success text-white border-0 py-2"><?php echo $success_msg; ?></div>
+                <?php endif; ?>
 
                 <!-- Stat Cards -->
                 <div class="row g-3 mb-4">
@@ -169,8 +221,12 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
                                         <td colspan="8" class="text-center text-secondary py-4">No departments found.</td>
                                     </tr>
                                 <?php else: ?>
-                                    <?php foreach ($departments as $dept): 
+                                    <?php 
+                                    $delay = 0;
+                                    foreach ($departments as $dept): 
                                         $dept_code = $dept['code'];
+                                        $delay += 0.1;
+
                                         
                                         // Fetch dynamic counts
                                         $stmt_f = $pdo->prepare("SELECT COUNT(*) FROM users WHERE role = 'faculty' AND (department = ? OR department = ?)");
@@ -192,8 +248,8 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
                                         }
                                         
                                         $status_class = ($dept['status'] === 'Active') ? 'badge-success-subtle' : 'badge-danger-subtle';
-                                    ?>
-                                    <tr>
+                                     ?>
+                                    <tr class="animated-row" style="animation-delay: <?php echo $delay; ?>s;">
                                         <td><span class="badge <?php echo $badge_class; ?> font-mono fw-bold px-2.5 py-1"><?php echo htmlspecialchars($dept['code']); ?></span></td>
                                         <td><div class="fw-semibold text-white"><?php echo htmlspecialchars($dept['name']); ?></div></td>
                                         <td><?php echo htmlspecialchars($dept['hod']); ?></td>
@@ -203,8 +259,9 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
                                         <td><span class="faculty-badge <?php echo $status_class; ?>"><i class="bi bi-check-circle-fill me-1"></i><?php echo htmlspecialchars($dept['status']); ?></span></td>
                                         <td class="text-end">
                                             <div class="action-btn-group justify-content-end">
-                                                <button class="btn btn-sm btn-outline-info px-2.5 py-1 rounded-2" title="Edit Department" data-bs-toggle="modal" data-bs-target="#addDepartmentModal" onclick="prepareEditDept(<?php echo $dept['id']; ?>, '<?php echo addslashes($dept['code']); ?>', '<?php echo addslashes($dept['name']); ?>', '<?php echo addslashes($dept['hod']); ?>', <?php echo $dept['established']; ?>, <?php echo $dept['intake']; ?>, '<?php echo addslashes($dept['status']); ?>')"><i class="bi bi-pencil-square me-1"></i>Edit</button>
-                                                <a class="btn btn-sm btn-outline-danger px-2.5 py-1 rounded-2" title="Delete Department" href="admin-departments.php?delete_id=<?php echo $dept['id']; ?>" onclick="return confirm('Are you sure you want to delete this department?')"><i class="bi bi-trash3 me-1"></i>Delete</a>
+                                                <button class="btn btn-sm btn-outline-success px-2.5 py-1 rounded-2" title="Add Faculty" data-bs-toggle="modal" data-bs-target="#addFacultyModal" onclick="prepareAddFaculty('<?php echo addslashes($dept['code']); ?>', '<?php echo addslashes($dept['name']); ?>')"><i class="bi bi-person-plus me-1"></i>Add Faculty</button>
+                                                <button class="btn btn-sm btn-outline-info px-2.5 py-1 rounded-2" title="Edit Department" data-bs-toggle="modal" data-bs-target="#addDepartmentModal" onclick="prepareEditDept(<?php echo $dept['id']; ?>, '<?php echo addslashes($dept['code']); ?>', '<?php echo addslashes($dept['name']); ?>', '<?php echo addslashes($dept['hod']); ?>', <?php echo $dept['established']; ?>, <?php echo $dept['intake']; ?>, '<?php echo addslashes($dept['status']); ?>')"><i class="bi bi-pencil-square"></i></button>
+                                                <a class="btn btn-sm btn-outline-danger px-2.5 py-1 rounded-2" title="Delete Department" href="admin-departments.php?delete_id=<?php echo $dept['id']; ?>" onclick="return confirm('Are you sure you want to delete this department?')"><i class="bi bi-trash3"></i></a>
                                             </div>
                                         </td>
                                     </tr>
@@ -272,7 +329,47 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
     </div>
 </div>
 
+<!-- Modal: Add Faculty to Department -->
+<div class="modal fade" id="addFacultyModal" tabindex="-1" aria-labelledby="addFacultyModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content text-light" style="background:#131c31; border:1px solid rgba(255,255,255,.15); border-radius:16px;">
+            <div class="modal-header border-secondary">
+                <h5 class="modal-title font-outfit fw-bold text-white" id="addFacultyModalLabel"><i class="bi bi-person-plus me-2 text-success"></i>Add Faculty to <span id="add_fac_dept_name"></span></h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="admin-departments.php" method="POST">
+                <input type="hidden" name="action" value="add_faculty_to_dept">
+                <input type="hidden" name="dept_code" id="modal_add_fac_dept_code" value="">
+                
+                <div class="modal-body space-y-3">
+                    <div class="mb-3">
+                        <label class="form-label text-slate-300 font-semibold">Select Faculty Member</label>
+                        <select name="faculty_id" class="form-select bg-dark text-white border-secondary" required>
+                            <option value="">-- Choose Faculty --</option>
+                            <?php foreach ($all_faculty as $fac): ?>
+                                <option value="<?php echo $fac['id']; ?>">
+                                    <?php echo htmlspecialchars($fac['name']); ?> 
+                                    <?php echo $fac['department'] ? '(Currently: ' . htmlspecialchars($fac['department']) . ')' : ''; ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer border-secondary">
+                    <button type="button" class="btn btn-secondary px-4" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-success px-4">Assign Faculty</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <script>
+function prepareAddFaculty(deptCode, deptName) {
+    document.getElementById('modal_add_fac_dept_code').value = deptCode;
+    document.getElementById('add_fac_dept_name').textContent = deptName;
+}
+
 function prepareEditDept(id, code, name, hod, established, intake, status) {
     document.getElementById('modal_dept_id').value = id;
     document.getElementById('modal_dept_code').value = code;

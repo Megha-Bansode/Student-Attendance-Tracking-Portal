@@ -27,8 +27,29 @@ $fac_subjects = $stmt_fac_sub->fetchAll();
 
 // Get input options
 $selected_subject_id = isset($_GET['subject_id']) ? intval($_GET['subject_id']) : (count($fac_subjects) > 0 ? $fac_subjects[0]['id'] : 0);
-$selected_div        = isset($_GET['division'])   ? $_GET['division']   : 'A';
-$selected_class      = isset($_GET['class'])      ? $_GET['class']      : 'AI&ML';
+// Default classes
+$default_class = 'First Year';
+$default_div = 'A';
+
+if ($selected_subject_id > 0) {
+    foreach ($fac_subjects as $fs) {
+        if ($fs['id'] == $selected_subject_id) {
+            $default_class = $fs['class'];
+            break;
+        }
+    }
+}
+
+// Fetch faculty profile for division default
+$stmt_fac = $pdo->prepare("SELECT class, division FROM users WHERE id = ?");
+$stmt_fac->execute([$faculty_id]);
+$fac_info = $stmt_fac->fetch();
+if ($fac_info && !empty($fac_info['division'])) {
+    $default_div = $fac_info['division'];
+}
+
+$selected_div        = isset($_GET['division'])   ? $_GET['division']   : $default_div;
+$selected_class      = isset($_GET['class'])      ? $_GET['class']      : $default_class;
 $selected_date       = isset($_GET['attendance_date']) ? $_GET['attendance_date'] : date('Y-m-d');
 
 // Process submission

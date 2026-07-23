@@ -50,7 +50,14 @@ $current_page = basename($_SERVER['PHP_SELF']);
             </a>
         </li>
 
-
+        <li class="faculty-nav-item">
+            <a href="<?php echo $base_path; ?>modules/dashboard/student-profile.php"
+               class="faculty-nav-link <?php echo ($current_page === 'student-profile.php') ? 'active' : ''; ?>"
+               <?php echo ($current_page === 'student-profile.php') ? 'aria-current="page"' : ''; ?>>
+                <i class="bi bi-person-fill text-info"></i>
+                <span>My Profile</span>
+            </a>
+        </li>
 
         <li class="faculty-nav-item">
             <a href="<?php echo $base_path; ?>modules/attendance/student-daily-attendance.php"

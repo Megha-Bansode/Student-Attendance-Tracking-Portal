@@ -21,10 +21,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
     $name = trim($_POST['name']);
     $password = !empty($_POST['password']) ? trim($_POST['password']) : 'Faculty@123';
     $subject_id = isset($_POST['subject_id']) ? intval($_POST['subject_id']) : 0;
+    $department = trim($_POST['department'] ?? '');
+    $class_name = trim($_POST['class'] ?? '');
+    $division = trim($_POST['division'] ?? '');
 
     if ($id > 0) {
-        $stmt = $pdo->prepare("UPDATE users SET name = ?, username = ? WHERE id = ? AND role = 'faculty'");
-        $stmt->execute([$name, $username, $id]);
+        $stmt = $pdo->prepare("UPDATE users SET name = ?, username = ?, department = ?, class = ?, division = ? WHERE id = ? AND role = 'faculty'");
+        $stmt->execute([$name, $username, $department, $class_name, $division, $id]);
         
         if (!empty($_POST['password'])) {
             $stmt_pw = $pdo->prepare("UPDATE users SET password = ? WHERE id = ?");
@@ -37,8 +40,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
             $pdo->prepare("INSERT INTO faculty_subjects (faculty_id, subject_id) VALUES (?, ?)")->execute([$id, $subject_id]);
         }
     } else {
-        $stmt = $pdo->prepare("INSERT INTO users (username, password, role, name) VALUES (?, ?, 'faculty', ?)");
-        $stmt->execute([$username, $password, $name]);
+        $stmt = $pdo->prepare("INSERT INTO users (username, password, role, name, department, class, division) VALUES (?, ?, 'faculty', ?, ?, ?, ?)");
+        $stmt->execute([$username, $password, $name, $department, $class_name, $division]);
         $new_faculty_id = $pdo->lastInsertId();
 
         if ($subject_id > 0 && $new_faculty_id > 0) {
@@ -64,15 +67,17 @@ $total_faculty = $pdo->query("SELECT COUNT(*) FROM users WHERE role = 'faculty'"
 // Fetch Subjects for Assigning
 $subjects = $pdo->query("SELECT * FROM subjects ORDER BY name ASC")->fetchAll();
 
-// Fetch Faculty roster along with assigned subjects
+// Fetch all faculties with their assigned subjects
 $faculties = $pdo->query("
-    SELECT u.*, s.name AS subject_name, s.id AS subject_id
-    FROM users u
-    LEFT JOIN faculty_subjects fs ON u.id = fs.faculty_id
-    LEFT JOIN subjects s ON fs.subject_id = s.id
-    WHERE u.role = 'faculty'
+    SELECT u.*, s.name as subject_name, s.id as subject_id 
+    FROM users u 
+    LEFT JOIN faculty_subjects fs ON u.id = fs.faculty_id 
+    LEFT JOIN subjects s ON fs.subject_id = s.id 
+    WHERE u.role = 'faculty' 
     ORDER BY u.name ASC
 ")->fetchAll();
+
+$departments_list = $pdo->query("SELECT * FROM departments ORDER BY name ASC")->fetchAll();
 
 $page_title       = 'Faculty Directory & Management';
 $page_breadcrumb  = 'AttendEase / Super Admin / Faculty';
@@ -171,6 +176,7 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
                                     <th>Full Name</th>
                                     <th>Role Status</th>
                                     <th>Allocated Subject</th>
+                                    <th>Class & Div</th>
                                     <th>Status</th>
                                     <th class="text-end" style="width:140px;">Actions</th>
                                 </tr>
@@ -190,10 +196,17 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
                                     </td>
                                     <td><span class="faculty-badge badge-blue-subtle">Faculty Member</span></td>
                                     <td><span class="fw-bold text-white"><?php echo htmlspecialchars($faculty['subject_name'] ?? 'None Assigned'); ?></span></td>
+                                    <td>
+                                        <?php if (!empty($faculty['class'])): ?>
+                                            <span class="badge bg-warning-subtle text-warning"><?php echo htmlspecialchars($faculty['class'] . ' (' . $faculty['division'] . ')'); ?></span>
+                                        <?php else: ?>
+                                            <span class="text-secondary small">Not Assigned</span>
+                                        <?php endif; ?>
+                                    </td>
                                     <td><span class="faculty-badge badge-success-subtle"><i class="bi bi-circle-fill me-1" style="font-size:.4rem;"></i>Active</span></td>
                                     <td class="text-end">
                                         <div class="action-btn-group justify-content-end">
-                                            <button class="btn btn-sm btn-outline-info px-2.5 py-1 rounded-2" title="Edit Faculty" data-bs-toggle="modal" data-bs-target="#addFacultyModal" onclick="prepareEditFaculty(<?php echo $f_id; ?>, '<?php echo addslashes($faculty['username']); ?>', '<?php echo addslashes($faculty['name']); ?>', <?php echo intval($faculty['subject_id'] ?? 0); ?>)"><i class="bi bi-pencil-square me-1"></i>Edit</button>
+                                            <button class="btn btn-sm btn-outline-info px-2.5 py-1 rounded-2" title="Edit Faculty" data-bs-toggle="modal" data-bs-target="#addFacultyModal" onclick="prepareEditFaculty(<?php echo $f_id; ?>, '<?php echo addslashes($faculty['username']); ?>', '<?php echo addslashes($faculty['name']); ?>', <?php echo intval($faculty['subject_id'] ?? 0); ?>, '<?php echo addslashes($faculty['department'] ?? ''); ?>', '<?php echo addslashes($faculty['class'] ?? ''); ?>', '<?php echo addslashes($faculty['division'] ?? ''); ?>')"><i class="bi bi-pencil-square me-1"></i>Edit</button>
                                             <a class="btn btn-sm btn-outline-danger px-2.5 py-1 rounded-2" title="Delete Faculty" href="admin-faculty.php?delete_id=<?php echo $f_id; ?>" onclick="return confirm('Delete faculty profile?')"><i class="bi bi-trash3 me-1"></i>Delete</a>
                                         </div>
                                     </td>
@@ -239,10 +252,42 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
                         <label class="form-label text-slate-300 font-semibold">Assign Subject</label>
                         <select name="subject_id" id="modal_subject_id" class="form-select bg-dark text-white border-secondary">
                             <option value="0">-- None / Select Subject --</option>
-                            <?php foreach ($subjects as $subj): ?>
-                                <option value="<?php echo $subj['id']; ?>"><?php echo htmlspecialchars($subj['name']) . " (" . htmlspecialchars($subj['class']) . ")"; ?></option>
+                            <?php foreach ($subjects as $sub): ?>
+                                <option value="<?php echo $sub['id']; ?>"><?php echo htmlspecialchars($sub['name']); ?> (<?php echo htmlspecialchars($sub['class']); ?>)</option>
                             <?php endforeach; ?>
                         </select>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label text-slate-300 font-semibold">Assign Department</label>
+                        <select name="department" id="modal_department" class="form-select bg-dark text-white border-secondary">
+                            <option value="">-- No Department --</option>
+                            <?php foreach ($departments_list as $dept): ?>
+                                <option value="<?php echo htmlspecialchars($dept['code']); ?>" <?php echo (isset($_GET['dept']) && $_GET['dept'] === $dept['code']) ? 'selected' : ''; ?>><?php echo htmlspecialchars($dept['name']); ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+
+                    <div class="row g-2">
+                        <div class="col-6">
+                            <label class="form-label text-slate-300 font-semibold">Class Coordinator</label>
+                            <select name="class" id="modal_class" class="form-select bg-dark text-white border-secondary">
+                                <option value="">-- None --</option>
+                                <option value="First Year">First Year</option>
+                                <option value="Second Year">Second Year</option>
+                                <option value="Third Year">Third Year</option>
+                                <option value="Fourth Year">Fourth Year</option>
+                            </select>
+                        </div>
+                        <div class="col-6">
+                            <label class="form-label text-slate-300 font-semibold">Division</label>
+                            <select name="division" id="modal_division" class="form-select bg-dark text-white border-secondary">
+                                <option value="">-- None --</option>
+                                <option value="A">A</option>
+                                <option value="B">B</option>
+                                <option value="C">C</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer border-secondary">
@@ -255,12 +300,16 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
 </div>
 
 <script>
-function prepareEditFaculty(id, username, name, subjectId) {
+function prepareEditFaculty(id, username, name, subject_id, department, facultyClass, division) {
     document.getElementById('modal_faculty_id').value = id;
     document.getElementById('modal_username').value = username;
     document.getElementById('modal_name').value = name;
-    document.getElementById('modal_password').placeholder = "Leave empty to keep unchanged";
-    document.getElementById('modal_subject_id').value = subjectId;
+    document.getElementById('modal_password').value = ''; 
+    document.getElementById('modal_subject_id').value = subject_id;
+    document.getElementById('modal_department').value = department;
+    document.getElementById('modal_class').value = facultyClass;
+    document.getElementById('modal_division').value = division;
+    
     document.getElementById('modal_title').innerHTML = '<i class="bi bi-pencil-square me-2 text-info"></i>Edit Faculty Profile';
 }
 
@@ -270,6 +319,8 @@ function prepareAddFaculty() {
     document.getElementById('modal_name').value = '';
     document.getElementById('modal_password').placeholder = "Default: Faculty@123";
     document.getElementById('modal_subject_id').value = '0';
+    document.getElementById('modal_class').value = '';
+    document.getElementById('modal_division').value = '';
     document.getElementById('modal_title').innerHTML = '<i class="bi bi-person-plus me-2 text-primary"></i>Register Faculty Member';
 }
 
