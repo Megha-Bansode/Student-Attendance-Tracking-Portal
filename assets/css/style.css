@@ -901,3 +901,103 @@ h1, h2, h3, h4, h5, h6 {
     90% { width: 0; border-right-color: transparent; }
     100% { width: 0; }
 }
+
+/* ==========================================================================
+   AttendEase Premium Splash Screen & Intro Animation
+   ========================================================================== */
+:root {
+    --bg-navy: #0B132B;
+    --cyan-glow: #00F5FF;
+}
+
+html.splash-active,
+body.splash-active {
+    overflow: hidden !important;
+    height: 100% !important;
+}
+
+.splash-container {
+    background: radial-gradient(circle at center, rgba(0, 245, 255, 0.05) 0%, transparent 70%), var(--bg-navy);
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999999;
+    animation: page-blackout 0.8s ease-in 3.5s forwards;
+    pointer-events: auto;
+}
+
+@keyframes page-blackout {
+    0% { background-color: var(--bg-navy); opacity: 1; visibility: visible; }
+    99% { background-color: black; opacity: 0; visibility: visible; }
+    100% { background-color: black; opacity: 0; visibility: hidden; pointer-events: none; }
+}
+
+.cap-trace {
+    stroke-dasharray: 1000;
+    stroke-dashoffset: 1000;
+    animation: draw 1.2s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+}
+
+@keyframes draw {
+    to { stroke-dashoffset: 0; }
+}
+
+.badge-pop {
+    transform: scale(0);
+    opacity: 0;
+    filter: drop-shadow(0 0 15px rgba(0, 245, 255, 0.4));
+    animation: pop-in 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.8s forwards;
+}
+
+@keyframes pop-in {
+    to { transform: scale(1); opacity: 1; }
+}
+
+.text-reveal-attend {
+    clip-path: inset(0 100% 0 0);
+    animation: wipe-in 0.8s cubic-bezier(0.22, 1, 0.36, 1) 1.2s forwards;
+}
+
+.text-reveal-ease {
+    opacity: 0;
+    transform: translateX(-20px);
+    filter: blur(5px);
+    animation: glide-in 0.8s cubic-bezier(0.22, 1, 0.36, 1) 1.5s forwards;
+}
+
+@keyframes wipe-in {
+    to { clip-path: inset(0 0 0 0); }
+}
+
+@keyframes glide-in {
+    to { opacity: 1; transform: translateX(0); filter: blur(0); }
+}
+
+.flare {
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 200%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0) 40%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0) 60%, transparent 100%);
+    transform: skewX(-25deg);
+    animation: flare-move 0.7s ease-in-out 2.5s forwards;
+    pointer-events: none;
+}
+
+@keyframes flare-move {
+    0% { left: -150%; }
+    100% { left: 150%; }
+}
+
+.logo-exit {
+    animation: exit-sequence 0.8s cubic-bezier(0.65, 0, 0.35, 1) 3.2s forwards;
+}
+
+@keyframes exit-sequence {
+    0% { transform: scale(1); opacity: 1; filter: blur(0); }
+    100% { transform: scale(1.08); opacity: 0; filter: blur(15px); }
+}
+

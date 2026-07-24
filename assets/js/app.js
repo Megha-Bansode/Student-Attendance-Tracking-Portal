@@ -1,3 +1,41 @@
+// Splash Screen Handler
+(function() {
+    const path = window.location.pathname.toLowerCase();
+    const isIndex = path.endsWith('index.php') || path.endsWith('student-attendance-tracking-portal') || path.endsWith('student-attendance-tracking-portal/') || path.endsWith('/');
+    
+    if (isIndex) {
+        if (!sessionStorage.getItem('splash_shown')) {
+            document.documentElement.classList.add('splash-active');
+            document.addEventListener('DOMContentLoaded', () => {
+                document.body.classList.add('splash-active');
+                setTimeout(() => {
+                    const splash = document.getElementById('splash-root');
+                    if (splash) {
+                        splash.remove();
+                    }
+                    document.body.classList.remove('splash-active');
+                    document.documentElement.classList.remove('splash-active');
+                }, 4200);
+            });
+            sessionStorage.setItem('splash_shown', 'true');
+        } else {
+            document.addEventListener('DOMContentLoaded', () => {
+                const splash = document.getElementById('splash-root');
+                if (splash) {
+                    splash.remove();
+                }
+            });
+        }
+    } else {
+        document.addEventListener('DOMContentLoaded', () => {
+            const splash = document.getElementById('splash-root');
+            if (splash) {
+                splash.remove();
+            }
+        });
+    }
+})();
+
 document.addEventListener('DOMContentLoaded', () => {
     // Navbar scroll effect
     const navbar = document.querySelector('.navbar');

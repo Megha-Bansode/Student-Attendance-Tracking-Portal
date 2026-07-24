@@ -19,6 +19,31 @@ $total_val = $total_att_count->fetchColumn();
 
 $avg_attendance = ($total_val > 0) ? round(($present_val / $total_val) * 100, 1) : 0;
 ?>
+
+<!-- Splash Intro Screen -->
+<div class="splash-container" id="splash-root">
+    <div class="logo-exit d-flex align-items-center gap-4 z-50">
+        <!-- SVG Cap Logo -->
+        <div class="position-relative" style="width: 96px; height: 96px; display: flex; align-items: center; justify-content: center;">
+            <svg width="96" height="96" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 0 15px rgba(0,245,255,0.3));">
+                <path d="M10 40L50 20L90 40L50 60L10 40Z" stroke="#00F5FF" stroke-width="2.5" class="cap-trace"></path>
+                <path d="M25 47.5V70C25 70 35 78 50 78C65 78 75 70 75 70V47.5" stroke="#00F5FF" stroke-width="2.5" class="cap-trace"></path>
+                <g class="badge-pop">
+                    <circle cx="50" cy="45" r="16" fill="#0B132B" stroke="#00F5FF" stroke-width="1.5" style="filter: drop-shadow(0 0 8px rgba(0, 245, 255, 0.6));"></circle>
+                    <path d="M43 45L48 50L57 41" stroke="#00F5FF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></path>
+                </g>
+            </svg>
+        </div>
+        <!-- Branding Text -->
+        <div class="position-relative d-flex align-items-center" style="height: 96px; overflow: hidden; padding-right: 1.5rem;">
+            <h1 class="display-5 fw-extrabold m-0 text-white tracking-tight d-flex align-items-center" style="font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 3.5rem;">
+                <span class="text-reveal-attend text-white">Attend</span>
+                <span class="text-reveal-ease" style="background: linear-gradient(90deg, #00F5FF, #00D1FF); -webkit-background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 0 12px rgba(0, 245, 255, 0.3)); margin-left: 0.35rem;">Ease</span>
+            </h1>
+            <div class="flare"></div>
+        </div>
+    </div>
+</div>
 <!-- Home Section / Hero Banner -->
 <section id="home" class="hero-section">
     <!-- Interactive Background Canvas -->
