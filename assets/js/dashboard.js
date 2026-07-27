@@ -24,10 +24,10 @@ document.addEventListener('DOMContentLoaded', function() {
    1. Mobile Sidebar Toggle Logic
    ========================================================================== */
 function initMobileSidebar() {
-    const toggler = document.getElementById('facultySidebarToggler');
+    const togglers = document.querySelectorAll('.faculty-sidebar-toggler');
     const sidebar = document.getElementById('facultySidebar');
 
-    if (!toggler || !sidebar) return;
+    if (togglers.length === 0 || !sidebar) return;
 
     // Create backdrop overlay element if not exists
     let overlay = document.querySelector('.faculty-sidebar-overlay');
@@ -71,26 +71,28 @@ function initMobileSidebar() {
         document.documentElement.classList.remove('preload-collapsed');
     }, 50);
 
-    toggler.addEventListener('click', function(e) {
-        e.stopPropagation();
-        if (window.innerWidth >= 992) {
-            // Desktop toggle with persistence
-            sidebar.classList.toggle('collapsed');
-            const mainContent = document.querySelector('.faculty-main-content');
-            if (mainContent) mainContent.classList.toggle('expanded');
-            document.body.classList.toggle('sidebar-collapsed');
-            
-            // Save state
-            const isCollapsed = sidebar.classList.contains('collapsed');
-            localStorage.setItem('facultySidebarCollapsed', isCollapsed ? 'true' : 'false');
-        } else {
-            // Mobile offcanvas toggle
-            if (sidebar.classList.contains('show')) {
-                closeSidebar();
+    togglers.forEach(toggler => {
+        toggler.addEventListener('click', function(e) {
+            e.stopPropagation();
+            if (window.innerWidth >= 992) {
+                // Desktop toggle with persistence
+                sidebar.classList.toggle('collapsed');
+                const mainContent = document.querySelector('.faculty-main-content');
+                if (mainContent) mainContent.classList.toggle('expanded');
+                document.body.classList.toggle('sidebar-collapsed');
+                
+                // Save state
+                const isCollapsed = sidebar.classList.contains('collapsed');
+                localStorage.setItem('facultySidebarCollapsed', isCollapsed ? 'true' : 'false');
             } else {
-                openSidebar();
+                // Mobile offcanvas toggle
+                if (sidebar.classList.contains('show')) {
+                    closeSidebar();
+                } else {
+                    openSidebar();
+                }
             }
-        }
+        });
     });
 
     overlay.addEventListener('click', closeSidebar);

@@ -250,7 +250,6 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
                                             <?php 
                                             $delay = 100;
                                             foreach ($departments_list as $dept): 
-                                            ?>
                                                 // Faculty count
                                                 $stmt_f = $pdo->prepare("SELECT COUNT(*) FROM users WHERE role = 'faculty' AND (department = ? OR department = ?)");
                                                 $stmt_f->execute([$dept['code'], $dept['name']]);

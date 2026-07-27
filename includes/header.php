@@ -79,6 +79,9 @@ $contact_link = $is_index ? '#contact' : $base_path.'index.php#contact';
                             <span class="badge bg-success-subtle text-success d-none d-md-inline-flex align-items-center gap-1.5 px-3 py-1.5 rounded-pill" style="font-size:0.75rem;">
                                 <i class="bi bi-circle-fill" style="font-size:0.45rem;"></i> System Active
                             </span>
+                            <button class="btn btn-outline-light d-lg-none faculty-sidebar-toggler" type="button" aria-label="Toggle sidebar menu" style="border:1px solid rgba(255,255,255,0.1); background:rgba(255,255,255,0.05); padding: 0.35rem 0.6rem;">
+                                <i class="bi bi-list fs-5"></i>
+                            </button>
                         </div>
                     <?php else: ?>
                         <!-- Mobile Toggler -->

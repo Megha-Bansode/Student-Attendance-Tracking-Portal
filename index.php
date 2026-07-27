@@ -359,4 +359,20 @@ $avg_attendance = ($total_val > 0) ? round(($present_val / $total_val) * 100, 1)
     </div>
 </section>
 
+<!-- Feature Modal -->
+<div class="modal fade" id="featureModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" style="background-color: #0f172a; border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px;">
+            <div class="modal-header border-0 pb-0">
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body pt-0 text-center pb-5 px-4">
+                <div id="featureModalIcon" class="feature-icon-wrapper mx-auto mb-4" style="width: 70px; height: 70px; font-size: 2rem;"></div>
+                <h3 id="featureModalTitle" class="text-white mb-3"></h3>
+                <p id="featureModalDesc" class="text-muted" style="font-size: 1.1rem; line-height: 1.6;"></p>
+            </div>
+        </div>
+    </div>
+</div>
+
 <?php include 'includes/footer.php'; ?>

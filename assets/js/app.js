@@ -465,4 +465,30 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     initGravityCanvas();
 
+    // Feature Card Click Animation & Pop-up Logic
+    const featureCards = document.querySelectorAll('.feature-card');
+    const featureModalEl = document.getElementById('featureModal');
+    if (featureCards.length > 0 && featureModalEl) {
+        const featureModal = new bootstrap.Modal(featureModalEl);
+        
+        featureCards.forEach(card => {
+            card.addEventListener('click', function(e) {
+                // Get content from card
+                const iconHtml = this.querySelector('.feature-icon-wrapper').innerHTML;
+                const titleText = this.querySelector('.feature-title').textContent;
+                const descText = this.querySelector('.feature-desc').textContent;
+                
+                // Populate modal
+                document.getElementById('featureModalIcon').innerHTML = iconHtml;
+                document.getElementById('featureModalTitle').textContent = titleText;
+                document.getElementById('featureModalDesc').textContent = descText;
+                
+                // Show modal after a very short delay to let the CSS click scale animation play
+                setTimeout(() => {
+                    featureModal.show();
+                }, 120);
+            });
+        });
+    }
+
 });
