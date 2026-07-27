@@ -119,54 +119,64 @@ try {
         $stmtAlloc->execute([$meghaId, $probStatsId]);
         $stmtAlloc->execute([$faculty2Id, $dsId]);
 
-        // Generate Random Students
-        $first_names = ['Aarav', 'Vihaan', 'Aditya', 'Arjun', 'Sai', 'Rohan', 'Krishna', 'Ishaan', 'Shaurya', 'Atharv', 'Ananya', 'Diya', 'Avni', 'Kavya', 'Isha', 'Riya', 'Aisha', 'Zara', 'Neha', 'Pooja', 'Rahul', 'Amit', 'Vikram', 'Raj', 'Sanjay'];
-        $last_names = ['Sharma', 'Verma', 'Gupta', 'Kumar', 'Singh', 'Patel', 'Joshi', 'Mishra', 'Reddy', 'Rao', 'Das', 'Roy', 'Nair', 'Pillai', 'Menon', 'Bose', 'Sengupta', 'Chatterjee', 'Iyer', 'Murthy'];
-        
+        // Seed Students based on provided list
+        $students = [
+            ['zprn' => '125UAM1173', 'name' => 'MARKAD KRUSHNA HARICHANDRA', 'dept' => 'Ai & ML', 'class' => 'First Year', 'att' => 86],
+            ['zprn' => '125UAM1134', 'name' => 'MAURYA SHIVAM BRAJESH', 'dept' => 'Ai & ML', 'class' => 'First Year', 'att' => 72],
+            ['zprn' => '125UAM1123', 'name' => 'NAGARE SARTHAK PARMESHWAR', 'dept' => 'Ai & ML', 'class' => 'First Year', 'att' => 60],
+            ['zprn' => '125UAM1035', 'name' => 'NAGTILAK PRATIK SANTOSH', 'dept' => 'Ai & ML', 'class' => 'First Year', 'att' => 90],
+            ['zprn' => '125UAM1108', 'name' => 'NANDVATE AMEY JAIDEV', 'dept' => 'Ai & ML', 'class' => 'First Year', 'att' => 80],
+            ['zprn' => '125UAM1129', 'name' => 'NIKHIL SHASHIKANT GAIKWAD', 'dept' => 'Ai & ML', 'class' => 'First Year', 'att' => 70],
+            ['zprn' => '125UAM1058', 'name' => 'NIVANGUNE JAYJEET RAMDAS', 'dept' => 'Ai & ML', 'class' => 'First Year', 'att' => 83],
+            ['zprn' => '125UAM1127', 'name' => 'OM RAHUL PATIL', 'dept' => 'Ai & ML', 'class' => 'First Year', 'att' => 90],
+            ['zprn' => '125UAM1085', 'name' => 'PALKAR SURAJ SANJAY', 'dept' => 'Ai & ML', 'class' => 'First Year', 'att' => 76],
+            ['zprn' => '125UAM1064', 'name' => 'PALLAVI NARESH NAGPURE', 'dept' => 'Ai & ML', 'class' => 'First Year', 'att' => 85]
+        ];
+
         $stmtStudent = $pdo->prepare("INSERT INTO users (username, password, role, name, zprn, class, department, division) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-        
-        $classes = ['First Year' => 'A', 'Second Year' => 'A'];
         $student_ids = [];
-        $zprn_counter = 1000;
         
-        foreach ($classes as $class_name => $division) {
-            for ($i = 0; $i < 30; $i++) { // 30 students per class
-                $fn = $first_names[array_rand($first_names)];
-                $ln = $last_names[array_rand($last_names)];
-                $name = $fn . ' ' . $ln;
-                $zprn = '125UAM' . $zprn_counter++;
-                $username = $zprn;
-                
-                // Exclude Aarav Mehta
-                if (strtolower($name) === 'aarav mehta' || strtolower($name) === 'arav mehta') {
-                    $name = 'Tanay Shelar';
-                }
-                
-                $stmtStudent->execute([$username, $username, 'student', $name, $zprn, $class_name, 'CSE', $division]);
-                $student_ids[] = ['id' => $pdo->lastInsertId(), 'class' => $class_name, 'division' => $division];
-            }
+        foreach ($students as $s) {
+            $username = $s['zprn'];
+            $stmtStudent->execute([$username, $username, 'student', $s['name'], $s['zprn'], $s['class'], $s['dept'], 'A']);
+            $id = $pdo->lastInsertId();
+            
+            // Create exactly 100 attendance records with the desired distribution
+            $statuses = array_merge(
+                array_fill(0, $s['att'], 'Present'),
+                array_fill(0, 100 - $s['att'], 'Absent')
+            );
+            shuffle($statuses);
+            
+            $student_ids[] = [
+                'id' => $id,
+                'class' => $s['class'],
+                'statuses' => $statuses
+            ];
         }
 
-        // Generate Random Attendance for the last 7 days
+        // Generate Attendance exactly matching % (out of 100 lectures)
         $stmtAttendance = $pdo->prepare("INSERT INTO attendance (student_id, subject_id, date, status, marked_by) VALUES (?, ?, ?, ?, ?)");
         
-        for ($i = 6; $i >= 0; $i--) {
-            $date = date('Y-m-d', strtotime("-$i days"));
-            // Skip Sundays
-            if (date('N', strtotime($date)) == 7) continue;
-
+        $total_lectures = 100;
+        // Generate 100 valid dates (skip Sundays)
+        $dates = [];
+        $days_back = 0;
+        while (count($dates) < $total_lectures) {
+            $date = date('Y-m-d', strtotime("-$days_back days"));
+            if (date('N', strtotime($date)) != 7) {
+                $dates[] = $date;
+            }
+            $days_back++;
+        }
+        $dates = array_reverse($dates); // chronological order
+        
+        for ($i = 0; $i < $total_lectures; $i++) {
+            $date = $dates[$i];
             foreach ($student_ids as $stu) {
-                // Determine subject and faculty based on class
-                if ($stu['class'] == 'First Year') {
-                    $sub_id = $probStatsId;
-                    $fac_id = $meghaId;
-                } else {
-                    $sub_id = $dsId;
-                    $fac_id = $faculty2Id;
-                }
-                
-                // 90% chance of being present
-                $status = (rand(1, 100) <= 90) ? 'Present' : 'Absent';
+                $sub_id = $probStatsId;
+                $fac_id = $meghaId;
+                $status = $stu['statuses'][$i];
                 $stmtAttendance->execute([$stu['id'], $sub_id, $date, $status, $fac_id]);
             }
         }

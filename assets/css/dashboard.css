@@ -935,3 +935,138 @@ textarea::placeholder {
     border-color: rgba(248, 113, 113, 0.4) !important;
     box-shadow: 0 0 10px rgba(248, 113, 113, 0.2);
 }
+
+/* ==========================================================================
+   11. Premium Animations & Microinteractions
+   ========================================================================== */
+.animate-fade-up {
+    opacity: 0;
+    transform: translateY(15px);
+    transition: opacity 350ms ease-out, transform 350ms ease-out;
+}
+.animate-fade-up.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Stagger Delays */
+.delay-100 { transition-delay: 100ms; }
+.delay-200 { transition-delay: 200ms; }
+.delay-300 { transition-delay: 300ms; }
+.delay-400 { transition-delay: 400ms; }
+.delay-500 { transition-delay: 500ms; }
+
+/* Enhanced Card Hover */
+.faculty-card {
+    transition: transform 300ms ease-out, box-shadow 300ms ease-out, border-color 300ms ease-out;
+}
+.faculty-card:hover {
+    transform: translateY(-3px) scale(1.01);
+}
+
+/* Enhanced Buttons */
+.btn {
+    transition: transform 200ms ease-out, background-color 200ms ease-out, box-shadow 200ms ease-out, border-color 200ms ease-out !important;
+}
+.btn:hover {
+    transform: translateY(-2px);
+}
+.btn:active {
+    transform: translateY(1px);
+}
+
+/* Button Loading State */
+.btn.is-loading {
+    color: transparent !important;
+    pointer-events: none;
+    position: relative;
+}
+.btn.is-loading::after {
+    content: '';
+    position: absolute;
+    width: 1rem;
+    height: 1rem;
+    top: calc(50% - 0.5rem);
+    left: calc(50% - 0.5rem);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: #fff;
+    animation: btn-spin 0.6s linear infinite;
+}
+@keyframes btn-spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Modal Animations */
+.modal.fade .modal-dialog {
+    transform: scale(0.95) translateY(-20px);
+    transition: transform 300ms ease-out;
+}
+.modal.show .modal-dialog {
+    transform: scale(1) translateY(0);
+}
+.modal-backdrop.show {
+    backdrop-filter: blur(8px);
+    background-color: rgba(15, 23, 42, 0.8);
+    opacity: 1;
+}
+
+/* ==========================================================================
+   12. AI Product Enhancements
+   ========================================================================== */
+.ai-insight-card {
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.12) 0%, rgba(139, 92, 246, 0.08) 100%);
+    border: 1px solid rgba(139, 92, 246, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+.ai-insight-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%;
+    width: 50%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(139, 92, 246, 0.15), transparent);
+    animation: ai-scan 4s infinite linear;
+}
+@keyframes ai-scan {
+    100% { left: 200%; }
+}
+
+.ai-badge {
+    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    color: white;
+    font-size: 0.7rem;
+    padding: 0.2rem 0.6rem;
+    border-radius: 12px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    box-shadow: 0 0 10px rgba(139, 92, 246, 0.4);
+}
+
+.ai-pulse {
+    width: 6px;
+    height: 6px;
+    background-color: #a78bfa;
+    border-radius: 50%;
+    box-shadow: 0 0 0 0 rgba(167, 139, 250, 0.7);
+    animation: pulse-ring 2s infinite;
+}
+@keyframes pulse-ring {
+    70% { box-shadow: 0 0 0 6px rgba(167, 139, 250, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(167, 139, 250, 0); }
+}
+
+.ai-analyzing-text {
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.85rem;
+    color: #a78bfa;
+    animation: pulse-opacity 2s infinite ease-in-out;
+}
+@keyframes pulse-opacity {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; }
+}
+

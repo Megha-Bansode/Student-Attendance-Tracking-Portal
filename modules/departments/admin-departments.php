@@ -110,17 +110,7 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
 }
 </script>
 
-<style>
-/* Creative Animation */
-@keyframes slideInUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-.animated-row {
-    animation: slideInUp 0.5s ease forwards;
-    opacity: 0;
-}
-</style>
+
 <div class="faculty-portal">
     <div class="faculty-portal-wrapper">
 
@@ -145,7 +135,7 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
 
                 <!-- Stat Cards -->
                 <div class="row g-3 mb-4">
-                    <div class="col-xl-3 col-sm-6">
+                    <div class="col-xl-3 col-sm-6 animate-fade-up delay-100">
                         <div class="faculty-stat-card">
                             <div class="faculty-stat-icon icon-cyan"><i class="bi bi-building"></i></div>
                             <div>
@@ -154,7 +144,7 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
                             </div>
                         </div>
                     </div>
-                    <div class="col-xl-3 col-sm-6">
+                    <div class="col-xl-3 col-sm-6 animate-fade-up delay-200">
                         <div class="faculty-stat-card">
                             <div class="faculty-stat-icon icon-purple"><i class="bi bi-person-badge"></i></div>
                             <div>
@@ -163,7 +153,7 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
                             </div>
                         </div>
                     </div>
-                    <div class="col-xl-3 col-sm-6">
+                    <div class="col-xl-3 col-sm-6 animate-fade-up delay-300">
                         <div class="faculty-stat-card">
                             <div class="faculty-stat-icon icon-emerald"><i class="bi bi-people-fill"></i></div>
                             <div>
@@ -172,7 +162,7 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
                             </div>
                         </div>
                     </div>
-                    <div class="col-xl-3 col-sm-6">
+                    <div class="col-xl-3 col-sm-6 animate-fade-up delay-400">
                         <div class="faculty-stat-card">
                             <div class="faculty-stat-icon icon-amber"><i class="bi bi-check-circle-fill"></i></div>
                             <div>
@@ -184,7 +174,7 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
                 </div>
 
                 <!-- Department Table Card -->
-                <div class="faculty-card mb-0">
+                <div class="faculty-card mb-0 animate-fade-up delay-500">
                     <div class="faculty-card-header d-flex flex-wrap align-items-center justify-content-between gap-3">
                         <div>
                             <h3 class="faculty-card-title"><i class="bi bi-building" style="color:#60a5fa;"></i> Institution Departments</h3>
@@ -222,12 +212,9 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
                                     </tr>
                                 <?php else: ?>
                                     <?php 
-                                    $delay = 0;
+                                    $delay = 100;
                                     foreach ($departments as $dept): 
                                         $dept_code = $dept['code'];
-                                        $delay += 0.1;
-
-                                        
                                         // Fetch dynamic counts
                                         $stmt_f = $pdo->prepare("SELECT COUNT(*) FROM users WHERE role = 'faculty' AND (department = ? OR department = ?)");
                                         $stmt_f->execute([$dept_code, $dept['name']]);
@@ -249,7 +236,7 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
                                         
                                         $status_class = ($dept['status'] === 'Active') ? 'badge-success-subtle' : 'badge-danger-subtle';
                                      ?>
-                                    <tr class="animated-row" style="animation-delay: <?php echo $delay; ?>s;">
+                                    <tr class="animate-fade-up delay-<?php echo $delay; ?>">
                                         <td><span class="badge <?php echo $badge_class; ?> font-mono fw-bold px-2.5 py-1"><?php echo htmlspecialchars($dept['code']); ?></span></td>
                                         <td><div class="fw-semibold text-white"><?php echo htmlspecialchars($dept['name']); ?></div></td>
                                         <td><?php echo htmlspecialchars($dept['hod']); ?></td>
@@ -265,7 +252,10 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
                                             </div>
                                         </td>
                                     </tr>
-                                    <?php endforeach; ?>
+                                    <?php 
+                                        $delay += 50;
+                                        if ($delay > 500) $delay = 500;
+                                    endforeach; ?>
                                 <?php endif; ?>
                             </tbody>
                         </table>

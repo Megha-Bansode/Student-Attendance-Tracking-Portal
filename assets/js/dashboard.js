@@ -432,3 +432,38 @@ function showFacultyToast(message, type = 'info') {
         setTimeout(() => toast.remove(), 300);
     }, 3500);
 }
+
+/* ==========================================================================
+   5. Premium AI & Entrance Animations (Observer)
+   ========================================================================== */
+document.addEventListener('DOMContentLoaded', function() {
+    const observerOptions = {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.1
+    };
+    const observer = new IntersectionObserver((entries, obs) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('is-visible');
+                obs.unobserve(entry.target);
+            }
+        });
+    }, observerOptions);
+
+    const animatedElements = document.querySelectorAll('.animate-fade-up');
+    animatedElements.forEach(el => observer.observe(el));
+});
+
+/* Bind loading states to form submit buttons */
+document.addEventListener('submit', function(e) {
+    const form = e.target;
+    if (form.tagName === 'FORM') {
+        const submitBtn = form.querySelector('button[type="submit"]');
+        if (submitBtn) {
+            submitBtn.classList.add('is-loading');
+            // Timeout to reset state if submission fails or halts
+            setTimeout(() => submitBtn.classList.remove('is-loading'), 4000);
+        }
+    }
+});

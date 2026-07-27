@@ -117,7 +117,7 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
 
                 <!-- Stat Cards -->
                 <div class="row g-3 mb-4">
-                    <div class="col-xl-3 col-sm-6">
+                    <div class="col-xl-3 col-sm-6 animate-fade-up delay-100">
                         <div class="faculty-stat-card">
                             <div class="faculty-stat-icon icon-cyan"><i class="bi bi-people-fill"></i></div>
                             <div>
@@ -126,7 +126,7 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
                             </div>
                         </div>
                     </div>
-                    <div class="col-xl-3 col-sm-6">
+                    <div class="col-xl-3 col-sm-6 animate-fade-up delay-200">
                         <div class="faculty-stat-card">
                             <div class="faculty-stat-icon icon-emerald"><i class="bi bi-person-check-fill"></i></div>
                             <div>
@@ -135,7 +135,7 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
                             </div>
                         </div>
                     </div>
-                    <div class="col-xl-3 col-sm-6">
+                    <div class="col-xl-3 col-sm-6 animate-fade-up delay-300">
                         <div class="faculty-stat-card">
                             <div class="faculty-stat-icon icon-purple"><i class="bi bi-graph-up"></i></div>
                             <div>
@@ -144,7 +144,7 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
                             </div>
                         </div>
                     </div>
-                    <div class="col-xl-3 col-sm-6">
+                    <div class="col-xl-3 col-sm-6 animate-fade-up delay-400">
                         <div class="faculty-stat-card">
                             <div class="faculty-stat-icon icon-amber"><i class="bi bi-exclamation-triangle-fill"></i></div>
                             <div>
@@ -156,7 +156,7 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
                 </div>
 
                 <!-- Student Directory Table Card -->
-                <div class="faculty-card mb-0">
+                <div class="faculty-card mb-0 animate-fade-up delay-500">
                     <div class="faculty-card-header d-flex flex-wrap align-items-center justify-content-between gap-3">
                         <div>
                             <h3 class="faculty-card-title"><i class="bi bi-mortarboard-fill" style="color:#60a5fa;"></i> Student Directory &amp; Attendance Records</h3>
@@ -189,12 +189,14 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php foreach ($students as $student): 
+                                <?php 
+                                $stu_delay = 100;
+                                foreach ($students as $student): 
                                     $s_id = $student['id'];
                                     $stats = $student_stats[$s_id];
                                     $pb_color = $stats['percent'] >= 75 ? 'bg-success' : 'bg-danger';
                                 ?>
-                                <tr>
+                                <tr class="animate-fade-up delay-<?php echo $stu_delay; ?>">
                                     <td><span class="badge bg-primary-subtle text-primary font-mono fw-bold px-2.5 py-1"><?php echo htmlspecialchars($student['zprn']); ?></span></td>
                                     <td>
                                         <div class="fw-semibold text-white"><?php echo htmlspecialchars($student['name']); ?></div>
@@ -219,7 +221,10 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
                                         </div>
                                     </td>
                                 </tr>
-                                <?php endforeach; ?>
+                                <?php 
+                                    $stu_delay += 50;
+                                    if ($stu_delay > 500) $stu_delay = 500;
+                                endforeach; ?>
                             </tbody>
                         </table>
                     </div>

@@ -25,20 +25,27 @@ $avg_attendance = ($total_val > 0) ? round(($present_val / $total_val) * 100, 1)
     <div class="logo-exit d-flex align-items-center gap-4 z-50">
         <!-- SVG Cap Logo -->
         <div class="position-relative" style="width: 96px; height: 96px; display: flex; align-items: center; justify-content: center;">
-            <svg width="96" height="96" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 0 15px rgba(0,245,255,0.3));">
-                <path d="M10 40L50 20L90 40L50 60L10 40Z" stroke="#00F5FF" stroke-width="2.5" class="cap-trace"></path>
-                <path d="M25 47.5V70C25 70 35 78 50 78C65 78 75 70 75 70V47.5" stroke="#00F5FF" stroke-width="2.5" class="cap-trace"></path>
+            <svg width="96" height="96" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 0 15px rgba(56, 189, 248, 0.3));">
+                <defs>
+                    <linearGradient id="splash-logo-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#818cf8" />
+                        <stop offset="100%" stop-color="#38bdf8" />
+                    </linearGradient>
+                </defs>
+                <path d="M12 3L2 8l10 5 10-5-10-5z" stroke="url(#splash-logo-gradient)" stroke-width="1.2" class="cap-trace" stroke-linejoin="round" pathLength="1000"></path>
+                <path d="M6 10v4c0 3 3 5 6 5s6-2 6-5v-4" stroke="url(#splash-logo-gradient)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="cap-trace" pathLength="1000"></path>
+                <path d="M18 9v5.5c0 .8.7 1.5 1.5 1.5s1.5-.7 1.5-1.5v-3" stroke="url(#splash-logo-gradient)" stroke-width="1.5" stroke-linecap="round" class="cap-trace" pathLength="1000"></path>
                 <g class="badge-pop">
-                    <circle cx="50" cy="45" r="16" fill="#0B132B" stroke="#00F5FF" stroke-width="1.5" style="filter: drop-shadow(0 0 8px rgba(0, 245, 255, 0.6));"></circle>
-                    <path d="M43 45L48 50L57 41" stroke="#00F5FF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></path>
+                    <circle cx="12" cy="11.5" r="4.5" fill="#0f172a" stroke="url(#splash-logo-gradient)" stroke-width="1.5" style="filter: drop-shadow(0 0 8px rgba(56, 189, 248, 0.6));"></circle>
+                    <path d="M10.2 11.5l1.2 1.2 2.4-2.4" stroke="#38bdf8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
                 </g>
             </svg>
         </div>
         <!-- Branding Text -->
         <div class="position-relative d-flex align-items-center" style="height: 96px; overflow: hidden; padding-right: 1.5rem;">
-            <h1 class="display-5 fw-extrabold m-0 text-white tracking-tight d-flex align-items-center" style="font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 3.5rem;">
-                <span class="text-reveal-attend text-white">Attend</span>
-                <span class="text-reveal-ease" style="background: linear-gradient(90deg, #00F5FF, #00D1FF); -webkit-background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 0 12px rgba(0, 245, 255, 0.3)); margin-left: 0.35rem;">Ease</span>
+            <h1 class="display-5 fw-bold m-0 tracking-tight d-flex align-items-center font-outfit" style="font-size: 3.5rem; letter-spacing: -1px; color: var(--text-white) !important;">
+                <span class="text-reveal-attend">Attend</span>
+                <span class="text-reveal-ease brand-gradient" style="margin-left: 0.15rem; filter: drop-shadow(0 0 12px rgba(99, 102, 241, 0.3));">Ease</span>
             </h1>
             <div class="flare"></div>
         </div>
