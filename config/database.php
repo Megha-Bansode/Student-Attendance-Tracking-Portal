@@ -73,15 +73,6 @@ try {
         submitted_at TEXT
     )");
 
-    // Seed condonations if empty
-    $stmtCondonations = $pdo->query("SELECT COUNT(*) FROM condonations");
-    if ($stmtCondonations->fetchColumn() == 0) {
-        $stmtInsCond = $pdo->prepare("INSERT INTO condonations (student_id, type, date, reason, document, status, submitted_at) VALUES (?, ?, ?, ?, ?, ?, ?)");
-        // Seed for student Shivam Maurya (id 12)
-        $stmtInsCond->execute([12, 'Medical', '2026-07-10', 'Fever recovery leave.', 'medical_certificate.pdf', 'Approved', '2026-07-11 09:00:00']);
-        $stmtInsCond->execute([12, 'Sports', '2026-07-18', 'Represented college in Inter-College Cricket tournament.', 'sports_invitation.pdf', 'Pending', '2026-07-19 14:30:00']);
-        $stmtInsCond->execute([12, 'Duty', '2026-07-15', 'Attended AI & ML national seminar.', 'seminar_certificate.pdf', 'Pending', '2026-07-16 10:15:00']);
-    }
 
 
 
@@ -187,6 +178,15 @@ try {
         foreach ($days as $day) {
             $stmtSchedule->execute([$probStatsId, 'A', 'First Year', $day, '09:00 AM', '10:00 AM']);
             $stmtSchedule->execute([$dsId, 'A', 'Second Year', $day, '10:15 AM', '11:15 AM']);
+        }
+
+        // Seed condonations for each student
+        $stmtInsCond = $pdo->prepare("INSERT INTO condonations (student_id, type, date, reason, document, status, submitted_at) VALUES (?, ?, ?, ?, ?, ?, ?)");
+        foreach ($student_ids as $stu) {
+            $student_id = $stu['id'];
+            $stmtInsCond->execute([$student_id, 'Medical', date('Y-m-d', strtotime('-5 days')), 'Fever recovery leave.', 'medical_certificate.pdf', 'Approved', date('Y-m-d H:i:s', strtotime('-6 days'))]);
+            $stmtInsCond->execute([$student_id, 'Sports', date('Y-m-d', strtotime('-12 days')), 'Represented college in tournament.', 'sports_invitation.pdf', 'Pending', date('Y-m-d H:i:s', strtotime('-14 days'))]);
+            $stmtInsCond->execute([$student_id, 'Duty', date('Y-m-d', strtotime('-2 days')), 'Attended seminar.', 'seminar_certificate.pdf', 'Pending', date('Y-m-d H:i:s', strtotime('-3 days'))]);
         }
     }
 

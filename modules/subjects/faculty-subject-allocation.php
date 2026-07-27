@@ -175,28 +175,27 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
                                     </div>
                                     <h3 class="h5 fw-bold mb-1" style="color:#f1f5f9;font-family:'Outfit',sans-serif;"><?php echo htmlspecialchars($subject['name']); ?></h3>
                                     <p class="small mb-3" style="color:#64748b;"><i class="bi bi-building me-1"></i><?php echo htmlspecialchars($subject['department']); ?></p>
-                                    <hr style="border-color:rgba(255,255,255,.06);margin:0.75rem 0;">
                                     <div class="row g-2 mb-3">
                                         <div class="col-6">
-                                            <div class="p-2 rounded" style="background:rgba(15,23,42,.6);border:1px solid rgba(255,255,255,.06);">
+                                            <div class="p-2 rounded">
                                                 <small style="color:#64748b;display:block;">Semester & Div</small>
                                                 <span class="fw-semibold" style="color:#e2e8f0;">Sem <?php echo htmlspecialchars($subject['semester']); ?> · Div <?php echo htmlspecialchars($subject['division']); ?></span>
                                             </div>
                                         </div>
                                         <div class="col-6">
-                                            <div class="p-2 rounded" style="background:rgba(15,23,42,.6);border:1px solid rgba(255,255,255,.06);">
+                                            <div class="p-2 rounded">
                                                 <small style="color:#64748b;display:block;">Students</small>
                                                 <span class="fw-semibold" style="color:#e2e8f0;"><i class="bi bi-people me-1" style="color:#38bdf8;"></i><?php echo htmlspecialchars($subject['students_count']); ?></span>
                                             </div>
                                         </div>
                                         <div class="col-6">
-                                            <div class="p-2 rounded" style="background:rgba(15,23,42,.6);border:1px solid rgba(255,255,255,.06);">
+                                            <div class="p-2 rounded">
                                                 <small style="color:#64748b;display:block;">Weekly Hours</small>
                                                 <span class="fw-semibold" style="color:#e2e8f0;"><i class="bi bi-clock me-1" style="color:#fbbf24;"></i><?php echo htmlspecialchars($subject['weekly_hours']); ?> hrs/wk</span>
                                             </div>
                                         </div>
                                         <div class="col-6">
-                                            <div class="p-2 rounded" style="background:rgba(15,23,42,.6);border:1px solid rgba(255,255,255,.06);">
+                                            <div class="p-2 rounded">
                                                 <small style="color:#64748b;display:block;">Academic Year</small>
                                                 <span class="fw-semibold" style="color:#e2e8f0;"><?php echo htmlspecialchars($subject['academic_year']); ?></span>
                                             </div>

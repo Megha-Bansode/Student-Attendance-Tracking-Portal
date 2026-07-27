@@ -136,9 +136,6 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
                         <i class="bi bi-calendar3"></i>
                         <span><?php echo date('D, M d, Y'); ?></span>
                     </div>
-                    <a href="<?php echo $base_path; ?>modules/attendance/faculty-mark-attendance.php" class="btn btn-sm btn-premium d-none d-sm-inline-flex" style="padding:.4rem 1rem;font-size:.82rem;">
-                        <i class="bi bi-plus-lg"></i> Mark Attendance
-                    </a>
                 </div>
             </div>
 
@@ -158,7 +155,8 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
                                 You have <strong style="color:#93c5fd;"><?php echo ($todays_total_count - $todays_completed_count); ?> class remaining</strong> to mark attendance for today.
                             </p>
                         </div>
-                        <div class="col-lg-4 text-lg-end">
+                        <div class="col-lg-4 text-lg-end d-flex flex-wrap justify-content-lg-end gap-2">
+                            <a href="<?php echo $base_path; ?>modules/attendance/faculty-daily-report.php" class="btn btn-outline-light rounded-pill px-3" style="font-size:.85rem;"><i class="bi bi-file-earmark-pdf me-1"></i> Generate Report</a>
                             <a href="<?php echo $base_path; ?>modules/attendance/faculty-mark-attendance.php" class="btn btn-premium"><i class="bi bi-check2-square"></i> Mark Attendance</a>
                         </div>
                     </div>
@@ -240,13 +238,6 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
                                 <h3 class="faculty-card-title"><i class="bi bi-lightning-charge-fill" style="color:#fbbf24;"></i> Quick Actions</h3>
                             </div>
                             <div class="d-flex flex-column gap-3 p-3">
-                                <a href="<?php echo $base_path; ?>modules/attendance/faculty-mark-attendance.php" class="text-decoration-none p-3 rounded-3 d-flex align-items-center justify-content-between" style="background:rgba(37,99,235,.12);border:1px solid rgba(96,165,250,.25);">
-                                    <div class="d-flex align-items-center gap-3">
-                                        <div class="rounded-circle d-flex align-items-center justify-content-center flex-shrink-0" style="width:38px;height:38px;background:linear-gradient(135deg,#2563eb,#6366f1);"><i class="bi bi-check2-circle text-white"></i></div>
-                                        <div><h6 class="mb-0 fw-semibold" style="color:#f1f5f9;font-family:'Outfit',sans-serif;">Mark Attendance</h6><small style="color:#64748b;">Record class attendance</small></div>
-                                    </div>
-                                    <i class="bi bi-chevron-right" style="color:#64748b;"></i>
-                                </a>
                                 <a href="<?php echo $base_path; ?>modules/attendance/faculty-edit-attendance.php" class="text-decoration-none p-3 rounded-3 d-flex align-items-center justify-content-between" style="background:rgba(14,165,233,.12);border:1px solid rgba(56,189,248,.25);">
                                     <div class="d-flex align-items-center gap-3">
                                         <div class="rounded-circle d-flex align-items-center justify-content-center flex-shrink-0" style="width:38px;height:38px;background:linear-gradient(135deg,#0ea5e9,#38bdf8);"><i class="bi bi-pencil-square text-white"></i></div>
@@ -263,7 +254,7 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
                                 <h3 class="faculty-card-title"><i class="bi bi-bell-fill" style="color:#f59e0b;"></i> Condonation Alerts</h3>
                                 <p class="faculty-card-subtitle">Pending HOD/Admin approvals</p>
                             </div>
-                            <div class="p-3">
+                            <div class="p-3" style="max-height: 260px; overflow-y: auto;" id="condonationAlertsScroll">
                                 <?php if (empty($pending_condonations)): ?>
                                     <div class="text-center py-3 text-secondary" style="font-size: 0.82rem;">
                                         No pending student condonation applications.
@@ -285,6 +276,11 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
                                     <?php endforeach; ?>
                                 <?php endif; ?>
                             </div>
+                            <?php if (!empty($pending_condonations)): ?>
+                            <div class="px-3 pb-3 pt-2 text-center" style="border-top: 1px solid rgba(255,255,255,0.05);">
+                                <a href="javascript:void(0)" onclick="document.getElementById('condonationAlertsScroll').scrollBy({top: 100, behavior: 'smooth'})" class="text-info text-decoration-none fw-semibold" style="font-size: 0.8rem; transition: all 0.2s;">See More <i class="bi bi-chevron-down ms-1"></i></a>
+                            </div>
+                            <?php endif; ?>
                         </div>
                     </div>
                 </div>
@@ -402,6 +398,37 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
         </div>
     </div>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.has('success') && urlParams.get('success') === '1') {
+        Swal.fire({
+            toast: true,
+            position: 'top-end',
+            icon: 'success',
+            title: 'Attendance marked successfully!',
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true
+        });
+        window.history.replaceState(null, '', window.location.pathname);
+    }
+    if (urlParams.has('updated') && urlParams.get('updated') === '1') {
+        Swal.fire({
+            toast: true,
+            position: 'top-end',
+            icon: 'success',
+            title: 'Attendance updated successfully!',
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true
+        });
+        window.history.replaceState(null, '', window.location.pathname);
+    }
+});
+</script>
 
 <script src="<?php echo $base_path; ?>assets/js/dashboard.js"></script>
 <?php include '../../includes/footer.php'; ?>

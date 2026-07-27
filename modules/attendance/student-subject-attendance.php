@@ -2,6 +2,35 @@
 /**
  * AttendEase - Student Subject-wise Attendance Breakdown
  */
+require_once '../../config/database.php';
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+if (!isset($_SESSION['role'])) {
+    header("Location: ../authentication/login.php");
+    exit;
+}
+
+$student_id = $_SESSION['user_id'];
+$student_name = isset($_SESSION['name']) ? $_SESSION['name'] : '';
+$student_zprn = isset($_SESSION['zprn']) ? $_SESSION['zprn'] : '';
+$student_class = isset($_SESSION['class']) ? $_SESSION['class'] : '';
+$student_division = isset($_SESSION['division']) ? $_SESSION['division'] : '';
+
+if ($_SESSION['role'] !== 'student') {
+    // Fetch first student in database to populate dashboard for preview
+    $stmt_s = $pdo->query("SELECT * FROM users WHERE role = 'student' LIMIT 1");
+    $first_student = $stmt_s->fetch();
+    if ($first_student) {
+        $student_id = $first_student['id'];
+        $student_name = $first_student['name'];
+        $student_zprn = $first_student['zprn'];
+        $student_class = $first_student['class'];
+        $student_division = $first_student['division'];
+    }
+}
+
 $page_title  = 'Subject-wise Attendance';
 include '../../includes/header.php';
 
@@ -122,7 +151,14 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
                                                 <h4 class="h6 fw-bold text-white mb-1" style="font-family: 'Outfit', sans-serif;"><?php echo $sub['name']; ?></h4>
                                                 <small style="color: #94a3b8;"><i class="bi bi-person me-1"></i><?php echo $sub['instructor']; ?></small>
                                             </div>
-                                            <span class="faculty-badge <?php echo $badge_class; ?>" style="font-size: 0.85rem; font-weight: 700;"><?php echo $sub['percentage']; ?>%</span>
+                                            <?php
+                                                $pie_color = $is_low ? '#ef4444' : ($sub['percentage'] >= 85 ? '#10b981' : '#f59e0b');
+                                            ?>
+                                            <div style="width: 54px; height: 54px; border-radius: 50%; background: conic-gradient(<?php echo $pie_color; ?> <?php echo $sub['percentage']; ?>%, rgba(255,255,255,0.08) 0); display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: inset 0 2px 4px rgba(0,0,0,0.3);">
+                                                <div style="width: 44px; height: 44px; border-radius: 50%; background-color: #1e293b; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 4px rgba(0,0,0,0.2);">
+                                                    <span style="font-size: 0.75rem; font-weight: 700; color: #f8fafc;"><?php echo round($sub['percentage']); ?>%</span>
+                                                </div>
+                                            </div>
                                         </div>
 
                                         <div class="mt-auto">

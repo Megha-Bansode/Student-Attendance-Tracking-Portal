@@ -2,6 +2,66 @@
 /**
  * AttendEase - Student Daily Attendance Log
  */
+require_once '../../config/database.php';
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+if (!isset($_SESSION['role'])) {
+    header("Location: ../authentication/login.php");
+    exit;
+}
+
+$student_id = $_SESSION['user_id'];
+$student_name = isset($_SESSION['name']) ? $_SESSION['name'] : '';
+$student_zprn = isset($_SESSION['zprn']) ? $_SESSION['zprn'] : '';
+$student_class = isset($_SESSION['class']) ? $_SESSION['class'] : '';
+$student_division = isset($_SESSION['division']) ? $_SESSION['division'] : '';
+
+if ($_SESSION['role'] !== 'student') {
+    // Fetch first student in database to populate dashboard for preview
+    $stmt_s = $pdo->query("SELECT * FROM users WHERE role = 'student' LIMIT 1");
+    $first_student = $stmt_s->fetch();
+    if ($first_student) {
+        $student_id = $first_student['id'];
+        $student_name = $first_student['name'];
+        $student_zprn = $first_student['zprn'];
+        $student_class = $first_student['class'];
+        $student_division = $first_student['division'];
+    }
+}
+
+$filter_date = isset($_GET['date']) ? $_GET['date'] : date('Y-m-d');
+$filter_status = isset($_GET['status']) ? $_GET['status'] : 'all';
+
+// Fetch schedules for the student's class and division for the given day of the week
+$day_of_week = date('l', strtotime($filter_date)); 
+
+$query = "
+    SELECT s.*, subj.name AS subject_name, u.name AS faculty_name
+    FROM schedules s
+    JOIN subjects subj ON s.subject_id = subj.id
+    LEFT JOIN faculty_subjects fs ON subj.id = fs.subject_id
+    LEFT JOIN users u ON fs.faculty_id = u.id
+    WHERE s.division = :division AND s.class = :class AND s.day_of_week = :day
+    ORDER BY s.start_time ASC
+";
+$stmt = $pdo->prepare($query);
+$stmt->execute([
+    'division' => $student_division,
+    'class' => $student_class,
+    'day' => $day_of_week
+]);
+$schedules = $stmt->fetchAll();
+
+// Fetch attendance records for this date
+$stmt_att = $pdo->prepare("SELECT subject_id, status FROM attendance WHERE student_id = ? AND date = ?");
+$stmt_att->execute([$student_id, $filter_date]);
+$attendance_records = [];
+while ($row = $stmt_att->fetch()) {
+    $attendance_records[$row['subject_id']] = $row['status'];
+}
+
 $page_title  = 'Daily Attendance';
 include '../../includes/header.php';
 ?>
@@ -57,9 +117,9 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
                             <div class="col-md-3">
                                 <label for="statusFilter" class="form-label" style="color: #cbd5e1; font-weight: 500; font-size: 0.85rem;">Status</label>
                                 <select class="form-select" id="statusFilter" name="status" style="background: rgba(15,23,42,0.4); border: 1px solid rgba(255,255,255,0.08); color: #f1f5f9;">
-                                    <option value="all">All Statuses</option>
-                                    <option value="present">Present</option>
-                                    <option value="absent">Absent</option>
+                                    <option value="all" <?php echo $filter_status == 'all' ? 'selected' : ''; ?>>All Statuses</option>
+                                    <option value="present" <?php echo $filter_status == 'present' ? 'selected' : ''; ?>>Present</option>
+                                    <option value="absent" <?php echo $filter_status == 'absent' ? 'selected' : ''; ?>>Absent</option>
                                 </select>
                             </div>
                             <div class="col-md-3">
@@ -89,41 +149,40 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td><div class="fw-semibold text-white">09:00 – 10:00 AM</div><small style="color:#64748b;">Slot 1</small></td>
-                                    <td><span class="faculty-badge badge-blue-subtle">CS501</span></td>
-                                    <td><span style="color:#f1f5f9;font-weight:600;">Data Structures &amp; Algorithms</span></td>
-                                    <td>Prof. Rajesh Sharma</td>
-                                    <td><span class="faculty-badge badge-success-subtle"><i class="bi bi-check-circle-fill me-1"></i>Present</span></td>
-                                </tr>
-                                <tr>
-                                    <td><div class="fw-semibold text-white">10:15 – 11:15 AM</div><small style="color:#64748b;">Slot 2</small></td>
-                                    <td><span class="faculty-badge badge-blue-subtle">CS502</span></td>
-                                    <td><span style="color:#f1f5f9;font-weight:600;">Database Management Systems</span></td>
-                                    <td>Prof. Rajesh Sharma</td>
-                                    <td><span class="faculty-badge badge-success-subtle"><i class="bi bi-check-circle-fill me-1"></i>Present</span></td>
-                                </tr>
-                                <tr>
-                                    <td><div class="fw-semibold text-white">11:30 – 12:30 PM</div><small style="color:#64748b;">Slot 3</small></td>
-                                    <td><span class="faculty-badge badge-blue-subtle">CS505</span></td>
-                                    <td><span style="color:#f1f5f9;font-weight:600;">Software Engineering</span></td>
-                                    <td>Prof. Rajesh Sharma</td>
-                                    <td><span class="faculty-badge badge-success-subtle"><i class="bi bi-check-circle-fill me-1"></i>Present</span></td>
-                                </tr>
-                                <tr>
-                                    <td><div class="fw-semibold text-white">01:30 – 02:30 PM</div><small style="color:#64748b;">Slot 4</small></td>
-                                    <td><span class="faculty-badge badge-blue-subtle">CS503</span></td>
-                                    <td><span style="color:#f1f5f9;font-weight:600;">Web Technology Lab</span></td>
-                                    <td>Dr. Amit Patel</td>
-                                    <td><span class="faculty-badge badge-danger-subtle"><i class="bi bi-x-circle-fill me-1"></i>Absent</span></td>
-                                </tr>
-                                <tr>
-                                    <td><div class="fw-semibold text-white">03:00 – 04:00 PM</div><small style="color:#64748b;">Slot 5</small></td>
-                                    <td><span class="faculty-badge badge-blue-subtle">CS504</span></td>
-                                    <td><span style="color:#f1f5f9;font-weight:600;">Object-Oriented Programming</span></td>
-                                    <td>Prof. Priya Rao</td>
-                                    <td><span class="faculty-badge badge-success-subtle"><i class="bi bi-check-circle-fill me-1"></i>Present</span></td>
-                                </tr>
+                                <?php if (empty($schedules)): ?>
+                                    <tr>
+                                        <td colspan="5" class="text-center text-secondary py-4">No lectures scheduled for this date.</td>
+                                    </tr>
+                                <?php else: ?>
+                                    <?php 
+                                    $slot = 1;
+                                    $has_records = false;
+                                    foreach ($schedules as $sched): 
+                                        $status = isset($attendance_records[$sched['subject_id']]) ? $attendance_records[$sched['subject_id']] : 'Scheduled';
+                                        
+                                        // Filter by status if needed
+                                        if ($filter_status !== 'all' && strtolower($status) !== strtolower($filter_status)) {
+                                            continue;
+                                        }
+                                        $has_records = true;
+
+                                        $badge_class = ($status === 'Present') ? 'badge-success-subtle' : (($status === 'Absent') ? 'badge-danger-subtle' : 'badge-warning-subtle');
+                                        $badge_icon = ($status === 'Present') ? 'bi-check-circle-fill' : (($status === 'Absent') ? 'bi-x-circle-fill' : 'bi-clock-history');
+                                    ?>
+                                    <tr>
+                                        <td><div class="fw-semibold text-white"><?php echo htmlspecialchars($sched['start_time'] . ' – ' . $sched['end_time']); ?></div><small style="color:#64748b;">Slot <?php echo $slot++; ?></small></td>
+                                        <td><span class="faculty-badge badge-blue-subtle">SUB<?php echo $sched['subject_id']; ?></span></td>
+                                        <td><span style="color:#f1f5f9;font-weight:600;"><?php echo htmlspecialchars($sched['subject_name']); ?></span></td>
+                                        <td><?php echo htmlspecialchars($sched['faculty_name'] ?? 'Not Assigned'); ?></td>
+                                        <td><span class="faculty-badge <?php echo $badge_class; ?>"><i class="bi <?php echo $badge_icon; ?> me-1"></i><?php echo htmlspecialchars($status); ?></span></td>
+                                    </tr>
+                                    <?php endforeach; ?>
+                                    <?php if (!$has_records): ?>
+                                        <tr>
+                                            <td colspan="5" class="text-center text-secondary py-4">No records match your filter criteria.</td>
+                                        </tr>
+                                    <?php endif; ?>
+                                <?php endif; ?>
                             </tbody>
                         </table>
                     </div>

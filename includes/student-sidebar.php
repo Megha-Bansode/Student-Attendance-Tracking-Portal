@@ -15,8 +15,8 @@ $current_page = basename($_SERVER['PHP_SELF']);
     </div>
 
     <?php
-    $display_name = isset($_SESSION['name']) ? $_SESSION['name'] : 'Aarav Mehta';
-    $display_zprn = isset($_SESSION['zprn']) ? $_SESSION['zprn'] : '125UAM1134';
+    $display_name = isset($student_name) && !empty($student_name) ? $student_name : (isset($_SESSION['name']) ? $_SESSION['name'] : 'Student');
+    $display_zprn = isset($student_zprn) && !empty($student_zprn) ? $student_zprn : (isset($_SESSION['zprn']) ? $_SESSION['zprn'] : 'Portal');
     $initials = '';
     if (!empty($display_name)) {
         $parts = explode(' ', $display_name);
@@ -108,6 +108,10 @@ $current_page = basename($_SERVER['PHP_SELF']);
 
     <!-- Sign Out -->
     <div class="faculty-sidebar-footer">
+        <button class="theme-toggle-btn" id="themeToggleBtn" title="Toggle Light/Dark Mode" onclick="toggleTheme()">
+            <i class="bi bi-moon-stars-fill" id="themeToggleIcon"></i>
+            <span>Switch Theme</span>
+        </button>
         <a href="<?php echo $base_path; ?>modules/authentication/login.php?logout=1" class="faculty-logout-btn" title="Return to Login">
             <i class="bi bi-box-arrow-right"></i>
             <span>Sign Out</span>

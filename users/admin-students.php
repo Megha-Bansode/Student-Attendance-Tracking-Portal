@@ -23,12 +23,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
     $department = trim($_POST['department']);
     $division = trim($_POST['division']);
 
-    if ($id > 0) {
-        $stmt = $pdo->prepare("UPDATE users SET name = ?, zprn = ?, username = ?, class = ?, department = ?, division = ? WHERE id = ? AND role = 'student'");
-        $stmt->execute([$name, $zprn, $zprn, $class, $department, $division, $id]);
+    // Check for duplicate ZPRN
+    $stmt_check = $pdo->prepare("SELECT id FROM users WHERE zprn = ? AND role = 'student' AND id != ?");
+    $stmt_check->execute([$zprn, $id]);
+    if ($stmt_check->fetch()) {
+        $_SESSION['sweet_error'] = 'ZPRN already exists!';
     } else {
-        $stmt = $pdo->prepare("INSERT INTO users (username, password, role, name, zprn, class, department, division) VALUES (?, ?, 'student', ?, ?, ?, ?, ?)");
-        $stmt->execute([$zprn, $zprn, $name, $zprn, $class, $department, $division]);
+        if ($id > 0) {
+            $stmt = $pdo->prepare("UPDATE users SET name = ?, zprn = ?, username = ?, class = ?, department = ?, division = ? WHERE id = ? AND role = 'student'");
+            $stmt->execute([$name, $zprn, $zprn, $class, $department, $division, $id]);
+            $_SESSION['sweet_msg'] = 'Student updated successfully!';
+        } else {
+            $stmt = $pdo->prepare("INSERT INTO users (username, password, role, name, zprn, class, department, division) VALUES (?, ?, 'student', ?, ?, ?, ?, ?)");
+            $stmt->execute([$zprn, $zprn, $name, $zprn, $class, $department, $division]);
+            $_SESSION['sweet_msg'] = 'Student added successfully!';
+        }
     }
     header("Location: admin-students.php");
     exit;
@@ -39,6 +48,7 @@ if (isset($_GET['delete_id'])) {
     $delete_id = intval($_GET['delete_id']);
     $stmt = $pdo->prepare("DELETE FROM users WHERE id = ? AND role = 'student'");
     $stmt->execute([$delete_id]);
+    $_SESSION['sweet_msg'] = 'Student removed successfully!';
     header("Location: admin-students.php");
     exit;
 }
@@ -329,6 +339,34 @@ document.getElementById('directorySearchInput').addEventListener('input', functi
             row.style.display = 'none';
         }
     });
+});
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    <?php if (isset($_SESSION['sweet_msg'])): ?>
+        Swal.fire({
+            toast: true,
+            position: 'top-end',
+            icon: 'success',
+            title: '<?php echo addslashes($_SESSION['sweet_msg']); ?>',
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true
+        });
+        <?php unset($_SESSION['sweet_msg']); ?>
+    <?php endif; ?>
+
+    <?php if (isset($_SESSION['sweet_error'])): ?>
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: '<?php echo addslashes($_SESSION['sweet_error']); ?>',
+            confirmButtonColor: '#3085d6'
+        });
+        <?php unset($_SESSION['sweet_error']); ?>
+    <?php endif; ?>
 });
 </script>
 

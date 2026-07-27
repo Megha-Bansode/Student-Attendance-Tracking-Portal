@@ -96,6 +96,7 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
                             </p>
                         </div>
                         <div class="col-lg-4 text-lg-end d-flex flex-wrap justify-content-lg-end gap-2">
+                            <a href="<?php echo $base_path; ?>reports/admin-reports.php" class="btn btn-premium px-3.5" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); border: none;"><i class="bi bi-file-earmark-pdf me-1"></i> Generate Reports</a>
                             <a href="<?php echo $base_path; ?>modules/departments/admin-departments.php" class="btn btn-premium px-3.5"><i class="bi bi-plus-circle me-1"></i> Add Department</a>
                             <a href="<?php echo $base_path; ?>users/admin-faculty.php" class="btn btn-outline-light rounded-pill px-3" style="font-size:.85rem;"><i class="bi bi-person-plus me-1"></i> Register Faculty</a>
                         </div>

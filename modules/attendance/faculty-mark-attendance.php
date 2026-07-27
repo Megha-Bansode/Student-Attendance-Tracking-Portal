@@ -29,7 +29,7 @@ $fac_subjects = $stmt_fac_sub->fetchAll();
 $selected_subject_id = isset($_GET['subject_id']) ? intval($_GET['subject_id']) : (count($fac_subjects) > 0 ? $fac_subjects[0]['id'] : 0);
 // Default classes
 $default_class = 'First Year';
-$default_div = 'A';
+$default_div = 'B';
 
 if ($selected_subject_id > 0) {
     foreach ($fac_subjects as $fs) {

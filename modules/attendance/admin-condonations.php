@@ -181,7 +181,9 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
                                         <td>
                                             <div style="max-width: 250px; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;" title="<?php echo htmlspecialchars($cond['reason']); ?>"><?php echo htmlspecialchars($cond['reason']); ?></div>
                                             <?php if (!empty($cond['document'])): ?>
-                                                <small class="d-block text-info mt-1"><i class="bi bi-file-earmark-pdf me-1"></i><?php echo htmlspecialchars($cond['document']); ?></small>
+                                                <a href="<?php echo $base_path; ?>assets/documents/<?php echo urlencode($cond['document']); ?>" target="_blank" class="d-block text-info mt-1 text-decoration-none">
+                                                    <i class="bi bi-file-earmark-pdf me-1"></i><?php echo htmlspecialchars($cond['document']); ?>
+                                                </a>
                                             <?php endif; ?>
                                         </td>
                                         <td><small style="color: #94a3b8;"><?php echo htmlspecialchars($cond['submitted_at']); ?></small></td>

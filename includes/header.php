@@ -42,6 +42,14 @@ $contact_link = $is_index ? '#contact' : $base_path.'index.php#contact';
     <?php endif; ?>
 </head>
 <body>
+    <?php if (isset($is_portal) && $is_portal): ?>
+    <script>
+        // Apply theme immediately to prevent flash of unstyled content
+        if (localStorage.getItem('facultyTheme') === 'light') {
+            document.body.classList.add('light-mode');
+        }
+    </script>
+    <?php endif; ?>
     <!-- Background glow particles -->
     <div class="ambient-glow-1"></div>
     <div class="ambient-glow-2"></div>

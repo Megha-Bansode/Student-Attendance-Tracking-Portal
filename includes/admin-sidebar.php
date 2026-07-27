@@ -51,19 +51,6 @@ $current_page = basename($_SERVER['PHP_SELF']);
             </a>
         </li>
 
-        <li class="faculty-nav-item">
-            <a href="<?php echo $base_path; ?>modules/dashboard/faculty-dashboard.php" class="faculty-nav-link">
-                <i class="bi bi-person-workspace text-info"></i>
-                <span>Faculty View</span>
-            </a>
-        </li>
-
-        <li class="faculty-nav-item">
-            <a href="<?php echo $base_path; ?>modules/dashboard/student-dashboard.php" class="faculty-nav-link">
-                <i class="bi bi-mortarboard-fill text-warning"></i>
-                <span>Student View</span>
-            </a>
-        </li>
 
         <li class="faculty-nav-item">
             <a href="<?php echo $base_path; ?>modules/departments/admin-departments.php"
@@ -180,6 +167,10 @@ $current_page = basename($_SERVER['PHP_SELF']);
 
     <!-- Sign Out Footer -->
     <div class="faculty-sidebar-footer">
+        <button class="theme-toggle-btn" id="themeToggleBtn" title="Toggle Light/Dark Mode" onclick="toggleTheme()">
+            <i class="bi bi-moon-stars-fill" id="themeToggleIcon"></i>
+            <span>Switch Theme</span>
+        </button>
         <a href="<?php echo $base_path; ?>modules/authentication/login.php?logout=1" class="faculty-logout-btn" title="Return to Login">
             <i class="bi bi-box-arrow-right"></i>
             <span>Sign Out</span>

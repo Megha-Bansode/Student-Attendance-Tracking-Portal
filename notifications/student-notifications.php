@@ -6,9 +6,35 @@
 $page_title  = 'Notifications';
 include '../includes/header.php';
 
+require_once '../config/database.php';
+
 // Initialize session to store read and deleted notification IDs
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
+}
+
+if (!isset($_SESSION['role'])) {
+    header("Location: ../modules/authentication/login.php");
+    exit;
+}
+
+$student_id = $_SESSION['user_id'];
+$student_name = isset($_SESSION['name']) ? $_SESSION['name'] : '';
+$student_zprn = isset($_SESSION['zprn']) ? $_SESSION['zprn'] : '';
+$student_class = isset($_SESSION['class']) ? $_SESSION['class'] : '';
+$student_division = isset($_SESSION['division']) ? $_SESSION['division'] : '';
+
+if ($_SESSION['role'] !== 'student') {
+    // Fetch first student in database to populate dashboard for preview
+    $stmt_s = $pdo->query("SELECT * FROM users WHERE role = 'student' LIMIT 1");
+    $first_student = $stmt_s->fetch();
+    if ($first_student) {
+        $student_id = $first_student['id'];
+        $student_name = $first_student['name'];
+        $student_zprn = $first_student['zprn'];
+        $student_class = $first_student['class'];
+        $student_division = $first_student['division'];
+    }
 }
 
 if (!isset($_SESSION['read_notifs'])) {

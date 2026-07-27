@@ -94,10 +94,23 @@ $current_page = basename($_SERVER['PHP_SELF']);
             </a>
         </li>
 
+        <li class="faculty-nav-item">
+            <a href="<?php echo $base_path; ?>modules/attendance/faculty-daily-report.php"
+               class="faculty-nav-link <?php echo ($current_page === 'faculty-daily-report.php') ? 'active' : ''; ?>"
+               <?php echo ($current_page === 'faculty-daily-report.php') ? 'aria-current="page"' : ''; ?>>
+                <i class="bi bi-file-earmark-bar-graph-fill text-warning"></i>
+                <span>Daily Report</span>
+            </a>
+        </li>
+
     </ul>
 
     <!-- Sign Out -->
     <div class="faculty-sidebar-footer">
+        <button class="theme-toggle-btn" id="themeToggleBtn" title="Toggle Light/Dark Mode" onclick="toggleTheme()">
+            <i class="bi bi-moon-stars-fill" id="themeToggleIcon"></i>
+            <span>Switch Theme</span>
+        </button>
         <a href="<?php echo $base_path; ?>modules/authentication/login.php?logout=1" class="faculty-logout-btn" title="Return to Login">
             <i class="bi bi-box-arrow-right"></i>
             <span>Sign Out</span>

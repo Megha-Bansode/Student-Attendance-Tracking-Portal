@@ -53,5 +53,16 @@
         "icon": "bi-exclamation-triangle-fill",
         "icon_color": "#ef4444",
         "bg_glow": "rgba(239, 68, 68, 0.05)"
+    },
+    {
+        "id": 7,
+        "type": "warning",
+        "title": "Dept AIML academic year starting from 1 Aug 2026",
+        "message": "student follow the instruction from initial days, attendance is mandatory and if any student  is absent on 1st day then their parents will be called immediately.",
+        "created_at": "2026-07-27 05:27:39",
+        "unread": true,
+        "icon": "bi-exclamation-circle-fill",
+        "icon_color": "#f59e0b",
+        "bg_glow": "rgba(245, 158, 11, 0.05)"
     }
 ]

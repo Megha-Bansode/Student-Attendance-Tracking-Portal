@@ -95,16 +95,15 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
                     <div class="col-md-6 col-lg-4">
                         <div class="faculty-card h-100 mb-0">
                             <div class="d-flex align-items-center gap-3 mb-3">
-                                <div class="rounded-3 p-3 text-white" style="background:linear-gradient(135deg,#0ea5e9,#38bdf8);"><i class="bi bi-person-badge-fill fs-4"></i></div>
+                                <div class="rounded-3 p-3 text-white" style="background:linear-gradient(135deg,#0ea5e9,#38bdf8);"><i class="bi bi-graph-up-arrow fs-4"></i></div>
                                 <div>
-                                    <h5 class="fw-bold text-white mb-0 font-outfit">Faculty Performance Report</h5>
-                                    <small style="color:#94a3b8;">Lecture delivery and submission speed</small>
+                                    <h5 class="fw-bold text-white mb-0 font-outfit">Monthly Analytics</h5>
+                                    <small style="color:#94a3b8;">Institution-wide monthly trends</small>
                                 </div>
                             </div>
-                            <p style="color:#cbd5e1; font-size:.85rem;">Audit faculty class delivery punctuality, lecture completion rate, and attendance submission timeliness.</p>
+                            <p style="color:#cbd5e1; font-size:.85rem;">Audit monthly attendance performance across the entire institution, visualizing high-risk periods.</p>
                             <div class="d-flex gap-2 mt-auto">
-                                <button class="btn btn-sm btn-premium flex-grow-1" onclick="alert('Exporting PDF Faculty Report...')"><i class="bi bi-file-earmark-pdf me-1"></i> PDF</button>
-                                <button class="btn btn-sm btn-outline-light flex-grow-1" onclick="alert('Exporting CSV Faculty Data...')"><i class="bi bi-file-earmark-excel me-1"></i> CSV</button>
+                                <a href="monthly-report.php" class="btn btn-sm btn-premium flex-grow-1"><i class="bi bi-file-earmark-bar-graph me-1"></i> View Report</a>
                             </div>
                         </div>
                     </div>
@@ -114,14 +113,13 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
                             <div class="d-flex align-items-center gap-3 mb-3">
                                 <div class="rounded-3 p-3 text-white" style="background:linear-gradient(135deg,#059669,#10b981);"><i class="bi bi-building fs-4"></i></div>
                                 <div>
-                                    <h5 class="fw-bold text-white mb-0 font-outfit">Department Monthly Report</h5>
+                                    <h5 class="fw-bold text-white mb-0 font-outfit">Department Report</h5>
                                     <small style="color:#94a3b8;">Inter-departmental comparison</small>
                                 </div>
                             </div>
                             <p style="color:#cbd5e1; font-size:.85rem;">Comparative monthly analytics comparing attendance trends across all active engineering departments.</p>
                             <div class="d-flex gap-2 mt-auto">
-                                <button class="btn btn-sm btn-premium flex-grow-1" onclick="alert('Exporting PDF Department Report...')"><i class="bi bi-file-earmark-pdf me-1"></i> PDF</button>
-                                <button class="btn btn-sm btn-outline-light flex-grow-1" onclick="alert('Exporting CSV Department Data...')"><i class="bi bi-file-earmark-excel me-1"></i> CSV</button>
+                                <a href="department-reports.php" class="btn btn-sm btn-premium flex-grow-1"><i class="bi bi-file-earmark-bar-graph me-1"></i> View Report</a>
                             </div>
                         </div>
                     </div>
