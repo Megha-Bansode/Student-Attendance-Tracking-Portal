@@ -23,9 +23,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
     $department = trim($_POST['department']);
     $division = trim($_POST['division']);
 
-    // Check for duplicate ZPRN
-    $stmt_check = $pdo->prepare("SELECT id FROM users WHERE zprn = ? AND role = 'student' AND id != ?");
-    $stmt_check->execute([$zprn, $id]);
+    // Check for duplicate ZPRN or Username across ALL roles
+    $stmt_check = $pdo->prepare("SELECT id FROM users WHERE (zprn = ? OR username = ?) AND id != ?");
+    $stmt_check->execute([$zprn, $zprn, $id]);
     if ($stmt_check->fetch()) {
         $_SESSION['sweet_error'] = 'ZPRN already exists!';
     } else {
@@ -322,7 +322,7 @@ function prepareAddStudent() {
     document.getElementById('modal_zprn').value = '';
     document.getElementById('modal_name').value = '';
     document.getElementById('modal_class').value = 'First Year';
-    document.getElementById('modal_department').value = 'AI&ML';
+    document.getElementById('modal_department').value = '';
     document.getElementById('modal_division').value = 'A';
     document.getElementById('modal_title').innerHTML = '<i class="bi bi-person-plus me-2 text-primary"></i>Register New Student';
 }

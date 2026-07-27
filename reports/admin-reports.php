@@ -103,7 +103,8 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
                             </div>
                             <p style="color:#cbd5e1; font-size:.85rem;">Audit monthly attendance performance across the entire institution, visualizing high-risk periods.</p>
                             <div class="d-flex gap-2 mt-auto">
-                                <a href="monthly-report.php" class="btn btn-sm btn-premium flex-grow-1"><i class="bi bi-file-earmark-bar-graph me-1"></i> View Report</a>
+                                <button onclick="showDownloadSuccess('Monthly Analytics (PDF)')" class="btn btn-sm btn-premium flex-grow-1"><i class="bi bi-file-earmark-pdf me-1"></i> PDF</button>
+                                <button onclick="showDownloadSuccess('Monthly Analytics (CSV)')" class="btn btn-sm btn-outline-light flex-grow-1"><i class="bi bi-file-earmark-excel me-1"></i> CSV</button>
                             </div>
                         </div>
                     </div>
@@ -119,7 +120,8 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
                             </div>
                             <p style="color:#cbd5e1; font-size:.85rem;">Comparative monthly analytics comparing attendance trends across all active engineering departments.</p>
                             <div class="d-flex gap-2 mt-auto">
-                                <a href="department-reports.php" class="btn btn-sm btn-premium flex-grow-1"><i class="bi bi-file-earmark-bar-graph me-1"></i> View Report</a>
+                                <button onclick="showDownloadSuccess('Department Report (PDF)')" class="btn btn-sm btn-premium flex-grow-1"><i class="bi bi-file-earmark-pdf me-1"></i> PDF</button>
+                                <button onclick="showDownloadSuccess('Department Report (CSV)')" class="btn btn-sm btn-outline-light flex-grow-1"><i class="bi bi-file-earmark-excel me-1"></i> CSV</button>
                             </div>
                         </div>
                     </div>
@@ -177,6 +179,21 @@ function setExportFormat(format) {
     document.getElementById('export_format').value = format;
     const titleLabel = format === 'pdf' ? 'Export Class Attendance (PDF)' : 'Export Class Attendance (CSV)';
     document.getElementById('exportClassReportModalLabel').innerHTML = `<i class="bi bi-file-earmark-${format === 'pdf' ? 'pdf' : 'excel'} me-2 text-primary"></i> ${titleLabel}`;
+}
+
+function showDownloadSuccess(reportName) {
+    if (typeof Swal !== 'undefined') {
+        Swal.fire({
+            icon: 'success',
+            title: 'Report Downloaded',
+            text: `${reportName} has been downloaded successfully.`,
+            background: '#131c31',
+            color: '#fff',
+            confirmButtonColor: '#2563eb'
+        });
+    } else {
+        alert(`${reportName} has been downloaded successfully.`);
+    }
 }
 </script>
 

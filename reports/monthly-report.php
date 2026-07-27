@@ -187,7 +187,14 @@ foreach ($db_records as $row) {
         </div>
 
         <!-- Monthly Aggregated Data Table -->
-        <div class="glass-card p-0 overflow-hidden">
+        <div class="glass-card p-0 overflow-hidden mb-4">
+            <div class="d-flex justify-content-between align-items-center p-3 border-bottom" style="border-color: rgba(255,255,255,0.1) !important;">
+                <h5 class="text-white mb-0"><i class="bi bi-table text-primary me-2"></i> Monthly Student Data</h5>
+                <div class="d-flex gap-2">
+                    <button class="btn btn-sm btn-outline-danger px-3 py-2" id="btn-export-pdf" style="font-size: 0.8rem;"><i class="bi bi-file-pdf-fill me-1"></i> Export PDF</button>
+                    <button class="btn btn-sm btn-outline-success px-3 py-2" id="btn-export-excel" style="font-size: 0.8rem;"><i class="bi bi-file-excel-fill me-1"></i> Export Excel</button>
+                </div>
+            </div>
             <div class="table-responsive">
                 <table class="custom-report-table" id="monthlyTable">
                     <thead>
@@ -383,4 +390,116 @@ foreach ($db_records as $row) {
     </div>
 </div>
 
+<!-- Include html2pdf.js CDN -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const pdfBtn = document.getElementById('btn-export-pdf');
+    const excelBtn = document.getElementById('btn-export-excel');
+
+    if (pdfBtn) {
+        pdfBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            const reportContainer = document.createElement('div');
+            reportContainer.style.padding = '40px';
+            reportContainer.style.fontFamily = 'system-ui, -apple-system, sans-serif';
+            reportContainer.style.color = '#1e293b';
+            reportContainer.style.backgroundColor = '#ffffff';
+
+            reportContainer.innerHTML = `
+                <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #e2e8f0; padding-bottom: 20px; margin-bottom: 30px;">
+                    <div>
+                        <h1 style="margin: 0; font-size: 24px; color: #0f172a; font-weight: 700;">AttendEase</h1>
+                        <p style="margin: 4px 0 0 0; font-size: 13px; color: #64748b; text-transform: uppercase;">Monthly Attendance Report</p>
+                    </div>
+                    <div style="text-align: right;">
+                        <p style="margin: 0; font-size: 12px; color: #64748b;">Report Date</p>
+                        <p style="margin: 2px 0 0 0; font-size: 14px; font-weight: 600; color: #0f172a;">${new Date().toLocaleDateString()}</p>
+                    </div>
+                </div>
+                <table style="width: 100%; border-collapse: collapse; margin-bottom: 40px;">
+                    <thead>
+                        <tr style="background-color: #0f172a; color: #ffffff;">
+                            <th style="padding: 12px; text-align: left; font-size: 12px;">Roll No</th>
+                            <th style="padding: 12px; text-align: left; font-size: 12px;">Student Name</th>
+                            <th style="padding: 12px; text-align: left; font-size: 12px;">Dept / Sem</th>
+                            <th style="padding: 12px; text-align: left; font-size: 12px;">Classes Held</th>
+                            <th style="padding: 12px; text-align: left; font-size: 12px;">Attended</th>
+                            <th style="padding: 12px; text-align: left; font-size: 12px;">Percentage</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${Array.from(document.querySelectorAll('#monthlyTable tbody tr.data-row')).map(row => {
+                            if (row.style.display === 'none') return '';
+                            const cells = row.querySelectorAll('td');
+                            if (cells.length < 7) return '';
+                            return `
+                                <tr style="border-bottom: 1px solid #e2e8f0;">
+                                    <td style="padding: 12px; font-size: 12px;">${cells[0].innerText}</td>
+                                    <td style="padding: 12px; font-size: 12px;">${cells[1].innerText}</td>
+                                    <td style="padding: 12px; font-size: 12px;">${cells[2].innerText}</td>
+                                    <td style="padding: 12px; font-size: 12px;">${cells[3].innerText}</td>
+                                    <td style="padding: 12px; font-size: 12px;">${cells[4].innerText}</td>
+                                    <td style="padding: 12px; font-size: 12px;">${cells[5].innerText.replace(/[\\n\\r]+.*/g, '')}</td>
+                                </tr>
+                            `;
+                        }).join('')}
+                    </tbody>
+                </table>
+            `;
+
+            const opt = {
+                margin:       10,
+                filename:     'Monthly_Attendance_Report.pdf',
+                image:        { type: 'jpeg', quality: 0.98 },
+                html2canvas:  { scale: 2, useCORS: true },
+                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'landscape' }
+            };
+
+            html2pdf().set(opt).from(reportContainer).save();
+        });
+    }
+
+    if (excelBtn) {
+        excelBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            let csvContent = "data:text/csv;charset=utf-8,";
+            csvContent += "Roll No,Student Name,Dept / Sem,Classes Held,Attended,Percentage,Status\\r\\n";
+            
+            Array.from(document.querySelectorAll('#monthlyTable tbody tr.data-row')).forEach(row => {
+                if (row.style.display === 'none') return;
+                const cells = row.querySelectorAll('td');
+                if (cells.length < 7) return;
+                
+                const c0 = `"${cells[0].innerText.replace(/"/g, '""')}"`;
+                const c1 = `"${cells[1].innerText.replace(/\\n/g, ' ').replace(/"/g, '""')}"`;
+                const c2 = `"${cells[2].innerText.replace(/\\n/g, ' ').replace(/"/g, '""')}"`;
+                const c3 = `"${cells[3].innerText.replace(/"/g, '""')}"`;
+                const c4 = `"${cells[4].innerText.replace(/"/g, '""')}"`;
+                const c5 = `"${cells[5].innerText.replace(/[\\n\\r]+.*/g, '').replace(/"/g, '""')}"`;
+                const c6 = `"${cells[6].innerText.replace(/\\n/g, ' ').replace(/"/g, '""')}"`;
+                
+                csvContent += `${c0},${c1},${c2},${c3},${c4},${c5},${c6}\\r\\n`;
+            });
+            
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", "Monthly_Attendance_Report.csv");
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        });
+    }
+
+    // Auto-export logic triggered from Dashboard
+    const urlParams = new URLSearchParams(window.location.search);
+    const autoExport = urlParams.get('auto_export');
+    if (autoExport === 'pdf' && pdfBtn) {
+        setTimeout(() => pdfBtn.click(), 500);
+    } else if (autoExport === 'csv' && excelBtn) {
+        setTimeout(() => excelBtn.click(), 500);
+    }
+});
+</script>
 <?php include '../includes/footer.php'; ?>

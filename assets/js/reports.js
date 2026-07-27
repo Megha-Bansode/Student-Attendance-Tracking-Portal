@@ -66,33 +66,7 @@ function initFilterPanel() {
         });
     }
 
-    if (btnPDF) {
-        btnPDF.addEventListener('click', function (e) {
-            e.preventDefault();
-            var originalText = btnPDF.innerHTML;
-            btnPDF.innerHTML = '<i class="bi bi-arrow-repeat spin-icon-anim"></i> Exporting...';
-            btnPDF.disabled = true;
-            setTimeout(function() {
-                btnPDF.innerHTML = originalText;
-                btnPDF.disabled = false;
-                showReportToast('Export PDF', 'PDF generated successfully. Requires server-side processing for real data.');
-            }, 1200);
-        });
-    }
-
-    if (btnExcel) {
-        btnExcel.addEventListener('click', function (e) {
-            e.preventDefault();
-            var originalText = btnExcel.innerHTML;
-            btnExcel.innerHTML = '<i class="bi bi-arrow-repeat spin-icon-anim"></i> Exporting...';
-            btnExcel.disabled = true;
-            setTimeout(function() {
-                btnExcel.innerHTML = originalText;
-                btnExcel.disabled = false;
-                showReportToast('Export Excel', 'Excel file generated successfully. Requires server-side processing for real data.');
-            }, 1200);
-        });
-    }
+    // Export handlers are implemented individually in the respective PHP files.
 }
 
 /* ============================================================
