@@ -65,6 +65,14 @@ if ($is_search_active) {
     ");
     $stmt_att->execute([$selected_date, $selected_subject_id, $selected_class, $selected_div]);
     $students_att = $stmt_att->fetchAll();
+    
+    $is_attendance_marked = false;
+    foreach ($students_att as $s) {
+        if ($s['attendance_status'] !== null) {
+            $is_attendance_marked = true;
+            break;
+        }
+    }
 }
 
 // Process Edit Form Submission
@@ -177,6 +185,15 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
             </form>
 
             <?php if ($is_search_active): ?>
+            <?php if (!$is_attendance_marked): ?>
+                <div class="alert alert-warning d-flex align-items-center" role="alert" style="background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.2); color: #fcd34d;">
+                    <i class="bi bi-exclamation-triangle-fill me-3 fs-4"></i>
+                    <div>
+                        <h5 class="alert-heading mb-1" style="color: #fbbf24;">Attendance Not Marked</h5>
+                        <p class="mb-0">No attendance records found for this subject and date. <a href="faculty-mark-attendance.php?attendance_date=<?php echo urlencode($selected_date); ?>&subject_id=<?php echo urlencode($selected_subject_id); ?>&class=<?php echo urlencode($selected_class); ?>&division=<?php echo urlencode($selected_div); ?>" class="fw-bold" style="color: #fbbf24; text-decoration: underline;">Click here to mark attendance.</a></p>
+                    </div>
+                </div>
+            <?php else: ?>
             <!-- Edit Form -->
             <form id="markAttendanceForm" action="faculty-edit-attendance.php" method="POST">
                 <input type="hidden" name="attendance_date" value="<?php echo htmlspecialchars($selected_date); ?>">
@@ -190,6 +207,20 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
                         <div>
                             <h3 class="faculty-card-title mb-1"><i class="bi bi-pencil-square" style="color:#38bdf8;"></i> Updating Record: Division <?php echo htmlspecialchars($selected_div); ?></h3>
                             <p class="faculty-card-subtitle">Originally marked on <?php echo date('M d, Y', strtotime($selected_date)); ?></p>
+                        </div>
+                        <div class="counter-box-group d-flex gap-3">
+                            <div class="counter-pill px-3 py-1 rounded-pill" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);">
+                                <span style="color:#64748b; font-size:0.85rem;" class="me-2">Total</span>
+                                <span class="counter-pill-val fw-bold" style="color:#f1f5f9;" id="statTotalStudents"><?php echo count($students_att); ?></span>
+                            </div>
+                            <div class="counter-pill px-3 py-1 rounded-pill" style="background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.2);">
+                                <span style="color:#10b981; font-size:0.85rem;" class="me-2">Present</span>
+                                <span class="counter-pill-val fw-bold" style="color:#34d399;" id="statPresentStudents">0</span>
+                            </div>
+                            <div class="counter-pill px-3 py-1 rounded-pill" style="background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.2);">
+                                <span style="color:#ef4444; font-size:0.85rem;" class="me-2">Absent</span>
+                                <span class="counter-pill-val fw-bold" style="color:#f87171;" id="statAbsentStudents">0</span>
+                            </div>
                         </div>
                     </div>
 
@@ -247,10 +278,37 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
 
             </form>
             <?php endif; ?>
+            <?php endif; ?>
 
         </main>
 
     </div>
 </div>
 </div>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const radioInputs = document.querySelectorAll('input[type="radio"][name^="attendance"]');
+    const presentCounter = document.getElementById('statPresentStudents');
+    const absentCounter = document.getElementById('statAbsentStudents');
+
+    function updateCounters() {
+        if (!presentCounter || !absentCounter) return;
+        let present = 0;
+        let absent = 0;
+        document.querySelectorAll('input[type="radio"][name^="attendance"]:checked').forEach(radio => {
+            if (radio.value === 'Present') present++;
+            else if (radio.value === 'Absent') absent++;
+        });
+        presentCounter.textContent = present;
+        absentCounter.textContent = absent;
+    }
+
+    radioInputs.forEach(input => {
+        input.addEventListener('change', updateCounters);
+    });
+    
+    // Initial calculation
+    updateCounters();
+});
+</script>
 <?php include '../../includes/footer.php'; ?>

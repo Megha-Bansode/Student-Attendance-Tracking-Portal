@@ -76,7 +76,7 @@ foreach ($students_db as $stud) {
         'roll_no' => $stud['zprn'],
         'name' => $stud['name'],
         'prn' => $stud['zprn'],
-        'dept' => $stud['department'] ?? 'AI&ML',
+        'dept' => $stud['department'] ?? 'Unassigned',
         'sem' => ($stud['class'] === 'First Year') ? 'Sem I' : (($stud['class'] === 'Second Year') ? 'Sem III' : (($stud['class'] === 'Third Year') ? 'Sem V' : 'Sem VII')),
         'email' => $stud['username'] . '@college.edu',
         'total_held' => $total_held,

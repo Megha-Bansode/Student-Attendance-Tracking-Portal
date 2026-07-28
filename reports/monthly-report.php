@@ -40,7 +40,7 @@ foreach ($db_records as $row) {
         'roll_no' => $row['zprn'],
         'name' => $row['name'],
         'prn' => $row['zprn'],
-        'dept' => $row['department'] ?? 'AI&ML',
+        'dept' => $row['department'] ?? 'Unassigned',
         'sem' => ($row['class'] === 'First Year') ? 'Sem I' : (($row['class'] === 'Second Year') ? 'Sem III' : (($row['class'] === 'Third Year') ? 'Sem V' : 'Sem VII')),
         'course' => 'SUBJ-' . $row['subject_id'] . ' ' . $row['subject_name'],
         'held' => $held,

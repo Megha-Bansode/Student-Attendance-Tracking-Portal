@@ -51,7 +51,7 @@ foreach ($students as $student) {
         'zprn' => $student['zprn'],
         'name' => $student['name'],
         'division' => $student['division'],
-        'department' => $student['department'] ?? 'AI&ML',
+        'department' => $student['department'] ?? 'Unassigned',
         'held' => $held,
         'attended' => $attended,
         'absent' => $absent,
@@ -228,7 +228,8 @@ if ($format === 'csv') {
             filename:     'Class_Attendance_<?php echo str_replace(' ', '_', $class); ?>_Div_<?php echo $division; ?>.pdf',
             image:        { type: 'jpeg', quality: 0.98 },
             html2canvas:  { scale: 2, useCORS: true },
-            jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' },
+            pagebreak:    { mode: ['css', 'legacy'] }
         };
 
         html2pdf().set(opt).from(element).save().then(() => {

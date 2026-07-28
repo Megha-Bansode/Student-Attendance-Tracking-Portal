@@ -69,10 +69,11 @@ $subjects = $pdo->query("SELECT * FROM subjects ORDER BY name ASC")->fetchAll();
 
 // Fetch all faculties with their assigned subjects
 $faculties = $pdo->query("
-    SELECT u.*, s.name as subject_name, s.id as subject_id 
+    SELECT u.*, s.name as subject_name, s.id as subject_id, d.name AS dept_name 
     FROM users u 
     LEFT JOIN faculty_subjects fs ON u.id = fs.faculty_id 
     LEFT JOIN subjects s ON fs.subject_id = s.id 
+    LEFT JOIN departments d ON u.department = d.code
     WHERE u.role = 'faculty' 
     ORDER BY u.name ASC
 ")->fetchAll();
@@ -243,15 +244,15 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
                 <div class="modal-body space-y-3">
                     <div class="mb-3">
                         <label class="form-label text-slate-300 font-semibold">Faculty Username / ID</label>
-                        <input type="text" name="username" id="modal_username" class="form-control bg-dark text-white border-secondary" placeholder="e.g. Faculty@123" required>
+                        <input type="text" name="username" id="modal_username" class="form-control bg-dark text-white border-secondary" placeholder="Enter Faculty Username / ID" required>
                     </div>
                     <div class="mb-3">
                         <label class="form-label text-slate-300 font-semibold">Full Name</label>
-                        <input type="text" name="name" id="modal_name" class="form-control bg-dark text-white border-secondary" placeholder="e.g. Megha Mam" required>
+                        <input type="text" name="name" id="modal_name" class="form-control bg-dark text-white border-secondary" placeholder="Enter Full Name" required>
                     </div>
                     <div class="mb-3">
                         <label class="form-label text-slate-300 font-semibold">Password</label>
-                        <input type="password" name="password" id="modal_password" class="form-control bg-dark text-white border-secondary" placeholder="Default: Faculty@123">
+                        <input type="password" name="password" id="modal_password" class="form-control bg-dark text-white border-secondary" placeholder="Enter Password">
                     </div>
                     <div class="mb-3">
                         <label class="form-label text-slate-300 font-semibold">Assign Subject</label>
@@ -322,7 +323,7 @@ function prepareAddFaculty() {
     document.getElementById('modal_faculty_id').value = '';
     document.getElementById('modal_username').value = '';
     document.getElementById('modal_name').value = '';
-    document.getElementById('modal_password').placeholder = "Default: Faculty@123";
+    document.getElementById('modal_password').placeholder = "Enter Password";
     document.getElementById('modal_subject_id').value = '0';
     document.getElementById('modal_class').value = '';
     document.getElementById('modal_division').value = '';

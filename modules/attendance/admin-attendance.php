@@ -164,7 +164,7 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
                                     ?>
                                     <tr data-date="<?php echo htmlspecialchars($rec['date']); ?>">
                                         <td><?php echo htmlspecialchars($rec['date']); ?></td>
-                                        <td><?php echo htmlspecialchars($rec['department'] ?? 'AI&ML'); ?></td>
+                                        <td><?php echo htmlspecialchars($rec['department'] ?? 'Unassigned'); ?></td>
                                         <td><?php echo htmlspecialchars($rec['subject_name']); ?></td>
                                         <td><?php echo htmlspecialchars($rec['faculty_name'] ?? 'Not Assigned'); ?></td>
                                         <td><span class="fw-bold text-success"><?php echo $rec['present_count']; ?></span> / <?php echo $rec['total_count']; ?></td>

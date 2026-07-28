@@ -59,6 +59,7 @@ $stmt_today_sched = $pdo->prepare("
     JOIN subjects subj ON s.subject_id = subj.id
     JOIN faculty_subjects fs ON subj.id = fs.subject_id
     WHERE fs.faculty_id = ? AND s.day_of_week = ?
+    ORDER BY s.start_time ASC
 ");
 $stmt_today_sched->execute([$faculty_id, $current_day_name]);
 $today_schedules = $stmt_today_sched->fetchAll();
@@ -220,7 +221,7 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
                                 </div>
                                 <a href="<?php echo $base_path; ?>modules/subjects/faculty-subject-allocation.php" class="btn btn-sm btn-outline-light rounded-pill px-3" style="font-size:.8rem;">View All</a>
                             </div>
-                            <div class="faculty-table-responsive">
+                            <div class="faculty-table-responsive" style="max-height: 400px; overflow-y: auto;">
                                 <table class="faculty-table">
                                     <thead><tr><th>Time / Slot</th><th>Subject</th><th>Class</th><th>Status</th><th class="text-end">Action</th></tr></thead>
                                     <tbody>

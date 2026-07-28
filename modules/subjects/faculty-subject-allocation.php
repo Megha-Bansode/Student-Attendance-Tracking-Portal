@@ -45,14 +45,14 @@ foreach ($allocated_list as $row) {
     
     foreach ($divisions as $div) {
         // Count students in this class/division
-        $stmt_stud = $pdo->prepare("SELECT COUNT(*) FROM users WHERE role = 'student' AND (class = ? OR department = 'AI&ML') AND division = ?");
+        $stmt_stud = $pdo->prepare("SELECT COUNT(*) FROM users WHERE role = 'student' AND class = ? AND division = ?");
         $stmt_stud->execute([$row['class'], $div]);
         $stud_count = $stmt_stud->fetchColumn();
         
         $allocated_subjects[] = [
             'code' => 'SUBJ-' . $row['subject_id'],
             'name' => $row['subject_name'],
-            'department' => $row['class'] . ' AI&ML',
+            'department' => $row['class'],
             'semester' => ($row['class'] === 'First Year') ? '1' : (($row['class'] === 'Second Year') ? '3' : (($row['class'] === 'Third Year') ? '5' : '7')),
             'division' => $div,
             'students_count' => $stud_count,

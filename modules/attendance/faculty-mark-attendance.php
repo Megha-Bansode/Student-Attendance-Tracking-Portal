@@ -67,8 +67,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (!empty($student_ids)) {
         $in_query = implode(',', array_fill(0, count($student_ids), '?'));
-        $stmt_del = $pdo->prepare("DELETE FROM attendance WHERE date = ? AND subject_id = ? AND student_id IN ($in_query)");
-        $stmt_del->execute(array_merge([$attendance_date, $subject_id], $student_ids));
+        
+        // Check if attendance is already marked for these students on this date/subject
+        $stmt_check = $pdo->prepare("SELECT COUNT(*) FROM attendance WHERE date = ? AND subject_id = ? AND student_id IN ($in_query)");
+        $stmt_check->execute(array_merge([$attendance_date, $subject_id], $student_ids));
+        
+        if ($stmt_check->fetchColumn() > 0) {
+            header("Location: faculty-edit-attendance.php?date=$attendance_date&subject_id=$subject_id&class=$class&div=$division&error=already_marked");
+            exit;
+        }
     }
 
     $stmt_ins = $pdo->prepare("INSERT INTO attendance (student_id, subject_id, date, status, marked_by) VALUES (?, ?, ?, ?, ?)");
@@ -88,6 +95,16 @@ $stmt_students = $pdo->prepare("
 ");
 $stmt_students->execute([$selected_class, $selected_div]);
 $students = $stmt_students->fetchAll();
+
+// Check if attendance is already marked for this date and subject
+$already_marked = false;
+if (!empty($students)) {
+    $student_ids = array_column($students, 'id');
+    $in_query = implode(',', array_fill(0, count($student_ids), '?'));
+    $stmt_check_ui = $pdo->prepare("SELECT COUNT(*) FROM attendance WHERE date = ? AND subject_id = ? AND student_id IN ($in_query)");
+    $stmt_check_ui->execute(array_merge([$selected_date, $selected_subject_id], $student_ids));
+    $already_marked = ($stmt_check_ui->fetchColumn() > 0);
+}
 
 $page_title = 'Mark Attendance';
 include '../../includes/header.php';
@@ -168,6 +185,15 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
                 </div>
             </form>
 
+            <?php if ($already_marked): ?>
+                <div class="alert alert-warning d-flex align-items-center" role="alert" style="background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.2); color: #fcd34d;">
+                    <i class="bi bi-exclamation-triangle-fill me-3 fs-4"></i>
+                    <div>
+                        <h5 class="alert-heading mb-1" style="color: #fbbf24;">Attendance Already Marked</h5>
+                        <p class="mb-0">Attendance for this subject and date has already been recorded. <a href="faculty-edit-attendance.php?date=<?php echo urlencode($selected_date); ?>&subject_id=<?php echo urlencode($selected_subject_id); ?>&class=<?php echo urlencode($selected_class); ?>&div=<?php echo urlencode($selected_div); ?>" class="fw-bold" style="color: #fbbf24; text-decoration: underline;">Click here to edit the existing attendance.</a></p>
+                    </div>
+                </div>
+            <?php else: ?>
             <form id="markAttendanceForm" action="faculty-mark-attendance.php" method="POST">
                 <input type="hidden" name="attendance_date" value="<?php echo htmlspecialchars($selected_date); ?>">
                 <input type="hidden" name="subject_id" value="<?php echo htmlspecialchars($selected_subject_id); ?>">
@@ -182,10 +208,18 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
                             <h3 class="faculty-card-title mb-1"><i class="bi bi-people-fill" style="color:#38bdf8;"></i> Step 2 — Student Attendance Sheet</h3>
                             <p class="faculty-card-subtitle">Toggle Present / Absent for each student of Division <?php echo htmlspecialchars($selected_div); ?></p>
                         </div>
-                        <div class="counter-box-group">
-                            <div class="counter-pill">
-                                <span style="color:#64748b;">Total</span>
-                                <span class="counter-pill-val" style="color:#f1f5f9;" id="statTotalStudents"><?php echo count($students); ?></span>
+                        <div class="counter-box-group d-flex gap-3">
+                            <div class="counter-pill px-3 py-1 rounded-pill" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);">
+                                <span style="color:#64748b; font-size:0.85rem;" class="me-2">Total</span>
+                                <span class="counter-pill-val fw-bold" style="color:#f1f5f9;" id="statTotalStudents"><?php echo count($students); ?></span>
+                            </div>
+                            <div class="counter-pill px-3 py-1 rounded-pill" style="background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.2);">
+                                <span style="color:#10b981; font-size:0.85rem;" class="me-2">Present</span>
+                                <span class="counter-pill-val fw-bold" style="color:#34d399;" id="statPresentStudents"><?php echo count($students); ?></span>
+                            </div>
+                            <div class="counter-pill px-3 py-1 rounded-pill" style="background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.2);">
+                                <span style="color:#ef4444; font-size:0.85rem;" class="me-2">Absent</span>
+                                <span class="counter-pill-val fw-bold" style="color:#f87171;" id="statAbsentStudents">0</span>
                             </div>
                         </div>
                     </div>
@@ -241,10 +275,37 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
                 </div>
 
             </form>
+            <?php endif; ?>
 
         </main>
 
     </div>
 </div>
 </div>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const radioInputs = document.querySelectorAll('input[type="radio"][name^="attendance"]');
+    const presentCounter = document.getElementById('statPresentStudents');
+    const absentCounter = document.getElementById('statAbsentStudents');
+
+    function updateCounters() {
+        if (!presentCounter || !absentCounter) return;
+        let present = 0;
+        let absent = 0;
+        document.querySelectorAll('input[type="radio"][name^="attendance"]:checked').forEach(radio => {
+            if (radio.value === 'Present') present++;
+            else if (radio.value === 'Absent') absent++;
+        });
+        presentCounter.textContent = present;
+        absentCounter.textContent = absent;
+    }
+
+    radioInputs.forEach(input => {
+        input.addEventListener('change', updateCounters);
+    });
+    
+    // Initial calculation
+    updateCounters();
+});
+</script>
 <?php include '../../includes/footer.php'; ?>

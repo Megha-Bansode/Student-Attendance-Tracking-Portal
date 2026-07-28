@@ -67,7 +67,7 @@ $present_records = $pdo->query("SELECT COUNT(*) FROM attendance WHERE status = '
 $avg_attendance = $total_records > 0 ? round(($present_records / $total_records) * 100, 1) : 100;
 
 // Fetch all students and compute stats
-$students = $pdo->query("SELECT * FROM users WHERE role = 'student' ORDER BY name ASC")->fetchAll();
+$students = $pdo->query("SELECT u.*, d.name AS dept_name FROM users u LEFT JOIN departments d ON u.department = d.code WHERE u.role = 'student' ORDER BY u.name ASC")->fetchAll();
 $departments_list = $pdo->query("SELECT * FROM departments ORDER BY name ASC")->fetchAll();
 $student_stats = [];
 $low_attendance_count = 0;
@@ -213,7 +213,7 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
                                         <small style="color:#64748b;"><?php echo htmlspecialchars($student['username']); ?>@college.edu</small>
                                     </td>
                                     <td><?php echo htmlspecialchars($student['class']); ?></td>
-                                    <td><span class="faculty-badge badge-blue-subtle"><?php echo htmlspecialchars($student['department'] ?? 'AI&ML'); ?></span></td>
+                                    <td><span class="faculty-badge badge-blue-subtle"><?php echo htmlspecialchars($student['dept_name'] ?? $student['department'] ?? 'Unassigned'); ?></span></td>
                                     <td>Division <?php echo htmlspecialchars($student['division']); ?></td>
                                     <td>
                                         <div class="d-flex align-items-center gap-2">
@@ -226,7 +226,7 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
                                     <td><span class="faculty-badge badge-success-subtle"><?php echo htmlspecialchars($student['status']); ?></span></td>
                                     <td class="text-end">
                                         <div class="action-btn-group justify-content-end">
-                                            <button class="btn btn-sm btn-outline-info px-2.5 py-1 rounded-2" title="Edit Student" data-bs-toggle="modal" data-bs-target="#addStudentModal" onclick="prepareEditStudent(<?php echo $s_id; ?>, '<?php echo addslashes($student['zprn']); ?>', '<?php echo addslashes($student['name']); ?>', '<?php echo addslashes($student['class']); ?>', '<?php echo addslashes($student['department'] ?? 'AI&ML'); ?>', '<?php echo addslashes($student['division']); ?>')"><i class="bi bi-pencil-square me-1"></i>Edit</button>
+                                            <button class="btn btn-sm btn-outline-info px-2.5 py-1 rounded-2" title="Edit Student" data-bs-toggle="modal" data-bs-target="#addStudentModal" onclick="prepareEditStudent(<?php echo $s_id; ?>, '<?php echo addslashes($student['zprn']); ?>', '<?php echo addslashes($student['name']); ?>', '<?php echo addslashes($student['class']); ?>', '<?php echo addslashes($student['department'] ?? ''); ?>', '<?php echo addslashes($student['division']); ?>')"><i class="bi bi-pencil-square me-1"></i>Edit</button>
                                             <a class="btn btn-sm btn-outline-danger px-2.5 py-1 rounded-2" title="Delete Student" href="admin-students.php?delete_id=<?php echo $s_id; ?>" onclick="return confirm('Delete student record?')"><i class="bi bi-trash3 me-1"></i>Delete</a>
                                         </div>
                                     </td>
@@ -261,11 +261,11 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
                 <div class="modal-body space-y-3">
                     <div class="mb-3">
                         <label class="form-label text-slate-300 font-semibold">Roll Number / PRN</label>
-                        <input type="text" name="zprn" id="modal_zprn" class="form-control bg-dark text-white border-secondary" placeholder="e.g. 125UAM1209" required>
+                        <input type="text" name="zprn" id="modal_zprn" class="form-control bg-dark text-white border-secondary" placeholder="Enter Roll Number / PRN" required>
                     </div>
                     <div class="mb-3">
                         <label class="form-label text-slate-300 font-semibold">Full Student Name</label>
-                        <input type="text" name="name" id="modal_name" class="form-control bg-dark text-white border-secondary" placeholder="e.g. Tanay Shelar" required>
+                        <input type="text" name="name" id="modal_name" class="form-control bg-dark text-white border-secondary" placeholder="Enter Full Student Name" required>
                     </div>
                     <div class="mb-3">
                         <label class="form-label text-slate-300 font-semibold">Class</label>
