@@ -220,7 +220,37 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const urlParams = new URLSearchParams(window.location.search);
     if (urlParams.has('error')) {
-        showToast('❌ Invalid username, PRN or password.', true);
+        const errorType = urlParams.get('error');
+        const role = urlParams.get('role');
+        
+        let errorMsg = '❌ Invalid credentials provided.';
+        
+        if (errorType === 'not_found') {
+            if (role === 'student') {
+                errorMsg = '❌ Student PRN not found in system.';
+            } else if (role === 'faculty') {
+                errorMsg = '❌ Faculty ID not found in directory.';
+            } else if (role === 'admin') {
+                errorMsg = '❌ Admin account not found.';
+            } else {
+                errorMsg = '❌ Account not found.';
+            }
+        } else if (errorType === 'wrong_password') {
+            if (role === 'student') {
+                errorMsg = '❌ Incorrect password for this student account.';
+            } else if (role === 'faculty') {
+                errorMsg = '❌ Incorrect password for this faculty account.';
+            } else if (role === 'admin') {
+                errorMsg = '❌ Incorrect password for Admin account.';
+            } else {
+                errorMsg = '❌ Incorrect password.';
+            }
+        } else {
+            // Fallback for legacy generic error=1
+            errorMsg = '❌ Invalid username, PRN or password.';
+        }
+        
+        showToast(errorMsg, true);
     }
 
     // 2. Interactive Background Motion Dots (Starfield Canvas)

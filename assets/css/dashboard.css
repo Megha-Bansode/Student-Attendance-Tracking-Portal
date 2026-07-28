@@ -1497,3 +1497,35 @@ body.light-mode .allocation-card-item .fw-semibold[style*="color:#e2e8f0"],
 body.light-mode .allocation-card-item .fw-semibold {
     color: #0f172a !important;
 }
+
+/* ==========================================================================
+   Light Mode Specific Fixes for Notifications & Buttons
+   ========================================================================== */
+body.light-mode .btn-outline-light {
+    color: #475569 !important;
+    border-color: #cbd5e1 !important;
+}
+body.light-mode .btn-outline-light:hover {
+    background-color: #f1f5f9 !important;
+    color: #0f172a !important;
+}
+
+body.light-mode .notification-item-card {
+    border-color: #e2e8f0 !important;
+    background: #ffffff !important;
+}
+body.light-mode .notification-item-card.unread-glow {
+    border-color: rgba(245, 158, 11, 0.4) !important;
+    background: rgba(245, 158, 11, 0.05) !important;
+}
+
+body.light-mode .text-light-subtitle,
+body.light-mode [style*="color: #cbd5e1"],
+body.light-mode [style*="color:#cbd5e1"] {
+    color: #64748b !important;
+}
+
+body.light-mode hr,
+body.light-mode .border-secondary {
+    border-color: #cbd5e1 !important;
+}

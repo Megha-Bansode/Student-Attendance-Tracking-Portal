@@ -31,31 +31,46 @@ $stmt_sub = $pdo->prepare("SELECT COUNT(*) FROM faculty_subjects WHERE faculty_i
 $stmt_sub->execute([$faculty_id]);
 $assigned_subjects_count = $stmt_sub->fetchColumn();
 
-// Total students count
-$total_students_count = $pdo->query("SELECT COUNT(*) FROM users WHERE role = 'student'")->fetchColumn();
+// Total students count in the faculty's division
+$stmt_fac_info = $pdo->prepare("SELECT class, division FROM users WHERE id = ?");
+$stmt_fac_info->execute([$faculty_id]);
+$fac_info = $stmt_fac_info->fetch();
+
+$total_students_count = 0;
+if ($fac_info && $fac_info['class'] && $fac_info['division']) {
+    $stmt_stu = $pdo->prepare("SELECT COUNT(*) FROM users WHERE role = 'student' AND class = ? AND division = ?");
+    $stmt_stu->execute([$fac_info['class'], $fac_info['division']]);
+    $total_students_count = $stmt_stu->fetchColumn();
+} else {
+    // Fallback if faculty has no specific class/division assigned
+    $total_students_count = $pdo->query("SELECT COUNT(*) FROM users WHERE role = 'student'")->fetchColumn();
+}
 
 // Weekly lectures count
 $stmt_lectures = $pdo->prepare("SELECT COUNT(*) FROM schedules WHERE subject_id IN (SELECT subject_id FROM faculty_subjects WHERE faculty_id = ?)");
 $stmt_lectures->execute([$faculty_id]);
 $weekly_lectures_count = $stmt_lectures->fetchColumn();
 
-// Todays completed and total count
-$today_str = date('Y-m-d');
-$stmt_comp = $pdo->prepare("SELECT COUNT(DISTINCT (subject_id || '-' || date)) FROM attendance WHERE marked_by = ? AND date = ?");
-$stmt_comp->execute([$faculty_id, $today_str]);
-$todays_completed_count = $stmt_comp->fetchColumn();
-
-$todays_total_count = $weekly_lectures_count > 0 ? $weekly_lectures_count : 2;
-
+// Fetch today's actual schedules by filtering by current day of week
+$current_day_name = date('l'); // e.g., 'Monday', 'Tuesday'
 $stmt_today_sched = $pdo->prepare("
     SELECT s.*, subj.name AS subject_name, subj.class AS subject_class
     FROM schedules s
     JOIN subjects subj ON s.subject_id = subj.id
     JOIN faculty_subjects fs ON subj.id = fs.subject_id
-    WHERE fs.faculty_id = ?
+    WHERE fs.faculty_id = ? AND s.day_of_week = ?
 ");
-$stmt_today_sched->execute([$faculty_id]);
+$stmt_today_sched->execute([$faculty_id, $current_day_name]);
 $today_schedules = $stmt_today_sched->fetchAll();
+
+// Todays total count is the number of scheduled classes for today
+$todays_total_count = count($today_schedules);
+
+// Todays completed count
+$today_str = date('Y-m-d');
+$stmt_comp = $pdo->prepare("SELECT COUNT(DISTINCT (subject_id || '-' || date)) FROM attendance WHERE marked_by = ? AND date = ?");
+$stmt_comp->execute([$faculty_id, $today_str]);
+$todays_completed_count = $stmt_comp->fetchColumn();
 
 $stmt_recent = $pdo->prepare("
     SELECT a.date, subj.name AS subject_name, u.class, u.division,

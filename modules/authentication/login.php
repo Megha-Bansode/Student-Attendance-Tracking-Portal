@@ -32,26 +32,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (isset($stmt)) {
         $user = $stmt->fetch();
-        if ($user && ($password === $user['password'] || password_verify($password, $user['password']))) {
-            $_SESSION['user_id'] = $user['id'];
-            $_SESSION['role'] = $user['role'];
-            $_SESSION['name'] = $user['name'];
-            $_SESSION['username'] = $user['username'];
-            $_SESSION['zprn'] = $user['zprn'];
-            $_SESSION['class'] = $user['class'];
-            $_SESSION['division'] = $user['division'];
-            $_SESSION['department'] = $user['department'];
+        if ($user) {
+            if ($password === $user['password'] || password_verify($password, $user['password'])) {
+                $_SESSION['user_id'] = $user['id'];
+                $_SESSION['role'] = $user['role'];
+                $_SESSION['name'] = $user['name'];
+                $_SESSION['username'] = $user['username'];
+                $_SESSION['zprn'] = $user['zprn'];
+                $_SESSION['class'] = $user['class'];
+                $_SESSION['division'] = $user['division'];
+                $_SESSION['department'] = $user['department'];
 
-            if ($role === 'student') {
-                header("Location: ../dashboard/student-dashboard.php");
-            } elseif ($role === 'faculty') {
-                header("Location: ../dashboard/faculty-dashboard.php");
-            } elseif ($role === 'admin') {
-                header("Location: ../dashboard/admin-dashboard.php");
+                if ($role === 'student') {
+                    header("Location: ../dashboard/student-dashboard.php");
+                } elseif ($role === 'faculty') {
+                    header("Location: ../dashboard/faculty-dashboard.php");
+                } elseif ($role === 'admin') {
+                    header("Location: ../dashboard/admin-dashboard.php");
+                }
+                exit;
+            } else {
+                header("Location: login.php?error=wrong_password&role=" . urlencode($role));
+                exit;
             }
-            exit;
         } else {
-            header("Location: login.php?error=1");
+            header("Location: login.php?error=not_found&role=" . urlencode($role));
             exit;
         }
     }
@@ -177,7 +182,7 @@ include '../../includes/header.php';
                         <div class="compact-form-group">
                             <div class="compact-label">
                                 <span>Password</span>
-                                <a href="#" class="forgot-link-text">Forgot password?</a>
+                                <a href="forgot-password.php?role=student" class="forgot-link-text">Forgot password?</a>
                             </div>
                             <div class="input-with-icon">
                                 <i class="bi bi-lock-fill input-icon-left"></i>
@@ -218,7 +223,7 @@ include '../../includes/header.php';
                         <div class="compact-form-group">
                             <div class="compact-label">
                                 <span>Password</span>
-                                <a href="#" class="forgot-link-text">Forgot password?</a>
+                                <a href="forgot-password.php?role=faculty" class="forgot-link-text">Forgot password?</a>
                             </div>
                             <div class="input-with-icon">
                                 <i class="bi bi-lock-fill input-icon-left"></i>
@@ -259,7 +264,7 @@ include '../../includes/header.php';
                         <div class="compact-form-group">
                             <div class="compact-label">
                                 <span>Password</span>
-                                <a href="#" class="forgot-link-text">Forgot password?</a>
+                                <a href="forgot-password.php?role=admin" class="forgot-link-text">Forgot password?</a>
                             </div>
                             <div class="input-with-icon">
                                 <i class="bi bi-lock-fill input-icon-left"></i>

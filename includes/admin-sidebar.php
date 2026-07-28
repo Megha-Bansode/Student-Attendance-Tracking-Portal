@@ -73,6 +73,15 @@ $current_page = basename($_SERVER['PHP_SELF']);
         </li>
 
         <li class="faculty-nav-item">
+            <a href="<?php echo $base_path; ?>modules/subjects/admin-timetable.php"
+               class="faculty-nav-link <?php echo ($current_page === 'admin-timetable.php') ? 'active' : ''; ?>"
+               <?php echo ($current_page === 'admin-timetable.php') ? 'aria-current="page"' : ''; ?>>
+                <i class="bi bi-calendar-week-fill text-primary"></i>
+                <span>Timetables</span>
+            </a>
+        </li>
+
+        <li class="faculty-nav-item">
             <a href="<?php echo $base_path; ?>users/admin-faculty.php"
                class="faculty-nav-link <?php echo ($current_page === 'admin-faculty.php') ? 'active' : ''; ?>"
                <?php echo ($current_page === 'admin-faculty.php') ? 'aria-current="page"' : ''; ?>>
@@ -114,6 +123,15 @@ $current_page = basename($_SERVER['PHP_SELF']);
                <?php echo ($current_page === 'admin-condonations.php') ? 'aria-current="page"' : ''; ?>>
                 <i class="bi bi-file-earmark-check-fill text-warning"></i>
                 <span>Condonation Requests</span>
+            </a>
+        </li>
+
+        <li class="faculty-nav-item">
+            <a href="<?php echo $base_path; ?>users/admin-password-resets.php"
+               class="faculty-nav-link <?php echo ($current_page === 'admin-password-resets.php') ? 'active' : ''; ?>"
+               <?php echo ($current_page === 'admin-password-resets.php') ? 'aria-current="page"' : ''; ?>>
+                <i class="bi bi-key-fill text-info"></i>
+                <span>Password Resets</span>
             </a>
         </li>
 

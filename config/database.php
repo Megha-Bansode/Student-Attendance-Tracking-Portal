@@ -73,8 +73,17 @@ try {
         submitted_at TEXT
     )");
 
+    $pdo->exec("CREATE TABLE IF NOT EXISTS password_resets (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        user_id INTEGER,
+        role TEXT,
+        status TEXT DEFAULT 'Pending',
+        created_at TEXT,
+        resolved_at TEXT
+    )");
 
-
+    // Specialized Key for Admin Password Reset
+    define('ADMIN_RESET_KEY', 'SUPER_SECRET_KEY_123');
 
     // Seed data if database is empty
     $stmt = $pdo->query("SELECT COUNT(*) FROM users");
