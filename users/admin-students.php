@@ -72,18 +72,30 @@ $departments_list = $pdo->query("SELECT * FROM departments ORDER BY name ASC")->
 $student_stats = [];
 $low_attendance_count = 0;
 
+// Pre-calculate total lectures for each class and division
+$stmt_all_classes = $pdo->query("
+    SELECT u.class, u.division, COUNT(DISTINCT (a.subject_id || '-' || a.date)) as total
+    FROM attendance a
+    JOIN users u ON a.student_id = u.id
+    GROUP BY u.class, u.division
+");
+$class_totals = [];
+while ($row = $stmt_all_classes->fetch()) {
+    $key = $row['class'] . '|' . $row['division'];
+    $class_totals[$key] = $row['total'];
+}
+
 foreach ($students as $student) {
     $s_id = $student['id'];
     
-    $stmt_tot = $pdo->prepare("SELECT COUNT(*) FROM attendance WHERE student_id = ?");
-    $stmt_tot->execute([$s_id]);
-    $total_s = $stmt_tot->fetchColumn();
+    $s_key = $student['class'] . '|' . $student['division'];
+    $total_s = isset($class_totals[$s_key]) ? $class_totals[$s_key] : 0;
 
     $stmt_pres = $pdo->prepare("SELECT COUNT(*) FROM attendance WHERE student_id = ? AND status = 'Present'");
     $stmt_pres->execute([$s_id]);
     $present_s = $stmt_pres->fetchColumn();
 
-    $percent = $total_s > 0 ? round(($present_s / $total_s) * 100, 1) : 100.0;
+    $percent = $total_s > 0 ? round(($present_s / $total_s) * 100, 1) : 0.0;
     if ($percent < 75.0 && $total_s > 0) {
         $low_attendance_count++;
     }

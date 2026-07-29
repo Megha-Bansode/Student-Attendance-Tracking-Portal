@@ -16,19 +16,44 @@ $high_performers_count = 0;
 $total_held_overall = 0;
 $total_attended_overall = 0;
 
+// Pre-calculate total lectures for each class and division
+$stmt_all_classes = $pdo->query("
+    SELECT u.class, u.division, COUNT(DISTINCT (a.subject_id || '-' || a.date)) as total
+    FROM attendance a
+    JOIN users u ON a.student_id = u.id
+    GROUP BY u.class, u.division
+");
+$class_totals = [];
+while ($row = $stmt_all_classes->fetch()) {
+    $key = $row['class'] . '|' . $row['division'];
+    $class_totals[$key] = $row['total'];
+}
+
+// Pre-calculate total lectures for each subject, class and division
+$stmt_all_subjects = $pdo->query("
+    SELECT u.class, u.division, a.subject_id, COUNT(DISTINCT a.date) as total
+    FROM attendance a
+    JOIN users u ON a.student_id = u.id
+    GROUP BY u.class, u.division, a.subject_id
+");
+$class_subject_totals = [];
+while ($row = $stmt_all_subjects->fetch()) {
+    $key = $row['class'] . '|' . $row['division'] . '|' . $row['subject_id'];
+    $class_subject_totals[$key] = $row['total'];
+}
+
 foreach ($students_db as $stud) {
     $s_id = $stud['id'];
     
     // Fetch overall held vs attended
-    $stmt_tot = $pdo->prepare("SELECT COUNT(*) FROM attendance WHERE student_id = ?");
-    $stmt_tot->execute([$s_id]);
-    $total_held = $stmt_tot->fetchColumn();
+    $s_key = $stud['class'] . '|' . $stud['division'];
+    $total_held = isset($class_totals[$s_key]) ? $class_totals[$s_key] : 0;
 
     $stmt_pres = $pdo->prepare("SELECT COUNT(*) FROM attendance WHERE student_id = ? AND status = 'Present'");
     $stmt_pres->execute([$s_id]);
     $total_attended = $stmt_pres->fetchColumn();
 
-    $percent = $total_held > 0 ? round(($total_attended / $total_held) * 100, 1) : 100.0;
+    $percent = $total_held > 0 ? round(($total_attended / $total_held) * 100, 1) : 0.0;
     
     $status = 'Safe';
     if ($total_held > 0) {
@@ -53,15 +78,14 @@ foreach ($students_db as $stud) {
     foreach ($subjects_db as $subj) {
         $subj_id = $subj['id'];
         
-        $stmt_s_tot = $pdo->prepare("SELECT COUNT(*) FROM attendance WHERE student_id = ? AND subject_id = ?");
-        $stmt_s_tot->execute([$s_id, $subj_id]);
-        $s_held = $stmt_s_tot->fetchColumn();
+        $subj_key = $stud['class'] . '|' . $stud['division'] . '|' . $subj_id;
+        $s_held = isset($class_subject_totals[$subj_key]) ? $class_subject_totals[$subj_key] : 0;
         
         $stmt_s_pres = $pdo->prepare("SELECT COUNT(*) FROM attendance WHERE student_id = ? AND subject_id = ? AND status = 'Present'");
         $stmt_s_pres->execute([$s_id, $subj_id]);
         $s_attended = $stmt_s_pres->fetchColumn();
         
-        $s_percent = $s_held > 0 ? round(($s_attended / $s_held) * 100, 1) : 100.0;
+        $s_percent = $s_held > 0 ? round(($s_attended / $s_held) * 100, 1) : 0.0;
         
         $subject_summaries[] = [
             'code' => 'SUBJ-' . $subj_id,
@@ -88,7 +112,7 @@ foreach ($students_db as $stud) {
 }
 
 $total_students = count($students);
-$average_attendance = $total_held_overall > 0 ? round(($total_attended_overall / $total_held_overall) * 100, 1) : 100.0;
+$average_attendance = $total_held_overall > 0 ? round(($total_attended_overall / $total_held_overall) * 100, 1) : 0.0;
 ?>
 
 <main class="main-content style-pt">

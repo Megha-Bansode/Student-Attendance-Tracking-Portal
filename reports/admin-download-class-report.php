@@ -45,7 +45,7 @@ foreach ($students as $student) {
     $attended = $stmt_pres->fetchColumn();
     
     $absent = $held - $attended;
-    $percent = $held > 0 ? round(($attended / $held) * 100, 1) : 100.0;
+    $percent = $held > 0 ? round(($attended / $held) * 100, 1) : 0.0;
     
     $report_data[] = [
         'zprn' => $student['zprn'],

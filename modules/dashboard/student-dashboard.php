@@ -33,15 +33,20 @@ if ($_SESSION['role'] !== 'student') {
 }
 
 // Fetch stats
-$stmt_tot = $pdo->prepare("SELECT COUNT(*) FROM attendance WHERE student_id = ?");
-$stmt_tot->execute([$student_id]);
+$stmt_tot = $pdo->prepare("
+    SELECT COUNT(DISTINCT (a.subject_id || '-' || a.date)) 
+    FROM attendance a
+    JOIN users u ON a.student_id = u.id
+    WHERE u.class = ? AND u.division = ?
+");
+$stmt_tot->execute([$student_class, $student_division]);
 $classes_conducted = $stmt_tot->fetchColumn();
 
 $stmt_pres = $pdo->prepare("SELECT COUNT(*) FROM attendance WHERE student_id = ? AND status = 'Present'");
 $stmt_pres->execute([$student_id]);
 $classes_attended = $stmt_pres->fetchColumn();
 
-$overall_attendance = $classes_conducted > 0 ? round(($classes_attended / $classes_conducted) * 100, 1) : 100.0;
+$overall_attendance = $classes_conducted > 0 ? round(($classes_attended / $classes_conducted) * 100, 1) : 0.0;
 
 $subjects_count = $pdo->prepare("SELECT COUNT(DISTINCT subject_id) FROM attendance WHERE student_id = ?");
 $subjects_count->execute([$student_id]);

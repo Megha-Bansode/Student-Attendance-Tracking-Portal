@@ -29,8 +29,13 @@ foreach ($subjects as $subj) {
     $subj_id = $subj['id'];
     
     // Count lectures held
-    $stmt_held = $pdo->prepare("SELECT COUNT(*) FROM attendance WHERE student_id = ? AND subject_id = ?");
-    $stmt_held->execute([$student_id, $subj_id]);
+    $stmt_held = $pdo->prepare("
+        SELECT COUNT(DISTINCT a.date) 
+        FROM attendance a
+        JOIN users u ON a.student_id = u.id
+        WHERE u.class = ? AND u.division = ? AND a.subject_id = ?
+    ");
+    $stmt_held->execute([$student_class, $student_division, $subj_id]);
     $held = $stmt_held->fetchColumn();
     
     // Count attended
@@ -39,7 +44,7 @@ foreach ($subjects as $subj) {
     $attended = $stmt_pres->fetchColumn();
     
     $absent = $held - $attended;
-    $percent = $held > 0 ? round(($attended / $held) * 100, 1) : 100.0;
+    $percent = $held > 0 ? round(($attended / $held) * 100, 1) : 0.0;
     
     $report_data[] = [
         'code' => 'SUBJ-' . $subj_id,

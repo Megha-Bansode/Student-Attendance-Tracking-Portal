@@ -25,7 +25,7 @@ $monthly_records = [];
 foreach ($db_records as $row) {
     $held = $row['total_count'];
     $attended = $row['present_count'];
-    $percent = $held > 0 ? round(($attended / $held) * 100, 1) : 100.0;
+    $percent = $held > 0 ? round(($attended / $held) * 100, 1) : 0.0;
     
     $status = 'Safe';
     if ($held > 0) {

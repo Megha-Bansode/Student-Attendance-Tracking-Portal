@@ -168,12 +168,12 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
                             </div>
                             <h2 class="h3 fw-bold mb-1" style="color:#f1f5f9;font-family:'Outfit',sans-serif;">Welcome back, <?php echo htmlspecialchars($faculty_name); ?> 👋</h2>
                             <p class="mb-0" style="color:#94a3b8;font-size:.9rem;">
-                                You have <strong style="color:#93c5fd;"><?php echo ($todays_total_count - $todays_completed_count); ?> class remaining</strong> to mark attendance for today.
+                                You have <strong style="color:#93c5fd;"><?php echo max(0, $todays_total_count - $todays_completed_count); ?> class remaining</strong> to mark attendance for today.
                             </p>
                         </div>
                         <div class="col-lg-4 text-lg-end d-flex flex-wrap justify-content-lg-end gap-2">
-                            <a href="<?php echo $base_path; ?>modules/attendance/faculty-daily-report.php" class="btn btn-outline-light rounded-pill px-3" style="font-size:.85rem;"><i class="bi bi-file-earmark-pdf me-1"></i> Generate Report</a>
-                            <a href="<?php echo $base_path; ?>modules/attendance/faculty-mark-attendance.php" class="btn btn-premium"><i class="bi bi-check2-square"></i> Mark Attendance</a>
+                            <a href="<?php echo $base_path; ?>modules/attendance/faculty-daily-report.php" class="btn btn-outline-light rounded-pill px-4 d-inline-flex align-items-center justify-content-center" style="height: 42px;"><i class="bi bi-file-earmark-pdf me-2"></i> Generate Report</a>
+                            <a href="<?php echo $base_path; ?>modules/attendance/faculty-mark-attendance.php" class="btn btn-premium px-4 d-inline-flex align-items-center justify-content-center" style="height: 42px;"><i class="bi bi-check2-square me-2"></i> Mark Attendance</a>
                         </div>
                     </div>
                 </div>

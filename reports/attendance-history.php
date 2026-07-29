@@ -25,7 +25,7 @@ foreach ($db_sessions as $idx => $row) {
     $total = $row['total_count'];
     $present = $row['present_count'];
     $absent = $total - $present;
-    $percent = $total > 0 ? round(($present / $total) * 100, 1) : 100.0;
+    $percent = $total > 0 ? round(($present / $total) * 100, 1) : 0.0;
     
     $sessions[] = [
         'id' => 'SES-' . (9000 + $idx),
