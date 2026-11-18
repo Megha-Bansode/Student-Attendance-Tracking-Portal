@@ -1,0 +1,37 @@
+services:
+  # AttendEase PHP Web Application
+  attendease-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: attendease_app
+    restart: unless-stopped
+    ports:
+      - "${PORT:-8000}:80"
+    volumes:
+      - attendease_data:/var/www/html/config
+    environment:
+      - APP_ENV=production
+    networks:
+      - cloudflare_net
+
+  # Cloudflare Tunnel Daemon (Routes traffic securely through Cloudflare Edge)
+  cloudflare-tunnel:
+    image: cloudflare/cloudflared:latest
+    container_name: cloudflare_tunnel
+    restart: unless-stopped
+    environment:
+      - TUNNEL_TOKEN=${CLOUDFLARE_TUNNEL_TOKEN:-}
+    command: tunnel run
+    networks:
+      - cloudflare_net
+    depends_on:
+      - attendease-app
+
+volumes:
+  attendease_data:
+    driver: local
+
+networks:
+  cloudflare_net:
+    driver: bridge

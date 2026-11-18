@@ -1,0 +1,12 @@
+.git
+.gitignore
+.dockerignore
+.env
+.env.local
+*.log
+server.log
+server_lan.log
+.DS_Store
+CLOUDFLARE_DEPLOYMENT.md
+system-documentation.md
+system-documentation.html

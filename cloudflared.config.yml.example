@@ -1,0 +1,12 @@
+# Example configuration for manual Cloudflare Tunnel (cloudflared)
+# Place in ~/.cloudflared/config.yml or use via CLI
+
+tunnel: your-tunnel-id-here
+credentials-file: /path/to/your-tunnel-credentials.json
+
+ingress:
+  # Route your custom domain/subdomain to the local PHP app
+  - hostname: attendance.yourdomain.com
+    service: http://localhost:8000
+  # Catch-all rule (required)
+  - service: http_status:404

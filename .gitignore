@@ -1,0 +1,27 @@
+# Environment files
+.env
+.env.local
+
+# Database temporary storage & locks
+config/*.db-journal
+config/*.db-wal
+config/*.db-shm
+
+# Server logs
+*.log
+server.log
+server_lan.log
+
+# Operating system files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Cloudflared / credentials
+.cloudflared/
+cert.pem
+credentials.json
