@@ -1,5 +1,56 @@
-<?php include 'includes/header.php'; ?>
+<?php 
+require_once 'config/database.php';
+include 'includes/header.php'; 
 
+// Fetch dynamic stats
+$total_students = $pdo->query("SELECT COUNT(*) FROM users WHERE role = 'student'")->fetchColumn();
+$total_faculty = $pdo->query("SELECT COUNT(*) FROM users WHERE role = 'faculty'")->fetchColumn();
+$total_departments = $pdo->query("SELECT COUNT(*) FROM departments")->fetchColumn();
+
+// Calculate average attendance % for the latest date
+$latest_date = $pdo->query("SELECT MAX(date) FROM attendance")->fetchColumn();
+$present_count = $pdo->prepare("SELECT COUNT(*) FROM attendance WHERE date = ? AND status = 'Present'");
+$present_count->execute([$latest_date]);
+$present_val = $present_count->fetchColumn();
+
+$total_att_count = $pdo->prepare("SELECT COUNT(*) FROM attendance WHERE date = ?");
+$total_att_count->execute([$latest_date]);
+$total_val = $total_att_count->fetchColumn();
+
+$avg_attendance = ($total_val > 0) ? round(($present_val / $total_val) * 100, 1) : 0;
+?>
+
+<!-- Splash Intro Screen -->
+<div class="splash-container" id="splash-root">
+    <div class="logo-exit d-flex align-items-center gap-4 z-50">
+        <!-- SVG Cap Logo -->
+        <div class="position-relative" style="width: 96px; height: 96px; display: flex; align-items: center; justify-content: center;">
+            <svg width="96" height="96" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 0 15px rgba(56, 189, 248, 0.3));">
+                <defs>
+                    <linearGradient id="splash-logo-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#818cf8" />
+                        <stop offset="100%" stop-color="#38bdf8" />
+                    </linearGradient>
+                </defs>
+                <path d="M12 3L2 8l10 5 10-5-10-5z" stroke="url(#splash-logo-gradient)" stroke-width="1.2" class="cap-trace" stroke-linejoin="round" pathLength="1000"></path>
+                <path d="M6 10v4c0 3 3 5 6 5s6-2 6-5v-4" stroke="url(#splash-logo-gradient)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="cap-trace" pathLength="1000"></path>
+                <path d="M18 9v5.5c0 .8.7 1.5 1.5 1.5s1.5-.7 1.5-1.5v-3" stroke="url(#splash-logo-gradient)" stroke-width="1.5" stroke-linecap="round" class="cap-trace" pathLength="1000"></path>
+                <g class="badge-pop">
+                    <circle cx="12" cy="11.5" r="4.5" fill="#0f172a" stroke="url(#splash-logo-gradient)" stroke-width="1.5" style="filter: drop-shadow(0 0 8px rgba(56, 189, 248, 0.6));"></circle>
+                    <path d="M10.2 11.5l1.2 1.2 2.4-2.4" stroke="#38bdf8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                </g>
+            </svg>
+        </div>
+        <!-- Branding Text -->
+        <div class="position-relative d-flex align-items-center" style="height: 96px; overflow: hidden; padding-right: 1.5rem;">
+            <h1 class="display-5 fw-bold m-0 tracking-tight d-flex align-items-center font-outfit" style="font-size: 3.5rem; letter-spacing: -1px; color: var(--text-white) !important;">
+                <span class="text-reveal-attend">Attend</span>
+                <span class="text-reveal-ease brand-gradient" style="margin-left: 0.15rem; filter: drop-shadow(0 0 12px rgba(99, 102, 241, 0.3));">Ease</span>
+            </h1>
+            <div class="flare"></div>
+        </div>
+    </div>
+</div>
 <!-- Home Section / Hero Banner -->
 <section id="home" class="hero-section">
     <!-- Interactive Background Canvas -->
@@ -46,19 +97,19 @@
                             <div class="col-4">
                                 <div class="stat-box-mini">
                                     <span class="lbl">Students</span>
-                                    <span class="val">1,540</span>
+                                    <span class="val"><?php echo number_format($total_students); ?></span>
                                 </div>
                             </div>
                             <div class="col-4">
                                 <div class="stat-box-mini">
                                     <span class="lbl">Present Today</span>
-                                    <span class="val text-success">1,463</span>
+                                    <span class="val text-success"><?php echo number_format($present_val); ?></span>
                                 </div>
                             </div>
                             <div class="col-4">
                                 <div class="stat-box-mini">
                                     <span class="lbl">Attendance %</span>
-                                    <span class="val text-info">95.0%</span>
+                                    <span class="val text-info"><?php echo $avg_attendance; ?>%</span>
                                 </div>
                             </div>
                         </div>
@@ -84,7 +135,7 @@
                         <!-- Typewriter Console Output -->
                         <div class="console-box-mini p-2">
                             <div class="console-line"><span class="text-success">[OK]</span> Syncing database...</div>
-                            <div class="console-line"><span class="text-warning">[WARN]</span> Alert sent: Aarav Mehta (68.5%)</div>
+                            <div class="console-line"><span class="text-warning">[WARN]</span> Alert sent: Tanay Shelar (68.5%)</div>
                             <div class="console-line"><span class="text-info">[INFO]</span> Attendance updated for IT Sem-IV</div>
                         </div>
                     </div>
@@ -101,28 +152,28 @@
             <!-- Counter 1 -->
             <div class="col-md-3 col-6">
                 <div class="counter-item">
-                    <div class="counter-number" data-target="1500+" id="stat-students">1500+</div>
+                    <div class="counter-number" data-target="<?php echo $total_students; ?>+" id="stat-students"><?php echo $total_students; ?>+</div>
                     <div class="counter-label">Active Students</div>
                 </div>
             </div>
             <!-- Counter 2 -->
             <div class="col-md-3 col-6">
                 <div class="counter-item">
-                    <div class="counter-number" data-target="120+" id="stat-faculty">120+</div>
+                    <div class="counter-number" data-target="<?php echo $total_faculty; ?>+" id="stat-faculty"><?php echo $total_faculty; ?>+</div>
                     <div class="counter-label">Expert Faculty</div>
                 </div>
             </div>
             <!-- Counter 3 -->
             <div class="col-md-3 col-6">
                 <div class="counter-item">
-                    <div class="counter-number" data-target="98%" id="stat-attendance">98%</div>
+                    <div class="counter-number" data-target="<?php echo $avg_attendance; ?>%" id="stat-attendance"><?php echo $avg_attendance; ?>%</div>
                     <div class="counter-label">Daily Avg Rate</div>
                 </div>
             </div>
             <!-- Counter 4 -->
             <div class="col-md-3 col-6">
                 <div class="counter-item">
-                    <div class="counter-number" data-target="15+" id="stat-departments">15+</div>
+                    <div class="counter-number" data-target="<?php echo $total_departments; ?>+" id="stat-departments"><?php echo $total_departments; ?>+</div>
                     <div class="counter-label">Departments</div>
                 </div>
             </div>
@@ -307,5 +358,21 @@
         </div>
     </div>
 </section>
+
+<!-- Feature Modal -->
+<div class="modal fade" id="featureModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" style="background-color: #0f172a; border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px;">
+            <div class="modal-header border-0 pb-0">
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body pt-0 text-center pb-5 px-4">
+                <div id="featureModalIcon" class="feature-icon-wrapper mx-auto mb-4" style="width: 70px; height: 70px; font-size: 2rem;"></div>
+                <h3 id="featureModalTitle" class="text-white mb-3"></h3>
+                <p id="featureModalDesc" class="text-muted" style="font-size: 1.1rem; line-height: 1.6;"></p>
+            </div>
+        </div>
+    </div>
+</div>
 
 <?php include 'includes/footer.php'; ?>

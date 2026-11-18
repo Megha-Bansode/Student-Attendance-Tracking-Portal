@@ -24,10 +24,10 @@ document.addEventListener('DOMContentLoaded', function() {
    1. Mobile Sidebar Toggle Logic
    ========================================================================== */
 function initMobileSidebar() {
-    const toggler = document.getElementById('facultySidebarToggler');
+    const togglers = document.querySelectorAll('.faculty-sidebar-toggler');
     const sidebar = document.getElementById('facultySidebar');
 
-    if (!toggler || !sidebar) return;
+    if (togglers.length === 0 || !sidebar) return;
 
     // Create backdrop overlay element if not exists
     let overlay = document.querySelector('.faculty-sidebar-overlay');
@@ -63,6 +63,7 @@ function initMobileSidebar() {
         sidebar.classList.add('collapsed');
         const mainContent = document.querySelector('.faculty-main-content');
         if (mainContent) mainContent.classList.add('expanded');
+        document.body.classList.add('sidebar-collapsed');
     }
     
     // Remove preload class to enable transitions again
@@ -70,25 +71,28 @@ function initMobileSidebar() {
         document.documentElement.classList.remove('preload-collapsed');
     }, 50);
 
-    toggler.addEventListener('click', function(e) {
-        e.stopPropagation();
-        if (window.innerWidth >= 992) {
-            // Desktop toggle with persistence
-            sidebar.classList.toggle('collapsed');
-            const mainContent = document.querySelector('.faculty-main-content');
-            if (mainContent) mainContent.classList.toggle('expanded');
-            
-            // Save state
-            const isCollapsed = sidebar.classList.contains('collapsed');
-            localStorage.setItem('facultySidebarCollapsed', isCollapsed ? 'true' : 'false');
-        } else {
-            // Mobile offcanvas toggle
-            if (sidebar.classList.contains('show')) {
-                closeSidebar();
+    togglers.forEach(toggler => {
+        toggler.addEventListener('click', function(e) {
+            e.stopPropagation();
+            if (window.innerWidth >= 992) {
+                // Desktop toggle with persistence
+                sidebar.classList.toggle('collapsed');
+                const mainContent = document.querySelector('.faculty-main-content');
+                if (mainContent) mainContent.classList.toggle('expanded');
+                document.body.classList.toggle('sidebar-collapsed');
+                
+                // Save state
+                const isCollapsed = sidebar.classList.contains('collapsed');
+                localStorage.setItem('facultySidebarCollapsed', isCollapsed ? 'true' : 'false');
             } else {
-                openSidebar();
+                // Mobile offcanvas toggle
+                if (sidebar.classList.contains('show')) {
+                    closeSidebar();
+                } else {
+                    openSidebar();
+                }
             }
-        }
+        });
     });
 
     overlay.addEventListener('click', closeSidebar);
@@ -430,3 +434,160 @@ function showFacultyToast(message, type = 'info') {
         setTimeout(() => toast.remove(), 300);
     }, 3500);
 }
+
+/* ==========================================================================
+   5. Premium AI & Entrance Animations (Observer)
+   ========================================================================== */
+document.addEventListener('DOMContentLoaded', function() {
+    const observerOptions = {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.1
+    };
+    const observer = new IntersectionObserver((entries, obs) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('is-visible');
+                obs.unobserve(entry.target);
+            }
+        });
+    }, observerOptions);
+
+    const animatedElements = document.querySelectorAll('.animate-fade-up');
+    animatedElements.forEach(el => observer.observe(el));
+});
+
+/* Bind loading states to form submit buttons */
+document.addEventListener('submit', function(e) {
+    const form = e.target;
+    if (form.tagName === 'FORM') {
+        const submitBtn = form.querySelector('button[type="submit"]');
+        if (submitBtn) {
+            submitBtn.classList.add('is-loading');
+            // Timeout to reset state if submission fails or halts
+            setTimeout(() => submitBtn.classList.remove('is-loading'), 4000);
+        }
+    }
+});
+
+/* ==========================================================================
+   6. Light/Dark Theme Toggle Logic
+   ========================================================================== */
+function applyTheme(isLight) {
+    if (isLight) {
+        document.body.classList.add('light-mode');
+    } else {
+        document.body.classList.remove('light-mode');
+    }
+    
+    // Update icons in all toggle buttons
+    const icons = document.querySelectorAll('#themeToggleIcon');
+    icons.forEach(icon => {
+        if (isLight) {
+            icon.classList.remove('bi-moon-stars-fill');
+            icon.classList.add('bi-brightness-high-fill');
+        } else {
+            icon.classList.remove('bi-brightness-high-fill');
+            icon.classList.add('bi-moon-stars-fill');
+        }
+    });
+}
+
+function toggleTheme() {
+    const isLight = document.body.classList.contains('light-mode');
+    const newState = !isLight;
+    applyTheme(newState);
+    localStorage.setItem('facultyTheme', newState ? 'light' : 'dark');
+}
+
+// Initial theme setup on script load
+(function initTheme() {
+    const savedTheme = localStorage.getItem('facultyTheme');
+    if (savedTheme === 'light') {
+        applyTheme(true);
+    }
+})();
+
+// ==========================================================================
+// Antigravity Moving Cursor Elements (Creative Effect)
+// ==========================================================================
+document.addEventListener("DOMContentLoaded", () => {
+    // Only run on non-mobile devices for performance
+    if (window.innerWidth < 768) return;
+
+    const numParticles = 8;
+    const particles = [];
+    const colorsDark = ['#6366f1', '#8b5cf6', '#ec4899', '#3b82f6'];
+    const colorsLight = ['#818cf8', '#a78bfa', '#f472b6', '#60a5fa'];
+
+    for (let i = 0; i < numParticles; i++) {
+        const p = document.createElement('div');
+        p.className = 'antigravity-particle';
+        
+        // Randomize size between 10px and 30px
+        const size = Math.random() * 20 + 10;
+        p.style.width = size + 'px';
+        p.style.height = size + 'px';
+        
+        document.body.appendChild(p);
+        
+        particles.push({
+            el: p,
+            x: window.innerWidth / 2,
+            y: window.innerHeight / 2,
+            vx: 0,
+            vy: 0,
+            targetX: window.innerWidth / 2,
+            targetY: window.innerHeight / 2,
+            drag: Math.random() * 0.05 + 0.05,
+            colorIndex: i % 4
+        });
+    }
+
+    let mouseX = window.innerWidth / 2;
+    let mouseY = window.innerHeight / 2;
+
+    window.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+    });
+
+    function updateParticles() {
+        const isLightMode = document.body.classList.contains('light-mode');
+        const colors = isLightMode ? colorsLight : colorsDark;
+
+        particles.forEach((p, index) => {
+            // Apply color based on theme
+            p.el.style.backgroundColor = colors[p.colorIndex];
+            p.el.style.boxShadow = `0 0 ${p.el.style.width} ${colors[p.colorIndex]}`;
+
+            // Add antigravity spread (offset from mouse based on index)
+            const offsetX = Math.cos(index + performance.now() * 0.001) * 40;
+            const offsetY = Math.sin(index + performance.now() * 0.001) * 40;
+
+            p.targetX = mouseX + offsetX;
+            p.targetY = mouseY + offsetY;
+
+            // Spring physics
+            const dx = p.targetX - p.x;
+            const dy = p.targetY - p.y;
+            
+            p.vx += dx * (0.01 + p.drag * 0.1);
+            p.vy += dy * (0.01 + p.drag * 0.1);
+            
+            p.vx *= 0.85; // friction
+            p.vy *= 0.85;
+
+            p.x += p.vx;
+            p.y += p.vy;
+
+            // Center element
+            const radius = parseFloat(p.el.style.width) / 2;
+            p.el.style.transform = `translate(${p.x - radius}px, ${p.y - radius}px)`;
+        });
+
+        requestAnimationFrame(updateParticles);
+    }
+
+    updateParticles();
+});

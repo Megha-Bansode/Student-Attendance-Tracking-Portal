@@ -15,12 +15,27 @@ $current_page = basename($_SERVER['PHP_SELF']);
         </button>
     </div>
 
+    <?php
+    $display_name = isset($_SESSION['name']) ? $_SESSION['name'] : 'Super Admin';
+    $display_role = isset($_SESSION['role']) ? ucfirst($_SESSION['role']) . ' Admin' : 'System Admin';
+    $initials = '';
+    if (!empty($display_name)) {
+        $parts = explode(' ', $display_name);
+        if (count($parts) >= 2) {
+            $initials = strtoupper(substr($parts[0], 0, 1) . substr($parts[1], 0, 1));
+        } else {
+            $initials = strtoupper(substr($display_name, 0, 2));
+        }
+    } else {
+        $initials = 'SA';
+    }
+    ?>
     <!-- Super Admin Identity Card -->
     <div class="faculty-profile-card">
-        <div class="faculty-avatar" aria-hidden="true" style="background: linear-gradient(135deg, #2563eb 0%, #6366f1 100%); border-color: rgba(96, 165, 250, 0.4);">SA</div>
+        <div class="faculty-avatar" aria-hidden="true" style="background: linear-gradient(135deg, #2563eb 0%, #6366f1 100%); border-color: rgba(96, 165, 250, 0.4);"><?php echo htmlspecialchars($initials); ?></div>
         <div class="faculty-profile-info">
-            <p class="faculty-profile-name" title="Super Administrator">Super Admin</p>
-            <p class="faculty-profile-dept"><i class="bi bi-shield-check me-1 text-info"></i> System Admin</p>
+            <p class="faculty-profile-name" title="<?php echo htmlspecialchars($display_name); ?>"><?php echo htmlspecialchars($display_name); ?></p>
+            <p class="faculty-profile-dept"><i class="bi bi-shield-check me-1 text-info"></i> <?php echo htmlspecialchars($display_role); ?></p>
         </div>
     </div>
 
@@ -36,6 +51,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
             </a>
         </li>
 
+
         <li class="faculty-nav-item">
             <a href="<?php echo $base_path; ?>modules/departments/admin-departments.php"
                class="faculty-nav-link <?php echo ($current_page === 'admin-departments.php') ? 'active' : ''; ?>"
@@ -45,14 +61,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
             </a>
         </li>
 
-        <li class="faculty-nav-item">
-            <a href="<?php echo $base_path; ?>modules/courses/admin-courses.php"
-               class="faculty-nav-link <?php echo ($current_page === 'admin-courses.php') ? 'active' : ''; ?>"
-               <?php echo ($current_page === 'admin-courses.php') ? 'aria-current="page"' : ''; ?>>
-                <i class="bi bi-book"></i>
-                <span>Courses</span>
-            </a>
-        </li>
+
 
         <li class="faculty-nav-item">
             <a href="<?php echo $base_path; ?>modules/subjects/admin-subjects.php"
@@ -60,6 +69,15 @@ $current_page = basename($_SERVER['PHP_SELF']);
                <?php echo ($current_page === 'admin-subjects.php') ? 'aria-current="page"' : ''; ?>>
                 <i class="bi bi-journal-bookmark-fill"></i>
                 <span>Subjects</span>
+            </a>
+        </li>
+
+        <li class="faculty-nav-item">
+            <a href="<?php echo $base_path; ?>modules/subjects/admin-timetable.php"
+               class="faculty-nav-link <?php echo ($current_page === 'admin-timetable.php') ? 'active' : ''; ?>"
+               <?php echo ($current_page === 'admin-timetable.php') ? 'aria-current="page"' : ''; ?>>
+                <i class="bi bi-calendar-week-fill text-primary"></i>
+                <span>Timetables</span>
             </a>
         </li>
 
@@ -98,6 +116,34 @@ $current_page = basename($_SERVER['PHP_SELF']);
                 <span>Reports &amp; Analytics</span>
             </a>
         </li>
+
+        <li class="faculty-nav-item">
+            <a href="<?php echo $base_path; ?>modules/attendance/admin-condonations.php"
+               class="faculty-nav-link <?php echo ($current_page === 'admin-condonations.php') ? 'active' : ''; ?>"
+               <?php echo ($current_page === 'admin-condonations.php') ? 'aria-current="page"' : ''; ?>>
+                <i class="bi bi-file-earmark-check-fill text-warning"></i>
+                <span>Condonation Requests</span>
+            </a>
+        </li>
+
+        <li class="faculty-nav-item">
+            <a href="<?php echo $base_path; ?>users/admin-password-resets.php"
+               class="faculty-nav-link <?php echo ($current_page === 'admin-password-resets.php') ? 'active' : ''; ?>"
+               <?php echo ($current_page === 'admin-password-resets.php') ? 'aria-current="page"' : ''; ?>>
+                <i class="bi bi-key-fill text-info"></i>
+                <span>Password Resets</span>
+            </a>
+        </li>
+
+        <li class="faculty-nav-item">
+            <a href="<?php echo $base_path; ?>notifications/admin-notifications.php"
+               class="faculty-nav-link <?php echo ($current_page === 'admin-notifications.php') ? 'active' : ''; ?>"
+               <?php echo ($current_page === 'admin-notifications.php') ? 'aria-current="page"' : ''; ?>>
+                <i class="bi bi-bell-fill"></i>
+                <span>Manage Notifications</span>
+            </a>
+        </li>
+
 
         <li class="faculty-nav-item">
             <a href="<?php echo $base_path; ?>modules/semesters/admin-semesters.php"
@@ -139,7 +185,11 @@ $current_page = basename($_SERVER['PHP_SELF']);
 
     <!-- Sign Out Footer -->
     <div class="faculty-sidebar-footer">
-        <a href="<?php echo $base_path; ?>modules/authentication/login.php" class="faculty-logout-btn" title="Return to Login">
+        <button class="theme-toggle-btn" id="themeToggleBtn" title="Toggle Light/Dark Mode" onclick="toggleTheme()">
+            <i class="bi bi-moon-stars-fill" id="themeToggleIcon"></i>
+            <span>Switch Theme</span>
+        </button>
+        <a href="<?php echo $base_path; ?>modules/authentication/login.php?logout=1" class="faculty-logout-btn" title="Return to Login">
             <i class="bi bi-box-arrow-right"></i>
             <span>Sign Out</span>
         </a>

@@ -13,7 +13,8 @@ $current_page = basename($_SERVER['PHP_SELF']);
 $is_index = ($current_page == 'index.php' || $current_page == '' || $current_page == '/');
 $is_admin = (strpos($current_page, 'admin-') === 0);
 $is_faculty = (strpos($current_page, 'faculty-') === 0);
-$is_portal = ($is_admin || $is_faculty);
+$is_student = (strpos($current_page, 'student-') === 0);
+$is_portal = ($is_admin || $is_faculty || $is_student);
 $is_logged_in = !($is_index || $current_page == 'login.php');
 
 $home_link = $is_index ? '#home' : $base_path.'index.php#home';
@@ -36,8 +37,19 @@ $contact_link = $is_index ? '#contact' : $base_path.'index.php#contact';
     
     <!-- Custom Style Sheet -->
     <link rel="stylesheet" href="<?php echo $base_path; ?>assets/css/style.css">
+    <?php if (in_array($current_page, ['reports/attendance-history.php', 'reports/monthly-report.php', 'reports/student-summary.php'])): ?>
+    <link rel="stylesheet" href="<?php echo $base_path; ?>assets/css/reports.css">
+    <?php endif; ?>
 </head>
 <body>
+    <?php if (isset($is_portal) && $is_portal): ?>
+    <script>
+        // Apply theme immediately to prevent flash of unstyled content
+        if (localStorage.getItem('facultyTheme') === 'light') {
+            document.body.classList.add('light-mode');
+        }
+    </script>
+    <?php endif; ?>
     <!-- Background glow particles -->
     <div class="ambient-glow-1"></div>
     <div class="ambient-glow-2"></div>
@@ -47,13 +59,15 @@ $contact_link = $is_index ? '#contact' : $base_path.'index.php#contact';
         <nav class="navbar navbar-expand-lg navbar-dark bg-transparent py-0">
             <div class="container-fluid px-lg-4">
                 <!-- Branding / Logo -->
-                <a class="navbar-brand d-flex align-items-center gap-2" href="<?php echo $is_portal ? ($is_admin ? $base_path.'modules/dashboard/admin-dashboard.php' : $base_path.'modules/dashboard/faculty-dashboard.php') : $base_path.'index.php'; ?>" id="nav-brand">
+                <a class="navbar-brand d-flex align-items-center gap-2" href="<?php echo $is_portal ? ($is_admin ? $base_path.'modules/dashboard/admin-dashboard.php' : ($is_faculty ? $base_path.'modules/dashboard/faculty-dashboard.php' : $base_path.'modules/dashboard/student-dashboard.php')) : $base_path.'index.php'; ?>" id="nav-brand">
                     <img src="<?php echo $base_path; ?>assets/images/logo/logo.svg" alt="Portal Logo" width="34" height="34">
                     <span class="fw-bold font-outfit" style="font-size:1.2rem; letter-spacing: -0.3px;">Attend<span class="brand-gradient">Ease</span></span>
                     <?php if ($is_admin): ?>
                         <span class="badge rounded-pill bg-primary-subtle text-primary border border-primary-subtle ms-2 d-none d-sm-inline-block" style="font-size:0.72rem; font-weight:600; padding:0.3em 0.75em;">Super Admin Console</span>
                     <?php elseif ($is_faculty): ?>
                         <span class="badge rounded-pill bg-info-subtle text-info border border-info-subtle ms-2 d-none d-sm-inline-block" style="font-size:0.72rem; font-weight:600; padding:0.3em 0.75em;">Faculty Portal</span>
+                    <?php elseif ($is_student): ?>
+                        <span class="badge rounded-pill bg-warning-subtle text-warning border border-warning-subtle ms-2 d-none d-sm-inline-block" style="font-size:0.72rem; font-weight:600; padding:0.3em 0.75em;">Student Portal</span>
                     <?php endif; ?>
                 </a>
                 
@@ -65,6 +79,9 @@ $contact_link = $is_index ? '#contact' : $base_path.'index.php#contact';
                             <span class="badge bg-success-subtle text-success d-none d-md-inline-flex align-items-center gap-1.5 px-3 py-1.5 rounded-pill" style="font-size:0.75rem;">
                                 <i class="bi bi-circle-fill" style="font-size:0.45rem;"></i> System Active
                             </span>
+                            <button class="btn btn-outline-light d-lg-none faculty-sidebar-toggler" type="button" aria-label="Toggle sidebar menu" style="border:1px solid rgba(255,255,255,0.1); background:rgba(255,255,255,0.05); padding: 0.35rem 0.6rem;">
+                                <i class="bi bi-list fs-5"></i>
+                            </button>
                         </div>
                     <?php else: ?>
                         <!-- Mobile Toggler -->
@@ -83,6 +100,7 @@ $contact_link = $is_index ? '#contact' : $base_path.'index.php#contact';
                                 <li class="nav-item">
                                     <a class="nav-link" href="<?php echo $features_link; ?>" id="nav-link-features">Features</a>
                                 </li>
+
                                 <li class="nav-item">
                                     <a class="nav-link" href="<?php echo $contact_link; ?>" id="nav-link-contact">Contact</a>
                                 </li>
@@ -94,6 +112,10 @@ $contact_link = $is_index ? '#contact' : $base_path.'index.php#contact';
                             </ul>
                         </div>
                     <?php endif; ?>
+                </div>
+            </div>
+        </nav>
+    </header>
                 </div>
             </div>
         </nav>

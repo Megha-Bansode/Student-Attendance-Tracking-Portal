@@ -1,0 +1,91 @@
+[Wed Jul 29 08:54:47 2026] PHP 8.5.8 Development Server (http://localhost:8000) started
+[Wed Jul 29 09:00:40 2026] [::1]:59632 Accepted
+[Wed Jul 29 09:00:40 2026] [::1]:59633 Accepted
+[Wed Jul 29 09:00:40 2026] [::1]:59632 [200]: GET /
+[Wed Jul 29 09:00:40 2026] [::1]:59632 Closing
+[Wed Jul 29 09:00:40 2026] [::1]:59633 [200]: GET /assets/css/style.css
+[Wed Jul 29 09:00:40 2026] [::1]:59634 Accepted
+[Wed Jul 29 09:00:40 2026] [::1]:59633 Closing
+[Wed Jul 29 09:00:40 2026] [::1]:59634 [200]: GET /assets/js/app.js
+[Wed Jul 29 09:00:40 2026] [::1]:59634 Closing
+[Wed Jul 29 09:00:41 2026] [::1]:59635 Accepted
+[Wed Jul 29 09:00:41 2026] [::1]:59635 [200]: GET /assets/images/logo/logo.svg
+[Wed Jul 29 09:00:41 2026] [::1]:59635 Closing
+[Wed Jul 29 09:00:42 2026] [::1]:59637 Accepted
+[Wed Jul 29 09:00:42 2026] [::1]:59637 [200]: GET /favicon.ico
+[Wed Jul 29 09:00:42 2026] [::1]:59637 Closing
+[Wed Jul 29 09:00:46 2026] [::1]:59638 Accepted
+[Wed Jul 29 09:00:46 2026] [::1]:59638 [200]: GET /modules/authentication/login.php
+[Wed Jul 29 09:00:46 2026] [::1]:59638 Closing
+[Wed Jul 29 09:00:46 2026] [::1]:59639 Accepted
+[Wed Jul 29 09:00:46 2026] [::1]:59639 [200]: GET /assets/css/style.css
+[Wed Jul 29 09:00:46 2026] [::1]:59641 Accepted
+[Wed Jul 29 09:00:46 2026] [::1]:59642 Accepted
+[Wed Jul 29 09:00:46 2026] [::1]:59643 Accepted
+[Wed Jul 29 09:00:46 2026] [::1]:59639 Closing
+[Wed Jul 29 09:00:46 2026] [::1]:59641 [200]: GET /assets/css/forms.css
+[Wed Jul 29 09:00:46 2026] [::1]:59642 [200]: GET /assets/js/validation.js
+[Wed Jul 29 09:00:46 2026] [::1]:59643 [200]: GET /assets/images/logo/logo.svg
+[Wed Jul 29 09:00:46 2026] [::1]:59641 Closing
+[Wed Jul 29 09:00:46 2026] [::1]:59642 Closing
+[Wed Jul 29 09:00:46 2026] [::1]:59643 Closing
+[Wed Jul 29 09:00:46 2026] [::1]:59644 Accepted
+[Wed Jul 29 09:00:46 2026] [::1]:59644 [200]: GET /assets/js/app.js
+[Wed Jul 29 09:00:46 2026] [::1]:59644 Closing
+[Wed Jul 29 09:00:46 2026] [::1]:59645 Accepted
+[Wed Jul 29 09:00:46 2026] [::1]:59645 [200]: GET /favicon.ico
+[Wed Jul 29 09:00:46 2026] [::1]:59645 Closing
+[Wed Jul 29 09:01:03 2026] [::1]:59650 Accepted
+[Wed Jul 29 09:01:03 2026] [::1]:59651 Accepted
+[Wed Jul 29 09:01:03 2026] [::1]:59650 [302]: POST /modules/authentication/login.php
+[Wed Jul 29 09:01:03 2026] [::1]:59650 Closing
+[Wed Jul 29 09:01:03 2026] [::1]:59651 [200]: GET /modules/authentication/login.php?error=wrong_password&role=student
+[Wed Jul 29 09:01:03 2026] [::1]:59651 Closing
+[Wed Jul 29 09:01:03 2026] [::1]:59652 Accepted
+[Wed Jul 29 09:01:03 2026] [::1]:59653 Accepted
+[Wed Jul 29 09:01:03 2026] [::1]:59654 Accepted
+[Wed Jul 29 09:01:03 2026] [::1]:59652 [200]: GET /assets/css/style.css
+[Wed Jul 29 09:01:03 2026] [::1]:59653 [200]: GET /assets/css/forms.css
+[Wed Jul 29 09:01:03 2026] [::1]:59655 Accepted
+[Wed Jul 29 09:01:03 2026] [::1]:59654 [200]: GET /assets/js/validation.js
+[Wed Jul 29 09:01:03 2026] [::1]:59655 [200]: GET /assets/images/logo/logo.svg
+[Wed Jul 29 09:01:03 2026] [::1]:59652 Closing
+[Wed Jul 29 09:01:03 2026] [::1]:59653 Closing
+[Wed Jul 29 09:01:03 2026] [::1]:59654 Closing
+[Wed Jul 29 09:01:03 2026] [::1]:59655 Closing
+[Wed Jul 29 09:01:03 2026] [::1]:59656 Accepted
+[Wed Jul 29 09:01:03 2026] [::1]:59656 [200]: GET /assets/js/app.js
+[Wed Jul 29 09:01:03 2026] [::1]:59656 Closing
+[Wed Jul 29 09:01:03 2026] [::1]:59657 Accepted
+[Wed Jul 29 09:01:03 2026] [::1]:59657 [200]: GET /favicon.ico
+[Wed Jul 29 09:01:03 2026] [::1]:59657 Closing
+[Wed Jul 29 09:01:21 2026] [::1]:59659 Accepted
+[Wed Jul 29 09:01:21 2026] [::1]:59659 [302]: POST /modules/authentication/login.php
+[Wed Jul 29 09:01:21 2026] [::1]:59659 Closing
+[Wed Jul 29 09:01:21 2026] [::1]:59660 Accepted
+[Wed Jul 29 09:01:21 2026] [::1]:59660 [200]: GET /modules/dashboard/student-dashboard.php
+[Wed Jul 29 09:01:21 2026] [::1]:59660 Closing
+[Wed Jul 29 09:01:21 2026] [::1]:59661 Accepted
+[Wed Jul 29 09:01:21 2026] [::1]:59662 Accepted
+[Wed Jul 29 09:01:21 2026] [::1]:59663 Accepted
+[Wed Jul 29 09:01:21 2026] [::1]:59661 [200]: GET /assets/css/style.css
+[Wed Jul 29 09:01:21 2026] [::1]:59662 [200]: GET /assets/css/dashboard.css
+[Wed Jul 29 09:01:21 2026] [::1]:59664 Accepted
+[Wed Jul 29 09:01:21 2026] [::1]:59663 [200]: GET /assets/js/dashboard.js
+[Wed Jul 29 09:01:21 2026] [::1]:59664 [200]: GET /assets/images/logo/logo.svg
+[Wed Jul 29 09:01:21 2026] [::1]:59661 Closing
+[Wed Jul 29 09:01:21 2026] [::1]:59662 Closing
+[Wed Jul 29 09:01:21 2026] [::1]:59663 Closing
+[Wed Jul 29 09:01:21 2026] [::1]:59664 Closing
+[Wed Jul 29 09:01:21 2026] [::1]:59665 Accepted
+[Wed Jul 29 09:01:21 2026] [::1]:59665 [200]: GET /assets/js/app.js
+[Wed Jul 29 09:01:21 2026] [::1]:59665 Closing
+[Wed Jul 29 09:01:21 2026] [::1]:59667 Accepted
+[Wed Jul 29 09:01:21 2026] [::1]:59667 [200]: GET /favicon.ico
+[Wed Jul 29 09:01:21 2026] [::1]:59667 Closing
+[Wed Jul 29 10:08:11 2026] [::1]:60059 Accepted
+[Wed Jul 29 10:08:11 2026] [::1]:60059 [200]: GET /assets/css/style.css
+[Wed Jul 29 10:08:11 2026] [::1]:60059 Closing
+[Wed Jul 29 10:08:11 2026] [::1]:60060 Accepted
+[Wed Jul 29 10:08:11 2026] [::1]:60060 [200]: GET /.well-known/appspecific/com.chrome.devtools.json
+[Wed Jul 29 10:08:11 2026] [::1]:60060 Closing

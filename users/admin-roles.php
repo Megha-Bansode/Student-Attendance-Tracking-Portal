@@ -2,6 +2,30 @@
 /**
  * AttendEase - Super Admin User Role Management
  */
+require_once '../config/database.php';
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+// Access Control
+if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
+    header("Location: ../modules/authentication/login.php");
+    exit;
+}
+
+// Handle role updates
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'save_role') {
+    $user_id = intval($_POST['user_id']);
+    $role = trim($_POST['role']);
+    
+    $stmt = $pdo->prepare("UPDATE users SET role = ? WHERE id = ?");
+    $stmt->execute([$role, $user_id]);
+    header("Location: admin-roles.php");
+    exit;
+}
+
+$users = $pdo->query("SELECT * FROM users ORDER BY name ASC")->fetchAll();
+
 $page_title      = 'User Role Management';
 $page_breadcrumb = 'AttendEase / Super Admin / User Roles';
 $page_icon       = 'bi-person-lock';
@@ -40,7 +64,7 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
                             <p class="mb-0 text-slate-300 small">Manage user access configurations, edit system roles, and define feature permission levels.</p>
                         </div>
                         <div class="col-md-4 text-md-end mt-3 mt-md-0">
-                            <button class="btn btn-premium" data-bs-toggle="modal" data-bs-target="#assignRoleModal"><i class="bi bi-plus-circle me-1"></i> Add / Assign Role</button>
+                            <button class="btn btn-premium" data-bs-toggle="modal" data-bs-target="#assignRoleModal" onclick="prepareAddRole()"><i class="bi bi-plus-circle me-1"></i> Add / Assign Role</button>
                         </div>
                     </div>
                 </div>
@@ -53,7 +77,7 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
                     <form id="filterForm" class="row g-3">
                         <div class="col-md-6">
                             <label class="faculty-form-label">Search Users</label>
-                            <input type="text" id="searchInput" class="faculty-input" placeholder="Search by name, email, or department...">
+                            <input type="text" id="searchInput" class="faculty-input text-white border-secondary" placeholder="Search by name, email, or department..." style="background: rgba(255,255,255,0.06); backdrop-filter: blur(4px);">
                         </div>
                         <div class="col-md-6">
                             <label class="faculty-form-label">Filter Role</label>
@@ -76,53 +100,34 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
                                     <th>User</th>
                                     <th>Email / ID</th>
                                     <th>Assigned Role</th>
-                                    <th>Permissions</th>
+                                    <th>Permissions Scope</th>
                                     <th>Status</th>
                                     <th class="text-end">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr data-role="admin">
+                                <?php foreach ($users as $u): 
+                                    $badge_class = ($u['role'] === 'admin') ? 'bg-danger-subtle text-danger border-danger-subtle' : (($u['role'] === 'faculty') ? 'bg-info-subtle text-info border-info-subtle' : 'bg-secondary-subtle text-secondary border-secondary');
+                                    $permissions = ($u['role'] === 'admin') ? 'Full system control, edit students & faculty' : (($u['role'] === 'faculty') ? 'Mark/edit student attendance, view class reports' : 'View personal attendance history');
+                                ?>
+                                <tr data-role="<?php echo htmlspecialchars($u['role']); ?>">
                                     <td>
-                                        <div class="fw-semibold text-white">Super Administrator</div>
-                                        <small style="color:#64748b;">SysAdmin Account</small>
+                                        <div class="fw-semibold text-white"><?php echo htmlspecialchars($u['name']); ?></div>
+                                        <small style="color:#64748b;"><?php echo htmlspecialchars($u['class'] ?? 'ERP Role'); ?></small>
                                     </td>
-                                    <td><span style="color:#cbd5e1;">admin@attendease.edu</span></td>
-                                    <td><span class="badge bg-danger-subtle text-danger border border-danger-subtle px-3 py-1 rounded-pill">Super Admin</span></td>
-                                    <td><span class="small" style="color:#cbd5e1;">Full system read, write, security, HOD settings</span></td>
-                                    <td><span class="faculty-badge badge-success-subtle"><i class="bi bi-circle-fill" style="font-size:.4rem;"></i> Active</span></td>
+                                    <td><span style="color:#cbd5e1;"><?php echo htmlspecialchars($u['username']); ?>@college.edu</span></td>
+                                    <td><span class="badge <?php echo $badge_class; ?> px-3 py-1 rounded-pill"><?php echo htmlspecialchars(ucfirst($u['role'])); ?></span></td>
+                                    <td><span class="small" style="color:#cbd5e1;"><?php echo $permissions; ?></span></td>
+                                    <td><span class="faculty-badge badge-success-subtle"><i class="bi bi-circle-fill" style="font-size:.4rem;"></i> <?php echo htmlspecialchars($u['status']); ?></span></td>
                                     <td class="text-end">
-                                        <button class="btn btn-sm btn-outline-info py-1 px-2.5 rounded-2" onclick="alert('Cannot edit master admin role')"><i class="bi bi-pencil"></i></button>
+                                        <?php if ($u['role'] !== 'admin'): ?>
+                                            <button class="btn btn-sm btn-outline-info py-1 px-2.5 rounded-2" onclick="prepareEditRole(<?php echo $u['id']; ?>, '<?php echo htmlspecialchars($u['role']); ?>')" data-bs-toggle="modal" data-bs-target="#assignRoleModal"><i class="bi bi-pencil"></i></button>
+                                        <?php else: ?>
+                                            <button class="btn btn-sm btn-outline-info py-1 px-2.5 rounded-2" onclick="alert('Master admin credentials cannot be reassigned here.')"><i class="bi bi-pencil"></i></button>
+                                        <?php endif; ?>
                                     </td>
                                 </tr>
-                                <tr data-role="faculty">
-                                    <td>
-                                        <div class="fw-semibold text-white">Prof. Rajesh Sharma</div>
-                                        <small style="color:#64748b;">Computer Engineering</small>
-                                    </td>
-                                    <td><span style="color:#cbd5e1;">rajesh.sharma@attendease.edu</span></td>
-                                    <td><span class="badge bg-info-subtle text-info border border-info-subtle px-3 py-1 rounded-pill">Faculty</span></td>
-                                    <td><span class="small" style="color:#cbd5e1;">Mark/edit student attendance, view class reports</span></td>
-                                    <td><span class="faculty-badge badge-success-subtle"><i class="bi bi-circle-fill" style="font-size:.4rem;"></i> Active</span></td>
-                                    <td class="text-end">
-                                        <button class="btn btn-sm btn-outline-info py-1 px-2.5 rounded-2" onclick="alert('Editing permissions for Prof. Rajesh Sharma')"><i class="bi bi-pencil"></i></button>
-                                        <button class="btn btn-sm btn-outline-danger py-1 px-2.5 rounded-2 ms-1" onclick="if(confirm('Revoke role from this user?')) { alert('Role revoked!'); }"><i class="bi bi-trash"></i></button>
-                                    </td>
-                                </tr>
-                                <tr data-role="student">
-                                    <td>
-                                        <div class="fw-semibold text-white">Aarav Sharma</div>
-                                        <small style="color:#64748b;">CSE Student (TE)</small>
-                                    </td>
-                                    <td><span style="color:#cbd5e1;">aarav.sharma@attendease.edu</span></td>
-                                    <td><span class="badge bg-secondary-subtle text-secondary border border-secondary px-3 py-1 rounded-pill">Student</span></td>
-                                    <td><span class="small" style="color:#cbd5e1;">View personal attendance history, receive shortages</span></td>
-                                    <td><span class="faculty-badge badge-success-subtle"><i class="bi bi-circle-fill" style="font-size:.4rem;"></i> Active</span></td>
-                                    <td class="text-end">
-                                        <button class="btn btn-sm btn-outline-info py-1 px-2.5 rounded-2" onclick="alert('Editing permissions for Aarav Sharma')"><i class="bi bi-pencil"></i></button>
-                                        <button class="btn btn-sm btn-outline-danger py-1 px-2.5 rounded-2 ms-1" onclick="if(confirm('Revoke role from this user?')) { alert('Role revoked!'); }"><i class="bi bi-trash"></i></button>
-                                    </td>
-                                </tr>
+                                <?php endforeach; ?>
                             </tbody>
                         </table>
                     </div>
@@ -137,25 +142,30 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
 <!-- Assign Role Modal -->
 <div class="modal fade" id="assignRoleModal" tabindex="-1" aria-labelledby="assignRoleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content bg-dark text-white border-secondary">
+        <div class="modal-content bg-dark text-white border-secondary" style="border-radius: 16px;">
             <div class="modal-header border-secondary">
-                <h5 class="modal-title font-outfit" id="assignRoleModalLabel">Assign User Role</h5>
+                <h5 class="modal-title font-outfit" id="modal_title">Assign User Role</h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form onsubmit="event.preventDefault(); alert('Role assigned successfully!'); bootstrap.Modal.getInstance(document.getElementById('assignRoleModal')).hide();">
+            <form action="admin-roles.php" method="POST">
+                <input type="hidden" name="action" value="save_role">
+                <input type="hidden" name="user_id" id="modal_user_id" value="">
+                
                 <div class="modal-body">
-                    <div class="mb-3">
+                    <div class="mb-3" id="userSelectWrapper">
                         <label class="form-label font-semibold text-slate-300">Select User</label>
-                        <select class="form-select bg-dark text-white border-secondary" required>
+                        <select name="user_id_select" id="modal_user_select" class="form-select bg-dark text-white border-secondary">
                             <option value="">-- Choose User Account --</option>
-                            <option value="1">Dr. Sarah Jenkins (Faculty)</option>
-                            <option value="2">Ananya Deshmukh (Student)</option>
-                            <option value="3">Dr. Amit Patel (Faculty)</option>
+                            <?php foreach ($users as $u): ?>
+                                <?php if ($u['role'] !== 'admin'): ?>
+                                    <option value="<?php echo $u['id']; ?>"><?php echo htmlspecialchars($u['name']) . " (" . htmlspecialchars($u['role']) . ")"; ?></option>
+                                <?php endif; ?>
+                            <?php endforeach; ?>
                         </select>
                     </div>
                     <div class="mb-3">
                         <label class="form-label font-semibold text-slate-300">Role Assignment</label>
-                        <select class="form-select bg-dark text-white border-secondary" required>
+                        <select name="role" id="modal_role" class="form-select bg-dark text-white border-secondary" required>
                             <option value="">-- Choose System Role --</option>
                             <option value="admin">Super Admin</option>
                             <option value="faculty">Faculty Portal Access</option>
@@ -180,6 +190,27 @@ if (window.innerWidth >= 992 && localStorage.getItem('facultySidebarCollapsed') 
 
 <script src="<?php echo $base_path; ?>assets/js/dashboard.js"></script>
 <script>
+function prepareEditRole(userId, role) {
+    document.getElementById('modal_user_id').value = userId;
+    document.getElementById('modal_role').value = role;
+    document.getElementById('userSelectWrapper').style.display = 'none';
+    document.getElementById('modal_user_select').removeAttribute('required');
+    document.getElementById('modal_title').innerHTML = 'Edit User Role';
+}
+
+function prepareAddRole() {
+    document.getElementById('modal_user_id').value = '';
+    document.getElementById('modal_role').value = '';
+    document.getElementById('userSelectWrapper').style.display = '';
+    document.getElementById('modal_user_select').setAttribute('required', 'required');
+    document.getElementById('modal_title').innerHTML = 'Assign User Role';
+    
+    // Bind change listener to drop down
+    document.getElementById('modal_user_select').addEventListener('change', function() {
+        document.getElementById('modal_user_id').value = this.value;
+    });
+}
+
 // Filter Functionality
 const searchInput = document.getElementById('searchInput');
 const roleSelect = document.getElementById('roleSelect');

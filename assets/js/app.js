@@ -1,3 +1,41 @@
+// Splash Screen Handler
+(function() {
+    const path = window.location.pathname.toLowerCase();
+    const isIndex = path.endsWith('index.php') || path.endsWith('student-attendance-tracking-portal') || path.endsWith('student-attendance-tracking-portal/') || path.endsWith('/');
+    
+    if (isIndex) {
+        if (!sessionStorage.getItem('splash_shown')) {
+            document.documentElement.classList.add('splash-active');
+            document.addEventListener('DOMContentLoaded', () => {
+                document.body.classList.add('splash-active');
+                setTimeout(() => {
+                    const splash = document.getElementById('splash-root');
+                    if (splash) {
+                        splash.remove();
+                    }
+                    document.body.classList.remove('splash-active');
+                    document.documentElement.classList.remove('splash-active');
+                }, 4200);
+            });
+            sessionStorage.setItem('splash_shown', 'true');
+        } else {
+            document.addEventListener('DOMContentLoaded', () => {
+                const splash = document.getElementById('splash-root');
+                if (splash) {
+                    splash.remove();
+                }
+            });
+        }
+    } else {
+        document.addEventListener('DOMContentLoaded', () => {
+            const splash = document.getElementById('splash-root');
+            if (splash) {
+                splash.remove();
+            }
+        });
+    }
+})();
+
 document.addEventListener('DOMContentLoaded', () => {
     // Navbar scroll effect
     const navbar = document.querySelector('.navbar');
@@ -426,5 +464,31 @@ document.addEventListener('DOMContentLoaded', () => {
         animate();
     };
     initGravityCanvas();
+
+    // Feature Card Click Animation & Pop-up Logic
+    const featureCards = document.querySelectorAll('.feature-card');
+    const featureModalEl = document.getElementById('featureModal');
+    if (featureCards.length > 0 && featureModalEl) {
+        const featureModal = new bootstrap.Modal(featureModalEl);
+        
+        featureCards.forEach(card => {
+            card.addEventListener('click', function(e) {
+                // Get content from card
+                const iconHtml = this.querySelector('.feature-icon-wrapper').innerHTML;
+                const titleText = this.querySelector('.feature-title').textContent;
+                const descText = this.querySelector('.feature-desc').textContent;
+                
+                // Populate modal
+                document.getElementById('featureModalIcon').innerHTML = iconHtml;
+                document.getElementById('featureModalTitle').textContent = titleText;
+                document.getElementById('featureModalDesc').textContent = descText;
+                
+                // Show modal after a very short delay to let the CSS click scale animation play
+                setTimeout(() => {
+                    featureModal.show();
+                }, 120);
+            });
+        });
+    }
 
 });

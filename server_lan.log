@@ -1,0 +1,1018 @@
+[Wed Jul 29 10:22:52 2026] PHP 8.5.8 Development Server (http://0.0.0.0:8000) started
+[Wed Jul 29 10:23:18 2026] 10.247.222.162:60506 Accepted
+[Wed Jul 29 10:23:18 2026] 10.247.222.162:60507 Accepted
+[Wed Jul 29 10:23:18 2026] 10.247.222.162:60506 [200]: GET /
+[Wed Jul 29 10:23:18 2026] 10.247.222.162:60506 Closing
+[Wed Jul 29 10:23:18 2026] 10.247.222.162:60507 [200]: GET /assets/css/style.css
+[Wed Jul 29 10:23:18 2026] 10.247.222.162:60508 Accepted
+[Wed Jul 29 10:23:18 2026] 10.247.222.162:60507 Closing
+[Wed Jul 29 10:23:18 2026] 10.247.222.162:60508 [200]: GET /assets/js/app.js
+[Wed Jul 29 10:23:18 2026] 10.247.222.162:60508 Closing
+[Wed Jul 29 10:23:18 2026] 10.247.222.162:60510 Accepted
+[Wed Jul 29 10:23:18 2026] 10.247.222.162:60510 [200]: GET /assets/images/logo/logo.svg
+[Wed Jul 29 10:23:18 2026] 10.247.222.162:60510 Closing
+[Wed Jul 29 10:23:20 2026] 10.247.222.162:60526 Accepted
+[Wed Jul 29 10:23:20 2026] 10.247.222.162:60526 [200]: GET /favicon.ico
+[Wed Jul 29 10:23:20 2026] 10.247.222.162:60526 Closing
+[Wed Jul 29 10:23:37 2026] 10.247.222.162:60531 Accepted
+[Wed Jul 29 10:23:37 2026] 10.247.222.162:60531 Invalid request (Unsupported SSL request)
+[Wed Jul 29 10:23:37 2026] 10.247.222.162:60531 Closing
+[Wed Jul 29 10:23:37 2026] 10.247.222.162:60532 Accepted
+[Wed Jul 29 10:23:37 2026] 10.247.222.162:60532 Invalid request (Unsupported SSL request)
+[Wed Jul 29 10:23:37 2026] 10.247.222.162:60532 Closing
+[Wed Jul 29 10:24:02 2026] 10.247.222.162:60537 Accepted
+[Wed Jul 29 10:24:02 2026] 10.247.222.162:60537 [200]: GET /modules/authentication/login.php
+[Wed Jul 29 10:24:02 2026] 10.247.222.162:60537 Closing
+[Wed Jul 29 10:24:02 2026] 10.247.222.162:60538 Accepted
+[Wed Jul 29 10:24:02 2026] 10.247.222.162:60539 Accepted
+[Wed Jul 29 10:24:02 2026] 10.247.222.162:60538 [200]: GET /assets/css/style.css
+[Wed Jul 29 10:24:02 2026] 10.247.222.162:60540 Accepted
+[Wed Jul 29 10:24:02 2026] 10.247.222.162:60538 Closing
+[Wed Jul 29 10:24:02 2026] 10.247.222.162:60539 [200]: GET /assets/css/forms.css
+[Wed Jul 29 10:24:02 2026] 10.247.222.162:60541 Accepted
+[Wed Jul 29 10:24:02 2026] 10.247.222.162:60540 [200]: GET /assets/js/validation.js
+[Wed Jul 29 10:24:02 2026] 10.247.222.162:60541 [200]: GET /assets/images/logo/logo.svg
+[Wed Jul 29 10:24:02 2026] 10.247.222.162:60539 Closing
+[Wed Jul 29 10:24:02 2026] 10.247.222.162:60540 Closing
+[Wed Jul 29 10:24:02 2026] 10.247.222.162:60541 Closing
+[Wed Jul 29 10:24:02 2026] 10.247.222.162:60543 Accepted
+[Wed Jul 29 10:24:02 2026] 10.247.222.162:60543 [200]: GET /assets/js/app.js
+[Wed Jul 29 10:24:02 2026] 10.247.222.162:60543 Closing
+[Wed Jul 29 10:24:02 2026] 10.247.222.162:60544 Accepted
+[Wed Jul 29 10:24:02 2026] 10.247.222.162:60544 [200]: GET /favicon.ico
+[Wed Jul 29 10:24:02 2026] 10.247.222.162:60544 Closing
+[Wed Jul 29 10:24:11 2026] 10.247.222.52:49780 Accepted
+[Wed Jul 29 10:24:11 2026] 10.247.222.52:49780 [200]: GET /
+[Wed Jul 29 10:24:11 2026] 10.247.222.52:49780 Closing
+[Wed Jul 29 10:24:11 2026] 10.247.222.52:57541 Accepted
+[Wed Jul 29 10:24:11 2026] 10.247.222.52:52412 Accepted
+[Wed Jul 29 10:24:11 2026] 10.247.222.52:57541 [200]: GET /assets/js/app.js
+[Wed Jul 29 10:24:11 2026] 10.247.222.52:52412 [200]: GET /assets/css/style.css
+[Wed Jul 29 10:24:11 2026] 10.247.222.52:57541 Closing
+[Wed Jul 29 10:24:11 2026] 10.247.222.52:52412 Closing
+[Wed Jul 29 10:24:12 2026] 10.247.222.52:55088 Accepted
+[Wed Jul 29 10:24:12 2026] 10.247.222.52:55088 [200]: GET /assets/images/logo/logo.svg
+[Wed Jul 29 10:24:12 2026] 10.247.222.52:55088 Closing
+[Wed Jul 29 10:24:12 2026] 10.247.222.52:55432 Accepted
+[Wed Jul 29 10:24:12 2026] 10.247.222.52:55432 [200]: GET /favicon.ico
+[Wed Jul 29 10:24:12 2026] 10.247.222.52:55432 Closing
+[Wed Jul 29 10:24:29 2026] 10.247.222.162:60546 Accepted
+[Wed Jul 29 10:24:29 2026] 10.247.222.162:60546 [302]: POST /modules/authentication/login.php
+[Wed Jul 29 10:24:29 2026] 10.247.222.162:60546 Closing
+[Wed Jul 29 10:24:29 2026] 10.247.222.162:60547 Accepted
+[Wed Jul 29 10:24:29 2026] 10.247.222.162:60547 [200]: GET /modules/dashboard/admin-dashboard.php
+[Wed Jul 29 10:24:29 2026] 10.247.222.162:60547 Closing
+[Wed Jul 29 10:24:29 2026] 10.247.222.162:60548 Accepted
+[Wed Jul 29 10:24:29 2026] 10.247.222.162:60548 [200]: GET /assets/css/style.css
+[Wed Jul 29 10:24:29 2026] 10.247.222.162:60548 Closing
+[Wed Jul 29 10:24:29 2026] 10.247.222.162:60549 Accepted
+[Wed Jul 29 10:24:29 2026] 10.247.222.162:60550 Accepted
+[Wed Jul 29 10:24:29 2026] 10.247.222.162:60551 Accepted
+[Wed Jul 29 10:24:29 2026] 10.247.222.162:60549 [200]: GET /assets/css/dashboard.css
+[Wed Jul 29 10:24:29 2026] 10.247.222.162:60550 [200]: GET /assets/js/dashboard.js
+[Wed Jul 29 10:24:29 2026] 10.247.222.162:60551 [200]: GET /assets/images/logo/logo.svg
+[Wed Jul 29 10:24:29 2026] 10.247.222.162:60549 Closing
+[Wed Jul 29 10:24:29 2026] 10.247.222.162:60550 Closing
+[Wed Jul 29 10:24:29 2026] 10.247.222.162:60551 Closing
+[Wed Jul 29 10:24:29 2026] 10.247.222.162:60552 Accepted
+[Wed Jul 29 10:24:29 2026] 10.247.222.162:60552 [200]: GET /assets/js/app.js
+[Wed Jul 29 10:24:29 2026] 10.247.222.162:60552 Closing
+[Wed Jul 29 10:24:30 2026] 10.247.222.162:60554 Accepted
+[Wed Jul 29 10:24:30 2026] 10.247.222.162:60554 [200]: GET /favicon.ico
+[Wed Jul 29 10:24:30 2026] 10.247.222.162:60554 Closing
+[Wed Jul 29 10:24:53 2026] 10.247.222.162:60558 Accepted
+[Wed Jul 29 10:24:53 2026] 10.247.222.162:60558 [200]: GET /users/admin-students.php
+[Wed Jul 29 10:24:53 2026] 10.247.222.162:60558 Closing
+[Wed Jul 29 10:24:53 2026] 10.247.222.162:60559 Accepted
+[Wed Jul 29 10:24:53 2026] 10.247.222.162:60559 [200]: GET /assets/css/style.css
+[Wed Jul 29 10:24:53 2026] 10.247.222.162:60561 Accepted
+[Wed Jul 29 10:24:53 2026] 10.247.222.162:60562 Accepted
+[Wed Jul 29 10:24:53 2026] 10.247.222.162:60561 [200]: GET /assets/css/dashboard.css
+[Wed Jul 29 10:24:53 2026] 10.247.222.162:60559 Closing
+[Wed Jul 29 10:24:53 2026] 10.247.222.162:60562 [200]: GET /assets/images/logo/logo.svg
+[Wed Jul 29 10:24:53 2026] 10.247.222.162:60561 Closing
+[Wed Jul 29 10:24:53 2026] 10.247.222.162:60562 Closing
+[Wed Jul 29 10:24:53 2026] 10.247.222.162:60564 Accepted
+[Wed Jul 29 10:24:53 2026] 10.247.222.162:60564 [200]: GET /assets/js/dashboard.js
+[Wed Jul 29 10:24:53 2026] 10.247.222.162:60565 Accepted
+[Wed Jul 29 10:24:53 2026] 10.247.222.162:60564 Closing
+[Wed Jul 29 10:24:53 2026] 10.247.222.162:60565 [200]: GET /assets/js/app.js
+[Wed Jul 29 10:24:53 2026] 10.247.222.162:60565 Closing
+[Wed Jul 29 10:24:54 2026] 10.247.222.162:60567 Accepted
+[Wed Jul 29 10:24:54 2026] 10.247.222.162:60567 [200]: GET /favicon.ico
+[Wed Jul 29 10:24:54 2026] 10.247.222.162:60567 Closing
+[Wed Jul 29 10:25:15 2026] 10.247.222.162:60569 Accepted
+[Wed Jul 29 10:25:15 2026] 10.247.222.162:60569 [302]: POST /users/admin-students.php
+[Wed Jul 29 10:25:15 2026] 10.247.222.162:60569 Closing
+[Wed Jul 29 10:25:15 2026] 10.247.222.162:60570 Accepted
+[Wed Jul 29 10:25:15 2026] 10.247.222.162:60570 [200]: GET /users/admin-students.php
+[Wed Jul 29 10:25:15 2026] 10.247.222.162:60570 Closing
+[Wed Jul 29 10:25:15 2026] 10.247.222.162:60571 Accepted
+[Wed Jul 29 10:25:15 2026] 10.247.222.162:60571 [200]: GET /assets/css/style.css
+[Wed Jul 29 10:25:15 2026] 10.247.222.162:60571 Closing
+[Wed Jul 29 10:25:15 2026] 10.247.222.162:60572 Accepted
+[Wed Jul 29 10:25:15 2026] 10.247.222.162:60572 [200]: GET /assets/images/logo/logo.svg
+[Wed Jul 29 10:25:15 2026] 10.247.222.162:60572 Closing
+[Wed Jul 29 10:25:15 2026] 10.247.222.162:60573 Accepted
+[Wed Jul 29 10:25:15 2026] 10.247.222.162:60574 Accepted
+[Wed Jul 29 10:25:15 2026] 10.247.222.162:60573 [200]: GET /assets/css/dashboard.css
+[Wed Jul 29 10:25:15 2026] 10.247.222.162:60574 [200]: GET /assets/js/dashboard.js
+[Wed Jul 29 10:25:15 2026] 10.247.222.162:60573 Closing
+[Wed Jul 29 10:25:15 2026] 10.247.222.162:60574 Closing
+[Wed Jul 29 10:25:15 2026] 10.247.222.162:60576 Accepted
+[Wed Jul 29 10:25:15 2026] 10.247.222.162:60576 [200]: GET /assets/js/app.js
+[Wed Jul 29 10:25:15 2026] 10.247.222.162:60576 Closing
+[Wed Jul 29 10:25:15 2026] 10.247.222.162:60577 Accepted
+[Wed Jul 29 10:25:15 2026] 10.247.222.162:60577 [200]: GET /favicon.ico
+[Wed Jul 29 10:25:15 2026] 10.247.222.162:60577 Closing
+[Wed Jul 29 10:25:19 2026] 10.247.222.162:60582 Accepted
+[Wed Jul 29 10:25:19 2026] 10.247.222.162:60582 [200]: GET /modules/dashboard/admin-dashboard.php
+[Wed Jul 29 10:25:19 2026] 10.247.222.162:60582 Closing
+[Wed Jul 29 10:25:19 2026] 10.247.222.162:60583 Accepted
+[Wed Jul 29 10:25:19 2026] 10.247.222.162:60583 [200]: GET /assets/css/style.css
+[Wed Jul 29 10:25:19 2026] 10.247.222.162:60584 Accepted
+[Wed Jul 29 10:25:19 2026] 10.247.222.162:60585 Accepted
+[Wed Jul 29 10:25:19 2026] 10.247.222.162:60584 [200]: GET /assets/css/dashboard.css
+[Wed Jul 29 10:25:19 2026] 10.247.222.162:60586 Accepted
+[Wed Jul 29 10:25:19 2026] 10.247.222.162:60583 Closing
+[Wed Jul 29 10:25:19 2026] 10.247.222.162:60585 [200]: GET /assets/js/dashboard.js
+[Wed Jul 29 10:25:19 2026] 10.247.222.162:60586 [200]: GET /assets/images/logo/logo.svg
+[Wed Jul 29 10:25:19 2026] 10.247.222.162:60584 Closing
+[Wed Jul 29 10:25:19 2026] 10.247.222.162:60585 Closing
+[Wed Jul 29 10:25:19 2026] 10.247.222.162:60586 Closing
+[Wed Jul 29 10:25:19 2026] 10.247.222.162:60587 Accepted
+[Wed Jul 29 10:25:19 2026] 10.247.222.162:60587 [200]: GET /assets/js/app.js
+[Wed Jul 29 10:25:19 2026] 10.247.222.162:60587 Closing
+[Wed Jul 29 10:25:20 2026] 10.247.222.162:60588 Accepted
+[Wed Jul 29 10:25:20 2026] 10.247.222.162:60588 [200]: GET /favicon.ico
+[Wed Jul 29 10:25:20 2026] 10.247.222.162:60588 Closing
+[Wed Jul 29 10:25:24 2026] 10.247.222.162:60589 Accepted
+[Wed Jul 29 10:25:25 2026] 10.247.222.162:60589 [302]: GET /modules/authentication/login.php?logout=1
+[Wed Jul 29 10:25:25 2026] 10.247.222.162:60589 Closing
+[Wed Jul 29 10:25:25 2026] 10.247.222.162:60590 Accepted
+[Wed Jul 29 10:25:25 2026] 10.247.222.162:60590 [200]: GET /modules/authentication/login.php
+[Wed Jul 29 10:25:25 2026] 10.247.222.162:60590 Closing
+[Wed Jul 29 10:25:25 2026] 10.247.222.162:60591 Accepted
+[Wed Jul 29 10:25:25 2026] 10.247.222.162:60591 [200]: GET /assets/css/style.css
+[Wed Jul 29 10:25:25 2026] 10.247.222.162:60591 Closing
+[Wed Jul 29 10:25:25 2026] 10.247.222.162:60592 Accepted
+[Wed Jul 29 10:25:25 2026] 10.247.222.162:60592 [200]: GET /assets/images/logo/logo.svg
+[Wed Jul 29 10:25:25 2026] 10.247.222.162:60592 Closing
+[Wed Jul 29 10:25:25 2026] 10.247.222.162:60593 Accepted
+[Wed Jul 29 10:25:25 2026] 10.247.222.162:60594 Accepted
+[Wed Jul 29 10:25:25 2026] 10.247.222.162:60593 [200]: GET /assets/css/forms.css
+[Wed Jul 29 10:25:25 2026] 10.247.222.162:60594 [200]: GET /assets/js/validation.js
+[Wed Jul 29 10:25:25 2026] 10.247.222.162:60593 Closing
+[Wed Jul 29 10:25:25 2026] 10.247.222.162:60594 Closing
+[Wed Jul 29 10:25:25 2026] 10.247.222.162:60595 Accepted
+[Wed Jul 29 10:25:25 2026] 10.247.222.162:60595 [200]: GET /assets/js/app.js
+[Wed Jul 29 10:25:25 2026] 10.247.222.162:60595 Closing
+[Wed Jul 29 10:25:25 2026] 10.247.222.162:60596 Accepted
+[Wed Jul 29 10:25:25 2026] 10.247.222.162:60596 [200]: GET /favicon.ico
+[Wed Jul 29 10:25:25 2026] 10.247.222.162:60596 Closing
+[Wed Jul 29 10:25:37 2026] 10.247.222.162:60598 Accepted
+[Wed Jul 29 10:25:37 2026] 10.247.222.162:60599 Accepted
+[Wed Jul 29 10:25:37 2026] 10.247.222.162:60598 [302]: POST /modules/authentication/login.php
+[Wed Jul 29 10:25:37 2026] 10.247.222.162:60598 Closing
+[Wed Jul 29 10:25:37 2026] 10.247.222.162:60599 [200]: GET /modules/dashboard/student-dashboard.php
+[Wed Jul 29 10:25:37 2026] 10.247.222.162:60599 Closing
+[Wed Jul 29 10:25:37 2026] 10.247.222.162:60600 Accepted
+[Wed Jul 29 10:25:37 2026] 10.247.222.162:60601 Accepted
+[Wed Jul 29 10:25:37 2026] 10.247.222.162:60600 [200]: GET /assets/css/style.css
+[Wed Jul 29 10:25:37 2026] 10.247.222.162:60602 Accepted
+[Wed Jul 29 10:25:37 2026] 10.247.222.162:60601 [200]: GET /assets/css/dashboard.css
+[Wed Jul 29 10:25:37 2026] 10.247.222.162:60603 Accepted
+[Wed Jul 29 10:25:37 2026] 10.247.222.162:60602 [200]: GET /assets/js/dashboard.js
+[Wed Jul 29 10:25:37 2026] 10.247.222.162:60600 Closing
+[Wed Jul 29 10:25:37 2026] 10.247.222.162:60603 [200]: GET /assets/images/logo/logo.svg
+[Wed Jul 29 10:25:37 2026] 10.247.222.162:60601 Closing
+[Wed Jul 29 10:25:37 2026] 10.247.222.162:60602 Closing
+[Wed Jul 29 10:25:37 2026] 10.247.222.162:60603 Closing
+[Wed Jul 29 10:25:37 2026] 10.247.222.162:60604 Accepted
+[Wed Jul 29 10:25:37 2026] 10.247.222.162:60604 [200]: GET /assets/js/app.js
+[Wed Jul 29 10:25:37 2026] 10.247.222.162:60604 Closing
+[Wed Jul 29 10:25:38 2026] 10.247.222.162:60606 Accepted
+[Wed Jul 29 10:25:38 2026] 10.247.222.162:60606 [200]: GET /favicon.ico
+[Wed Jul 29 10:25:38 2026] 10.247.222.162:60606 Closing
+[Wed Jul 29 10:25:43 2026] 10.247.222.52:55194 Accepted
+[Wed Jul 29 10:25:43 2026] 10.247.222.52:55194 [200]: GET /modules/authentication/login.php
+[Wed Jul 29 10:25:43 2026] 10.247.222.52:55194 Closing
+[Wed Jul 29 10:25:43 2026] 10.247.222.52:59409 Accepted
+[Wed Jul 29 10:25:43 2026] 10.247.222.52:59409 [200]: GET /assets/css/forms.css
+[Wed Jul 29 10:25:43 2026] 10.247.222.52:59409 Closing
+[Wed Jul 29 10:25:43 2026] 10.247.222.52:52489 Accepted
+[Wed Jul 29 10:25:43 2026] 10.247.222.52:52489 [200]: GET /assets/css/style.css
+[Wed Jul 29 10:25:43 2026] 10.247.222.52:52489 Closing
+[Wed Jul 29 10:25:43 2026] 10.247.222.52:56194 Accepted
+[Wed Jul 29 10:25:43 2026] 10.247.222.52:52154 Accepted
+[Wed Jul 29 10:25:43 2026] 10.247.222.52:63525 Accepted
+[Wed Jul 29 10:25:43 2026] 10.247.222.52:56194 [200]: GET /assets/images/logo/logo.svg
+[Wed Jul 29 10:25:43 2026] 10.247.222.52:52154 [200]: GET /assets/js/app.js
+[Wed Jul 29 10:25:43 2026] 10.247.222.52:63525 [200]: GET /assets/js/validation.js
+[Wed Jul 29 10:25:43 2026] 10.247.222.52:56194 Closing
+[Wed Jul 29 10:25:43 2026] 10.247.222.52:52154 Closing
+[Wed Jul 29 10:25:43 2026] 10.247.222.52:63525 Closing
+[Wed Jul 29 10:25:43 2026] 10.247.222.52:53333 Accepted
+[Wed Jul 29 10:25:43 2026] 10.247.222.52:53333 [200]: GET /assets/images/logo/logo.svg
+[Wed Jul 29 10:25:43 2026] 10.247.222.52:53333 Closing
+[Wed Jul 29 10:25:43 2026] 10.247.222.52:59956 Accepted
+[Wed Jul 29 10:25:43 2026] 10.247.222.52:59956 [200]: GET /favicon.ico
+[Wed Jul 29 10:25:43 2026] 10.247.222.52:59956 Closing
+[Wed Jul 29 10:25:46 2026] 10.247.222.162:60612 Accepted
+[Wed Jul 29 10:25:46 2026] 10.247.222.162:60612 [200]: GET /assets/css/style.css
+[Wed Jul 29 10:25:46 2026] 10.247.222.162:60612 Closing
+[Wed Jul 29 10:25:46 2026] 10.247.222.162:60613 Accepted
+[Wed Jul 29 10:25:46 2026] 10.247.222.162:60613 [200]: GET /assets/css/dashboard.css
+[Wed Jul 29 10:25:46 2026] 10.247.222.162:60613 Closing
+[Wed Jul 29 10:25:55 2026] 10.247.222.52:57396 Accepted
+[Wed Jul 29 10:25:55 2026] 10.247.222.52:57396 [200]: GET /index.php
+[Wed Jul 29 10:25:55 2026] 10.247.222.52:57396 Closing
+[Wed Jul 29 10:25:55 2026] 10.247.222.52:61026 Accepted
+[Wed Jul 29 10:25:56 2026] 10.247.222.52:61026 [200]: GET /assets/css/style.css
+[Wed Jul 29 10:25:56 2026] 10.247.222.52:61026 Closing
+[Wed Jul 29 10:25:56 2026] 10.247.222.52:60358 Accepted
+[Wed Jul 29 10:25:56 2026] 10.247.222.52:50060 Accepted
+[Wed Jul 29 10:25:56 2026] 10.247.222.52:60358 [200]: GET /assets/images/logo/logo.svg
+[Wed Jul 29 10:25:56 2026] 10.247.222.52:50060 [200]: GET /assets/js/app.js
+[Wed Jul 29 10:25:56 2026] 10.247.222.52:60358 Closing
+[Wed Jul 29 10:25:56 2026] 10.247.222.52:50060 Closing
+[Wed Jul 29 10:25:56 2026] 10.247.222.52:64546 Accepted
+[Wed Jul 29 10:25:56 2026] 10.247.222.52:64546 [200]: GET /favicon.ico
+[Wed Jul 29 10:25:56 2026] 10.247.222.52:64546 Closing
+[Wed Jul 29 10:26:03 2026] 10.247.222.162:60676 Accepted
+[Wed Jul 29 10:26:03 2026] 10.247.222.162:60676 [302]: GET /modules/authentication/login.php?logout=1
+[Wed Jul 29 10:26:03 2026] 10.247.222.162:60676 Closing
+[Wed Jul 29 10:26:03 2026] 10.247.222.162:60677 Accepted
+[Wed Jul 29 10:26:03 2026] 10.247.222.162:60677 [200]: GET /modules/authentication/login.php
+[Wed Jul 29 10:26:03 2026] 10.247.222.162:60677 Closing
+[Wed Jul 29 10:26:03 2026] 10.247.222.162:60679 Accepted
+[Wed Jul 29 10:26:03 2026] 10.247.222.162:60680 Accepted
+[Wed Jul 29 10:26:03 2026] 10.247.222.162:60679 [200]: GET /assets/css/style.css
+[Wed Jul 29 10:26:03 2026] 10.247.222.162:60681 Accepted
+[Wed Jul 29 10:26:03 2026] 10.247.222.162:60679 Closing
+[Wed Jul 29 10:26:03 2026] 10.247.222.162:60680 [200]: GET /assets/css/forms.css
+[Wed Jul 29 10:26:03 2026] 10.247.222.162:60682 Accepted
+[Wed Jul 29 10:26:03 2026] 10.247.222.162:60681 [200]: GET /assets/js/validation.js
+[Wed Jul 29 10:26:03 2026] 10.247.222.162:60680 Closing
+[Wed Jul 29 10:26:03 2026] 10.247.222.162:60682 [200]: GET /assets/images/logo/logo.svg
+[Wed Jul 29 10:26:03 2026] 10.247.222.162:60681 Closing
+[Wed Jul 29 10:26:03 2026] 10.247.222.162:60682 Closing
+[Wed Jul 29 10:26:03 2026] 10.247.222.162:60684 Accepted
+[Wed Jul 29 10:26:03 2026] 10.247.222.162:60684 [200]: GET /assets/js/app.js
+[Wed Jul 29 10:26:03 2026] 10.247.222.162:60684 Closing
+[Wed Jul 29 10:26:04 2026] 10.247.222.162:60688 Accepted
+[Wed Jul 29 10:26:04 2026] 10.247.222.162:60688 [200]: GET /favicon.ico
+[Wed Jul 29 10:26:04 2026] 10.247.222.162:60688 Closing
+[Wed Jul 29 10:26:32 2026] 10.247.222.162:60693 Accepted
+[Wed Jul 29 10:26:32 2026] 10.247.222.162:60693 [302]: POST /modules/authentication/login.php
+[Wed Jul 29 10:26:32 2026] 10.247.222.162:60693 Closing
+[Wed Jul 29 10:26:32 2026] 10.247.222.162:60694 Accepted
+[Wed Jul 29 10:26:32 2026] 10.247.222.162:60694 [200]: GET /modules/dashboard/student-dashboard.php
+[Wed Jul 29 10:26:32 2026] 10.247.222.162:60694 Closing
+[Wed Jul 29 10:26:32 2026] 10.247.222.162:60695 Accepted
+[Wed Jul 29 10:26:32 2026] 10.247.222.162:60696 Accepted
+[Wed Jul 29 10:26:32 2026] 10.247.222.162:60695 [200]: GET /assets/css/style.css
+[Wed Jul 29 10:26:32 2026] 10.247.222.162:60697 Accepted
+[Wed Jul 29 10:26:32 2026] 10.247.222.162:60696 [200]: GET /assets/css/dashboard.css
+[Wed Jul 29 10:26:32 2026] 10.247.222.162:60698 Accepted
+[Wed Jul 29 10:26:32 2026] 10.247.222.162:60697 [200]: GET /assets/js/dashboard.js
+[Wed Jul 29 10:26:32 2026] 10.247.222.162:60695 Closing
+[Wed Jul 29 10:26:32 2026] 10.247.222.162:60698 [200]: GET /assets/images/logo/logo.svg
+[Wed Jul 29 10:26:32 2026] 10.247.222.162:60696 Closing
+[Wed Jul 29 10:26:32 2026] 10.247.222.162:60697 Closing
+[Wed Jul 29 10:26:32 2026] 10.247.222.162:60698 Closing
+[Wed Jul 29 10:26:32 2026] 10.247.222.162:60700 Accepted
+[Wed Jul 29 10:26:32 2026] 10.247.222.162:60700 [200]: GET /assets/js/app.js
+[Wed Jul 29 10:26:32 2026] 10.247.222.162:60700 Closing
+[Wed Jul 29 10:26:32 2026] 10.247.222.162:60701 Accepted
+[Wed Jul 29 10:26:32 2026] 10.247.222.162:60701 [200]: GET /favicon.ico
+[Wed Jul 29 10:26:32 2026] 10.247.222.162:60701 Closing
+[Wed Jul 29 10:27:02 2026] 10.247.222.52:53367 Accepted
+[Wed Jul 29 10:27:02 2026] 10.247.222.52:53367 [200]: GET /modules/authentication/login.php
+[Wed Jul 29 10:27:02 2026] 10.247.222.52:53367 Closing
+[Wed Jul 29 10:27:02 2026] 10.247.222.52:54456 Accepted
+[Wed Jul 29 10:27:02 2026] 10.247.222.52:54456 [200]: GET /assets/css/style.css
+[Wed Jul 29 10:27:02 2026] 10.247.222.52:54456 Closing
+[Wed Jul 29 10:27:02 2026] 10.247.222.52:63189 Accepted
+[Wed Jul 29 10:27:02 2026] 10.247.222.52:63189 [200]: GET /assets/css/forms.css
+[Wed Jul 29 10:27:02 2026] 10.247.222.52:54662 Accepted
+[Wed Jul 29 10:27:02 2026] 10.247.222.52:58632 Accepted
+[Wed Jul 29 10:27:02 2026] 10.247.222.52:54662 [200]: GET /assets/js/validation.js
+[Wed Jul 29 10:27:02 2026] 10.247.222.52:52473 Accepted
+[Wed Jul 29 10:27:02 2026] 10.247.222.52:63189 Closing
+[Wed Jul 29 10:27:02 2026] 10.247.222.52:58632 [200]: GET /assets/images/logo/logo.svg
+[Wed Jul 29 10:27:02 2026] 10.247.222.52:52473 [200]: GET /assets/js/app.js
+[Wed Jul 29 10:27:02 2026] 10.247.222.52:54662 Closing
+[Wed Jul 29 10:27:02 2026] 10.247.222.52:58632 Closing
+[Wed Jul 29 10:27:02 2026] 10.247.222.52:52473 Closing
+[Wed Jul 29 10:27:02 2026] 10.247.222.52:62813 Accepted
+[Wed Jul 29 10:27:02 2026] 10.247.222.52:62813 [200]: GET /favicon.ico
+[Wed Jul 29 10:27:02 2026] 10.247.222.52:62813 Closing
+[Wed Jul 29 10:27:38 2026] 10.247.222.52:49668 Accepted
+[Wed Jul 29 10:27:38 2026] 10.247.222.52:55911 Accepted
+[Wed Jul 29 10:27:38 2026] 10.247.222.52:55911 [302]: POST /modules/authentication/login.php
+[Wed Jul 29 10:27:38 2026] 10.247.222.52:55911 Closing
+[Wed Jul 29 10:27:38 2026] 10.247.222.52:49668 [200]: GET /modules/dashboard/student-dashboard.php
+[Wed Jul 29 10:27:38 2026] 10.247.222.52:49668 Closing
+[Wed Jul 29 10:27:38 2026] 10.247.222.52:50505 Accepted
+[Wed Jul 29 10:27:38 2026] 10.247.222.52:53925 Accepted
+[Wed Jul 29 10:27:38 2026] 10.247.222.52:65231 Accepted
+[Wed Jul 29 10:27:38 2026] 10.247.222.52:50505 [200]: GET /assets/css/style.css
+[Wed Jul 29 10:27:38 2026] 10.247.222.52:65231 [200]: GET /assets/css/dashboard.css
+[Wed Jul 29 10:27:38 2026] 10.247.222.52:50505 Closing
+[Wed Jul 29 10:27:38 2026] 10.247.222.52:65231 Closing
+[Wed Jul 29 10:27:38 2026] 10.247.222.52:53925 [200]: GET /assets/js/dashboard.js
+[Wed Jul 29 10:27:38 2026] 10.247.222.52:53925 Closing
+[Wed Jul 29 10:27:38 2026] 10.247.222.52:50060 Accepted
+[Wed Jul 29 10:27:38 2026] 10.247.222.52:62855 Accepted
+[Wed Jul 29 10:27:38 2026] 10.247.222.52:50060 [200]: GET /assets/images/logo/logo.svg
+[Wed Jul 29 10:27:38 2026] 10.247.222.52:62855 [200]: GET /assets/js/app.js
+[Wed Jul 29 10:27:38 2026] 10.247.222.52:50060 Closing
+[Wed Jul 29 10:27:38 2026] 10.247.222.52:62855 Closing
+[Wed Jul 29 10:27:38 2026] 10.247.222.52:55396 Accepted
+[Wed Jul 29 10:27:38 2026] 10.247.222.52:55396 [200]: GET /favicon.ico
+[Wed Jul 29 10:27:38 2026] 10.247.222.52:55396 Closing
+[Wed Jul 29 10:28:11 2026] 10.247.222.233:64684 Accepted
+[Wed Jul 29 10:28:11 2026] 10.247.222.233:64684 [200]: GET /
+[Wed Jul 29 10:28:11 2026] 10.247.222.233:64684 Closing
+[Wed Jul 29 10:28:11 2026] 10.247.222.233:64732 Accepted
+[Wed Jul 29 10:28:11 2026] 10.247.222.233:56039 Accepted
+[Wed Jul 29 10:28:11 2026] 10.247.222.233:64732 [200]: GET /assets/js/app.js
+[Wed Jul 29 10:28:11 2026] 10.247.222.233:56039 [200]: GET /assets/css/style.css
+[Wed Jul 29 10:28:11 2026] 10.247.222.233:64732 Closing
+[Wed Jul 29 10:28:11 2026] 10.247.222.233:56039 Closing
+[Wed Jul 29 10:28:12 2026] 10.247.222.233:64978 Accepted
+[Wed Jul 29 10:28:12 2026] 10.247.222.233:64978 [200]: GET /assets/images/logo/logo.svg
+[Wed Jul 29 10:28:12 2026] 10.247.222.233:64978 Closing
+[Wed Jul 29 10:28:12 2026] 10.247.222.233:54344 Accepted
+[Wed Jul 29 10:28:12 2026] 10.247.222.233:54344 [200]: GET /favicon.ico
+[Wed Jul 29 10:28:12 2026] 10.247.222.233:54344 Closing
+[Wed Jul 29 10:28:38 2026] 10.247.222.233:55538 Accepted
+[Wed Jul 29 10:28:38 2026] 10.247.222.233:55538 [200]: GET /modules/authentication/login.php
+[Wed Jul 29 10:28:38 2026] 10.247.222.233:55538 Closing
+[Wed Jul 29 10:28:38 2026] 10.247.222.233:55414 Accepted
+[Wed Jul 29 10:28:38 2026] 10.247.222.233:55414 [200]: GET /assets/css/style.css
+[Wed Jul 29 10:28:38 2026] 10.247.222.233:55414 Closing
+[Wed Jul 29 10:28:38 2026] 10.247.222.233:49869 Accepted
+[Wed Jul 29 10:28:38 2026] 10.247.222.233:54117 Accepted
+[Wed Jul 29 10:28:38 2026] 10.247.222.233:49869 [200]: GET /assets/css/forms.css
+[Wed Jul 29 10:28:38 2026] 10.247.222.233:54117 [200]: GET /assets/images/logo/logo.svg
+[Wed Jul 29 10:28:38 2026] 10.247.222.233:64321 Accepted
+[Wed Jul 29 10:28:38 2026] 10.247.222.233:49869 Closing
+[Wed Jul 29 10:28:38 2026] 10.247.222.233:54117 Closing
+[Wed Jul 29 10:28:38 2026] 10.247.222.233:64321 [200]: GET /assets/js/app.js
+[Wed Jul 29 10:28:38 2026] 10.247.222.233:64321 Closing
+[Wed Jul 29 10:28:38 2026] 10.247.222.233:52866 Accepted
+[Wed Jul 29 10:28:38 2026] 10.247.222.233:52866 [200]: GET /assets/js/validation.js
+[Wed Jul 29 10:28:38 2026] 10.247.222.233:52866 Closing
+[Wed Jul 29 10:28:38 2026] 10.247.222.233:65205 Accepted
+[Wed Jul 29 10:28:38 2026] 10.247.222.233:65205 [200]: GET /favicon.ico
+[Wed Jul 29 10:28:38 2026] 10.247.222.233:65205 Closing
+[Wed Jul 29 10:28:52 2026] 10.247.222.233:63230 Accepted
+[Wed Jul 29 10:28:52 2026] 10.247.222.233:55497 Accepted
+[Wed Jul 29 10:28:52 2026] 10.247.222.233:55497 [302]: POST /modules/authentication/login.php
+[Wed Jul 29 10:28:52 2026] 10.247.222.233:55497 Closing
+[Wed Jul 29 10:28:52 2026] 10.247.222.233:54197 Accepted
+[Wed Jul 29 10:28:52 2026] 10.247.222.233:63230 [200]: GET /modules/dashboard/admin-dashboard.php
+[Wed Jul 29 10:28:52 2026] 10.247.222.233:63230 Closing
+[Wed Jul 29 10:28:52 2026] 10.247.222.233:54197 [200]: GET /assets/css/style.css
+[Wed Jul 29 10:28:52 2026] 10.247.222.233:54197 Closing
+[Wed Jul 29 10:28:52 2026] 10.247.222.233:64334 Accepted
+[Wed Jul 29 10:28:52 2026] 10.247.222.233:57027 Accepted
+[Wed Jul 29 10:28:52 2026] 10.247.222.233:64334 [200]: GET /assets/js/dashboard.js
+[Wed Jul 29 10:28:52 2026] 10.247.222.233:58374 Accepted
+[Wed Jul 29 10:28:52 2026] 10.247.222.233:57027 [200]: GET /assets/css/dashboard.css
+[Wed Jul 29 10:28:52 2026] 10.247.222.233:58510 Accepted
+[Wed Jul 29 10:28:52 2026] 10.247.222.233:58374 [200]: GET /assets/js/app.js
+[Wed Jul 29 10:28:52 2026] 10.247.222.233:64334 Closing
+[Wed Jul 29 10:28:52 2026] 10.247.222.233:58510 [200]: GET /assets/images/logo/logo.svg
+[Wed Jul 29 10:28:52 2026] 10.247.222.233:57027 Closing
+[Wed Jul 29 10:28:52 2026] 10.247.222.233:58374 Closing
+[Wed Jul 29 10:28:52 2026] 10.247.222.233:58510 Closing
+[Wed Jul 29 10:28:52 2026] 10.247.222.233:54879 Accepted
+[Wed Jul 29 10:28:52 2026] 10.247.222.233:54879 [200]: GET /favicon.ico
+[Wed Jul 29 10:28:52 2026] 10.247.222.233:54879 Closing
+[Wed Jul 29 10:28:57 2026] 10.247.222.52:50453 Accepted
+[Wed Jul 29 10:28:57 2026] 10.247.222.52:50453 [200]: GET /modules/attendance/student-daily-attendance.php
+[Wed Jul 29 10:28:57 2026] 10.247.222.52:50453 Closing
+[Wed Jul 29 10:28:57 2026] 10.247.222.52:63150 Accepted
+[Wed Jul 29 10:28:58 2026] 10.247.222.52:63150 [200]: GET /assets/css/style.css
+[Wed Jul 29 10:28:58 2026] 10.247.222.52:63150 Closing
+[Wed Jul 29 10:28:58 2026] 10.247.222.52:62001 Accepted
+[Wed Jul 29 10:28:58 2026] 10.247.222.52:62001 [200]: GET /assets/css/dashboard.css
+[Wed Jul 29 10:28:58 2026] 10.247.222.52:62001 Closing
+[Wed Jul 29 10:28:58 2026] 10.247.222.52:56571 Accepted
+[Wed Jul 29 10:28:58 2026] 10.247.222.52:53264 Accepted
+[Wed Jul 29 10:28:58 2026] 10.247.222.52:56571 [200]: GET /assets/js/dashboard.js
+[Wed Jul 29 10:28:58 2026] 10.247.222.52:62785 Accepted
+[Wed Jul 29 10:28:58 2026] 10.247.222.52:53264 [200]: GET /assets/js/app.js
+[Wed Jul 29 10:28:58 2026] 10.247.222.52:62785 [200]: GET /assets/images/logo/logo.svg
+[Wed Jul 29 10:28:58 2026] 10.247.222.52:56571 Closing
+[Wed Jul 29 10:28:58 2026] 10.247.222.52:53264 Closing
+[Wed Jul 29 10:28:58 2026] 10.247.222.52:62785 Closing
+[Wed Jul 29 10:28:58 2026] 10.247.222.52:51209 Accepted
+[Wed Jul 29 10:28:58 2026] 10.247.222.52:51209 [200]: GET /favicon.ico
+[Wed Jul 29 10:28:58 2026] 10.247.222.52:51209 Closing
+[Wed Jul 29 10:29:01 2026] 10.247.222.233:63503 Accepted
+[Wed Jul 29 10:29:01 2026] 10.247.222.233:63503 [200]: GET /modules/dashboard/admin-dashboard.php
+[Wed Jul 29 10:29:01 2026] 10.247.222.233:63503 Closing
+[Wed Jul 29 10:29:01 2026] 10.247.222.233:62353 Accepted
+[Wed Jul 29 10:29:01 2026] 10.247.222.233:62353 [200]: GET /assets/css/style.css
+[Wed Jul 29 10:29:01 2026] 10.247.222.233:62353 Closing
+[Wed Jul 29 10:29:01 2026] 10.247.222.233:49667 Accepted
+[Wed Jul 29 10:29:01 2026] 10.247.222.233:49667 [200]: GET /assets/css/dashboard.css
+[Wed Jul 29 10:29:01 2026] 10.247.222.233:49667 Closing
+[Wed Jul 29 10:29:01 2026] 10.247.222.233:49254 Accepted
+[Wed Jul 29 10:29:01 2026] 10.247.222.233:63580 Accepted
+[Wed Jul 29 10:29:01 2026] 10.247.222.233:63580 [200]: GET /assets/js/dashboard.js
+[Wed Jul 29 10:29:01 2026] 10.247.222.233:63580 Closing
+[Wed Jul 29 10:29:01 2026] 10.247.222.233:49254 [200]: GET /assets/js/app.js
+[Wed Jul 29 10:29:01 2026] 10.247.222.233:49254 Closing
+[Wed Jul 29 10:29:01 2026] 10.247.222.233:56727 Accepted
+[Wed Jul 29 10:29:01 2026] 10.247.222.233:56727 [200]: GET /assets/images/logo/logo.svg
+[Wed Jul 29 10:29:01 2026] 10.247.222.233:56727 Closing
+[Wed Jul 29 10:29:01 2026] 10.247.222.233:58856 Accepted
+[Wed Jul 29 10:29:01 2026] 10.247.222.233:58856 [200]: GET /favicon.ico
+[Wed Jul 29 10:29:01 2026] 10.247.222.233:58856 Closing
+[Wed Jul 29 10:29:05 2026] 10.247.222.52:57687 Accepted
+[Wed Jul 29 10:29:05 2026] 10.247.222.52:49715 Accepted
+[Wed Jul 29 10:29:05 2026] 10.247.222.52:57687 [200]: GET /modules/attendance/student-daily-attendance.php?date=2026-06-29&status=all
+[Wed Jul 29 10:29:05 2026] 10.247.222.52:57687 Closing
+[Wed Jul 29 10:29:05 2026] 10.247.222.52:49715 [200]: GET /assets/css/style.css
+[Wed Jul 29 10:29:05 2026] 10.247.222.52:49715 Closing
+[Wed Jul 29 10:29:05 2026] 10.247.222.52:59444 Accepted
+[Wed Jul 29 10:29:05 2026] 10.247.222.52:59444 [200]: GET /assets/css/dashboard.css
+[Wed Jul 29 10:29:05 2026] 10.247.222.52:61456 Accepted
+[Wed Jul 29 10:29:05 2026] 10.247.222.52:58645 Accepted
+[Wed Jul 29 10:29:05 2026] 10.247.222.52:61456 [200]: GET /assets/js/dashboard.js
+[Wed Jul 29 10:29:05 2026] 10.247.222.52:56170 Accepted
+[Wed Jul 29 10:29:05 2026] 10.247.222.52:59444 Closing
+[Wed Jul 29 10:29:05 2026] 10.247.222.52:58645 [200]: GET /assets/js/app.js
+[Wed Jul 29 10:29:05 2026] 10.247.222.52:56170 [200]: GET /assets/images/logo/logo.svg
+[Wed Jul 29 10:29:05 2026] 10.247.222.52:61456 Closing
+[Wed Jul 29 10:29:05 2026] 10.247.222.52:58645 Closing
+[Wed Jul 29 10:29:05 2026] 10.247.222.52:56170 Closing
+[Wed Jul 29 10:29:05 2026] 10.247.222.52:61250 Accepted
+[Wed Jul 29 10:29:05 2026] 10.247.222.52:61250 [200]: GET /favicon.ico
+[Wed Jul 29 10:29:05 2026] 10.247.222.52:61250 Closing
+[Wed Jul 29 10:29:13 2026] 10.247.222.52:62911 Accepted
+[Wed Jul 29 10:29:13 2026] 10.247.222.52:59815 Accepted
+[Wed Jul 29 10:29:13 2026] 10.247.222.52:59815 [200]: GET /modules/attendance/student-daily-attendance.php?date=2026-07-27&status=all
+[Wed Jul 29 10:29:13 2026] 10.247.222.52:59815 Closing
+[Wed Jul 29 10:29:13 2026] 10.247.222.52:62911 [200]: GET /assets/css/style.css
+[Wed Jul 29 10:29:13 2026] 10.247.222.52:62911 Closing
+[Wed Jul 29 10:29:13 2026] 10.247.222.52:54561 Accepted
+[Wed Jul 29 10:29:13 2026] 10.247.222.52:52522 Accepted
+[Wed Jul 29 10:29:13 2026] 10.247.222.52:55767 Accepted
+[Wed Jul 29 10:29:13 2026] 10.247.222.52:54561 [200]: GET /assets/css/dashboard.css
+[Wed Jul 29 10:29:13 2026] 10.247.222.52:60017 Accepted
+[Wed Jul 29 10:29:13 2026] 10.247.222.52:52522 [200]: GET /assets/js/dashboard.js
+[Wed Jul 29 10:29:13 2026] 10.247.222.52:55767 [200]: GET /assets/js/app.js
+[Wed Jul 29 10:29:13 2026] 10.247.222.52:54561 Closing
+[Wed Jul 29 10:29:13 2026] 10.247.222.52:52522 Closing
+[Wed Jul 29 10:29:13 2026] 10.247.222.52:55767 Closing
+[Wed Jul 29 10:29:13 2026] 10.247.222.52:60017 [200]: GET /assets/images/logo/logo.svg
+[Wed Jul 29 10:29:13 2026] 10.247.222.52:60017 Closing
+[Wed Jul 29 10:29:13 2026] 10.247.222.52:49391 Accepted
+[Wed Jul 29 10:29:13 2026] 10.247.222.52:49391 [200]: GET /favicon.ico
+[Wed Jul 29 10:29:13 2026] 10.247.222.52:49391 Closing
+[Wed Jul 29 10:29:32 2026] 10.247.222.52:58000 Accepted
+[Wed Jul 29 10:29:32 2026] 10.247.222.52:64473 Accepted
+[Wed Jul 29 10:29:32 2026] 10.247.222.52:58000 [200]: GET /modules/attendance/student-daily-attendance.php?date=2026-07-21&status=all
+[Wed Jul 29 10:29:32 2026] 10.247.222.52:58000 Closing
+[Wed Jul 29 10:29:32 2026] 10.247.222.52:64473 [200]: GET /assets/css/style.css
+[Wed Jul 29 10:29:32 2026] 10.247.222.52:64473 Closing
+[Wed Jul 29 10:29:32 2026] 10.247.222.52:53005 Accepted
+[Wed Jul 29 10:29:32 2026] 10.247.222.52:56627 Accepted
+[Wed Jul 29 10:29:32 2026] 10.247.222.52:53005 [200]: GET /assets/css/dashboard.css
+[Wed Jul 29 10:29:32 2026] 10.247.222.52:64475 Accepted
+[Wed Jul 29 10:29:32 2026] 10.247.222.52:56627 [200]: GET /assets/js/dashboard.js
+[Wed Jul 29 10:29:32 2026] 10.247.222.52:57364 Accepted
+[Wed Jul 29 10:29:32 2026] 10.247.222.52:64475 [200]: GET /assets/images/logo/logo.svg
+[Wed Jul 29 10:29:32 2026] 10.247.222.52:53005 Closing
+[Wed Jul 29 10:29:32 2026] 10.247.222.52:57364 [200]: GET /assets/js/app.js
+[Wed Jul 29 10:29:32 2026] 10.247.222.52:56627 Closing
+[Wed Jul 29 10:29:32 2026] 10.247.222.52:64475 Closing
+[Wed Jul 29 10:29:32 2026] 10.247.222.52:57364 Closing
+[Wed Jul 29 10:29:33 2026] 10.247.222.52:55289 Accepted
+[Wed Jul 29 10:29:33 2026] 10.247.222.52:55289 [200]: GET /favicon.ico
+[Wed Jul 29 10:29:33 2026] 10.247.222.52:55289 Closing
+[Wed Jul 29 10:29:36 2026] 10.247.222.52:54699 Accepted
+[Wed Jul 29 10:29:36 2026] 10.247.222.52:53077 Accepted
+[Wed Jul 29 10:29:36 2026] 10.247.222.52:54699 [200]: GET /modules/attendance/student-daily-attendance.php?date=2026-07-17&status=all
+[Wed Jul 29 10:29:36 2026] 10.247.222.52:54699 Closing
+[Wed Jul 29 10:29:36 2026] 10.247.222.52:53077 [200]: GET /assets/css/style.css
+[Wed Jul 29 10:29:36 2026] 10.247.222.52:53077 Closing
+[Wed Jul 29 10:29:36 2026] 10.247.222.52:59913 Accepted
+[Wed Jul 29 10:29:36 2026] 10.247.222.52:64379 Accepted
+[Wed Jul 29 10:29:36 2026] 10.247.222.52:59913 [200]: GET /assets/css/dashboard.css
+[Wed Jul 29 10:29:36 2026] 10.247.222.52:58371 Accepted
+[Wed Jul 29 10:29:36 2026] 10.247.222.52:64379 [200]: GET /assets/js/dashboard.js
+[Wed Jul 29 10:29:36 2026] 10.247.222.52:56982 Accepted
+[Wed Jul 29 10:29:36 2026] 10.247.222.52:58371 [200]: GET /assets/js/app.js
+[Wed Jul 29 10:29:36 2026] 10.247.222.52:59913 Closing
+[Wed Jul 29 10:29:36 2026] 10.247.222.52:56982 [200]: GET /assets/images/logo/logo.svg
+[Wed Jul 29 10:29:36 2026] 10.247.222.52:64379 Closing
+[Wed Jul 29 10:29:36 2026] 10.247.222.52:58371 Closing
+[Wed Jul 29 10:29:36 2026] 10.247.222.52:56982 Closing
+[Wed Jul 29 10:29:37 2026] 10.247.222.52:62936 Accepted
+[Wed Jul 29 10:29:37 2026] 10.247.222.52:62936 [200]: GET /favicon.ico
+[Wed Jul 29 10:29:37 2026] 10.247.222.52:62936 Closing
+[Wed Jul 29 10:29:45 2026] 10.247.222.52:62911 Accepted
+[Wed Jul 29 10:29:45 2026] 10.247.222.52:62911 [200]: GET /modules/dashboard/student-profile.php
+[Wed Jul 29 10:29:45 2026] 10.247.222.52:62911 Closing
+[Wed Jul 29 10:29:45 2026] 10.247.222.52:61256 Accepted
+[Wed Jul 29 10:29:46 2026] 10.247.222.52:61256 [200]: GET /assets/css/style.css
+[Wed Jul 29 10:29:46 2026] 10.247.222.52:61256 Closing
+[Wed Jul 29 10:29:46 2026] 10.247.222.52:59766 Accepted
+[Wed Jul 29 10:29:46 2026] 10.247.222.52:59766 [200]: GET /assets/css/dashboard.css
+[Wed Jul 29 10:29:46 2026] 10.247.222.52:53022 Accepted
+[Wed Jul 29 10:29:46 2026] 10.247.222.52:56477 Accepted
+[Wed Jul 29 10:29:46 2026] 10.247.222.52:53022 [200]: GET /assets/js/dashboard.js
+[Wed Jul 29 10:29:46 2026] 10.247.222.52:51141 Accepted
+[Wed Jul 29 10:29:46 2026] 10.247.222.52:59766 Closing
+[Wed Jul 29 10:29:46 2026] 10.247.222.52:56477 [200]: GET /assets/images/logo/logo.svg
+[Wed Jul 29 10:29:46 2026] 10.247.222.52:51141 [200]: GET /assets/js/app.js
+[Wed Jul 29 10:29:46 2026] 10.247.222.52:53022 Closing
+[Wed Jul 29 10:29:46 2026] 10.247.222.52:56477 Closing
+[Wed Jul 29 10:29:46 2026] 10.247.222.52:51141 Closing
+[Wed Jul 29 10:29:46 2026] 10.247.222.52:58481 Accepted
+[Wed Jul 29 10:29:46 2026] 10.247.222.52:58481 [200]: GET /favicon.ico
+[Wed Jul 29 10:29:46 2026] 10.247.222.52:58481 Closing
+[Wed Jul 29 10:29:46 2026] 10.247.222.52:63582 Accepted
+[Wed Jul 29 10:29:46 2026] 10.247.222.52:63582 [200]: GET /modules/dashboard/student-dashboard.php
+[Wed Jul 29 10:29:46 2026] 10.247.222.52:63582 Closing
+[Wed Jul 29 10:29:46 2026] 10.247.222.52:55813 Accepted
+[Wed Jul 29 10:29:46 2026] 10.247.222.52:55813 [200]: GET /assets/css/style.css
+[Wed Jul 29 10:29:46 2026] 10.247.222.52:55813 Closing
+[Wed Jul 29 10:29:46 2026] 10.247.222.52:53559 Accepted
+[Wed Jul 29 10:29:46 2026] 10.247.222.52:60326 Accepted
+[Wed Jul 29 10:29:46 2026] 10.247.222.52:53559 [200]: GET /assets/css/dashboard.css
+[Wed Jul 29 10:29:46 2026] 10.247.222.52:60326 [200]: GET /assets/js/dashboard.js
+[Wed Jul 29 10:29:46 2026] 10.247.222.52:53559 Closing
+[Wed Jul 29 10:29:46 2026] 10.247.222.52:60326 Closing
+[Wed Jul 29 10:29:46 2026] 10.247.222.52:60176 Accepted
+[Wed Jul 29 10:29:46 2026] 10.247.222.52:52398 Accepted
+[Wed Jul 29 10:29:46 2026] 10.247.222.52:60176 [200]: GET /assets/js/app.js
+[Wed Jul 29 10:29:46 2026] 10.247.222.52:52398 [200]: GET /assets/images/logo/logo.svg
+[Wed Jul 29 10:29:46 2026] 10.247.222.52:60176 Closing
+[Wed Jul 29 10:29:46 2026] 10.247.222.52:52398 Closing
+[Wed Jul 29 10:29:46 2026] 10.247.222.52:61164 Accepted
+[Wed Jul 29 10:29:46 2026] 10.247.222.52:61164 [200]: GET /favicon.ico
+[Wed Jul 29 10:29:46 2026] 10.247.222.52:61164 Closing
+[Wed Jul 29 10:29:58 2026] 10.247.222.52:55607 Accepted
+[Wed Jul 29 10:29:58 2026] 10.247.222.52:54142 Accepted
+[Wed Jul 29 10:29:58 2026] 10.247.222.52:55607 [302]: GET /modules/authentication/login.php?logout=1
+[Wed Jul 29 10:29:58 2026] 10.247.222.52:55607 Closing
+[Wed Jul 29 10:29:58 2026] 10.247.222.52:54142 [200]: GET /modules/authentication/login.php
+[Wed Jul 29 10:29:58 2026] 10.247.222.52:54142 Closing
+[Wed Jul 29 10:29:59 2026] 10.247.222.52:65088 Accepted
+[Wed Jul 29 10:29:59 2026] 10.247.222.52:53295 Accepted
+[Wed Jul 29 10:29:59 2026] 10.247.222.52:58722 Accepted
+[Wed Jul 29 10:29:59 2026] 10.247.222.52:49384 Accepted
+[Wed Jul 29 10:29:59 2026] 10.247.222.52:56674 Accepted
+[Wed Jul 29 10:29:59 2026] 10.247.222.52:53295 [200]: GET /assets/js/app.js
+[Wed Jul 29 10:29:59 2026] 10.247.222.52:58722 [200]: GET /assets/js/validation.js
+[Wed Jul 29 10:29:59 2026] 10.247.222.52:49384 [200]: GET /assets/css/forms.css
+[Wed Jul 29 10:29:59 2026] 10.247.222.52:56674 [200]: GET /assets/css/style.css
+[Wed Jul 29 10:29:59 2026] 10.247.222.52:53295 Closing
+[Wed Jul 29 10:29:59 2026] 10.247.222.52:58722 Closing
+[Wed Jul 29 10:29:59 2026] 10.247.222.52:49384 Closing
+[Wed Jul 29 10:29:59 2026] 10.247.222.52:56674 Closing
+[Wed Jul 29 10:29:59 2026] 10.247.222.52:65088 [200]: GET /assets/images/logo/logo.svg
+[Wed Jul 29 10:29:59 2026] 10.247.222.52:65088 Closing
+[Wed Jul 29 10:29:59 2026] 10.247.222.52:65464 Accepted
+[Wed Jul 29 10:29:59 2026] 10.247.222.52:65464 [200]: GET /favicon.ico
+[Wed Jul 29 10:29:59 2026] 10.247.222.52:65464 Closing
+[Wed Jul 29 10:30:13 2026] 10.247.222.233:49304 Accepted
+[Wed Jul 29 10:30:13 2026] 10.247.222.233:49304 [200]: GET /modules/attendance/admin-attendance.php
+[Wed Jul 29 10:30:13 2026] 10.247.222.233:49304 Closing
+[Wed Jul 29 10:30:13 2026] 10.247.222.233:63081 Accepted
+[Wed Jul 29 10:30:13 2026] 10.247.222.233:63081 [200]: GET /assets/css/style.css
+[Wed Jul 29 10:30:13 2026] 10.247.222.233:63081 Closing
+[Wed Jul 29 10:30:13 2026] 10.247.222.233:54408 Accepted
+[Wed Jul 29 10:30:13 2026] 10.247.222.233:49928 Accepted
+[Wed Jul 29 10:30:13 2026] 10.247.222.233:54408 [200]: GET /assets/js/dashboard.js
+[Wed Jul 29 10:30:13 2026] 10.247.222.233:49928 [200]: GET /assets/css/dashboard.css
+[Wed Jul 29 10:30:13 2026] 10.247.222.233:54408 Closing
+[Wed Jul 29 10:30:13 2026] 10.247.222.233:49928 Closing
+[Wed Jul 29 10:30:13 2026] 10.247.222.233:52057 Accepted
+[Wed Jul 29 10:30:13 2026] 10.247.222.233:59745 Accepted
+[Wed Jul 29 10:30:13 2026] 10.247.222.233:52057 [200]: GET /assets/images/logo/logo.svg
+[Wed Jul 29 10:30:13 2026] 10.247.222.233:59745 [200]: GET /assets/js/app.js
+[Wed Jul 29 10:30:13 2026] 10.247.222.233:52057 Closing
+[Wed Jul 29 10:30:13 2026] 10.247.222.233:59745 Closing
+[Wed Jul 29 10:30:14 2026] 10.247.222.233:56850 Accepted
+[Wed Jul 29 10:30:14 2026] 10.247.222.233:56850 [200]: GET /favicon.ico
+[Wed Jul 29 10:30:14 2026] 10.247.222.233:56850 Closing
+[Wed Jul 29 10:30:19 2026] 10.247.222.233:51087 Accepted
+[Wed Jul 29 10:30:19 2026] 10.247.222.233:51087 [200]: GET /notifications/admin-notifications.php
+[Wed Jul 29 10:30:19 2026] 10.247.222.233:51087 Closing
+[Wed Jul 29 10:30:19 2026] 10.247.222.233:56594 Accepted
+[Wed Jul 29 10:30:19 2026] 10.247.222.233:56594 [200]: GET /assets/css/style.css
+[Wed Jul 29 10:30:19 2026] 10.247.222.233:56594 Closing
+[Wed Jul 29 10:30:19 2026] 10.247.222.233:53397 Accepted
+[Wed Jul 29 10:30:19 2026] 10.247.222.233:58218 Accepted
+[Wed Jul 29 10:30:19 2026] 10.247.222.233:53397 [200]: GET /assets/css/dashboard.css
+[Wed Jul 29 10:30:19 2026] 10.247.222.233:58218 [200]: GET /assets/js/dashboard.js
+[Wed Jul 29 10:30:19 2026] 10.247.222.233:53397 Closing
+[Wed Jul 29 10:30:19 2026] 10.247.222.233:58218 Closing
+[Wed Jul 29 10:30:19 2026] 10.247.222.233:52742 Accepted
+[Wed Jul 29 10:30:19 2026] 10.247.222.233:51831 Accepted
+[Wed Jul 29 10:30:19 2026] 10.247.222.233:51831 [200]: GET /assets/js/app.js
+[Wed Jul 29 10:30:19 2026] 10.247.222.233:51831 Closing
+[Wed Jul 29 10:30:19 2026] 10.247.222.233:52742 [200]: GET /assets/images/logo/logo.svg
+[Wed Jul 29 10:30:19 2026] 10.247.222.233:52742 Closing
+[Wed Jul 29 10:30:19 2026] 10.247.222.233:59905 Accepted
+[Wed Jul 29 10:30:19 2026] 10.247.222.233:59905 [200]: GET /favicon.ico
+[Wed Jul 29 10:30:19 2026] 10.247.222.233:59905 Closing
+[Wed Jul 29 10:30:20 2026] 10.247.222.52:61755 Accepted
+[Wed Jul 29 10:30:20 2026] 10.247.222.52:63540 Accepted
+[Wed Jul 29 10:30:20 2026] 10.247.222.52:63540 [302]: POST /modules/authentication/login.php
+[Wed Jul 29 10:30:20 2026] 10.247.222.52:63540 Closing
+[Wed Jul 29 10:30:20 2026] 10.247.222.52:61755 [200]: GET /modules/dashboard/faculty-dashboard.php
+[Wed Jul 29 10:30:20 2026] 10.247.222.52:61755 Closing
+[Wed Jul 29 10:30:20 2026] 10.247.222.52:60007 Accepted
+[Wed Jul 29 10:30:20 2026] 10.247.222.52:60007 [200]: GET /assets/css/style.css
+[Wed Jul 29 10:30:20 2026] 10.247.222.52:60007 Closing
+[Wed Jul 29 10:30:20 2026] 10.247.222.52:63258 Accepted
+[Wed Jul 29 10:30:20 2026] 10.247.222.52:63353 Accepted
+[Wed Jul 29 10:30:20 2026] 10.247.222.52:63258 [200]: GET /assets/css/dashboard.css
+[Wed Jul 29 10:30:20 2026] 10.247.222.52:63353 [200]: GET /assets/images/logo/logo.svg
+[Wed Jul 29 10:30:20 2026] 10.247.222.52:63258 Closing
+[Wed Jul 29 10:30:20 2026] 10.247.222.52:63353 Closing
+[Wed Jul 29 10:30:20 2026] 10.247.222.52:57513 Accepted
+[Wed Jul 29 10:30:20 2026] 10.247.222.52:56110 Accepted
+[Wed Jul 29 10:30:20 2026] 10.247.222.52:56110 [200]: GET /assets/js/dashboard.js
+[Wed Jul 29 10:30:20 2026] 10.247.222.52:56110 Closing
+[Wed Jul 29 10:30:20 2026] 10.247.222.52:57513 [200]: GET /assets/js/app.js
+[Wed Jul 29 10:30:20 2026] 10.247.222.52:57513 Closing
+[Wed Jul 29 10:30:20 2026] 10.247.222.52:49854 Accepted
+[Wed Jul 29 10:30:20 2026] 10.247.222.52:49854 [200]: GET /favicon.ico
+[Wed Jul 29 10:30:20 2026] 10.247.222.52:49854 Closing
+[Wed Jul 29 10:30:22 2026] 10.247.222.233:51424 Accepted
+[Wed Jul 29 10:30:23 2026] 10.247.222.233:51424 [200]: GET /users/admin-students.php
+[Wed Jul 29 10:30:23 2026] 10.247.222.233:51424 Closing
+[Wed Jul 29 10:30:23 2026] 10.247.222.233:54063 Accepted
+[Wed Jul 29 10:30:23 2026] 10.247.222.233:54063 [200]: GET /assets/css/style.css
+[Wed Jul 29 10:30:23 2026] 10.247.222.233:54063 Closing
+[Wed Jul 29 10:30:23 2026] 10.247.222.233:55871 Accepted
+[Wed Jul 29 10:30:23 2026] 10.247.222.233:59717 Accepted
+[Wed Jul 29 10:30:23 2026] 10.247.222.233:55871 [200]: GET /assets/js/app.js
+[Wed Jul 29 10:30:23 2026] 10.247.222.233:59279 Accepted
+[Wed Jul 29 10:30:23 2026] 10.247.222.233:59717 [200]: GET /assets/js/dashboard.js
+[Wed Jul 29 10:30:23 2026] 10.247.222.233:61102 Accepted
+[Wed Jul 29 10:30:23 2026] 10.247.222.233:59279 [200]: GET /assets/css/dashboard.css
+[Wed Jul 29 10:30:23 2026] 10.247.222.233:55871 Closing
+[Wed Jul 29 10:30:23 2026] 10.247.222.233:61102 [200]: GET /assets/images/logo/logo.svg
+[Wed Jul 29 10:30:23 2026] 10.247.222.233:59717 Closing
+[Wed Jul 29 10:30:23 2026] 10.247.222.233:59279 Closing
+[Wed Jul 29 10:30:23 2026] 10.247.222.233:61102 Closing
+[Wed Jul 29 10:30:23 2026] 10.247.222.233:56080 Accepted
+[Wed Jul 29 10:30:23 2026] 10.247.222.233:56080 [200]: GET /favicon.ico
+[Wed Jul 29 10:30:23 2026] 10.247.222.233:56080 Closing
+[Wed Jul 29 10:30:36 2026] 10.247.222.52:57234 Accepted
+[Wed Jul 29 10:30:36 2026] 10.247.222.52:60971 Accepted
+[Wed Jul 29 10:30:36 2026] 10.247.222.52:57234 [302]: GET /modules/authentication/login.php?logout=1
+[Wed Jul 29 10:30:36 2026] 10.247.222.52:57234 Closing
+[Wed Jul 29 10:30:36 2026] 10.247.222.52:60971 [200]: GET /modules/authentication/login.php
+[Wed Jul 29 10:30:36 2026] 10.247.222.52:60971 Closing
+[Wed Jul 29 10:30:36 2026] 10.247.222.52:64030 Accepted
+[Wed Jul 29 10:30:36 2026] 10.247.222.52:58397 Accepted
+[Wed Jul 29 10:30:36 2026] 10.247.222.52:64030 [200]: GET /assets/css/forms.css
+[Wed Jul 29 10:30:36 2026] 10.247.222.52:58397 [200]: GET /assets/css/style.css
+[Wed Jul 29 10:30:36 2026] 10.247.222.52:64030 Closing
+[Wed Jul 29 10:30:36 2026] 10.247.222.52:58397 Closing
+[Wed Jul 29 10:30:36 2026] 10.247.222.52:53511 Accepted
+[Wed Jul 29 10:30:36 2026] 10.247.222.52:53511 [200]: GET /assets/js/validation.js
+[Wed Jul 29 10:30:36 2026] 10.247.222.52:53511 Closing
+[Wed Jul 29 10:30:36 2026] 10.247.222.52:62034 Accepted
+[Wed Jul 29 10:30:36 2026] 10.247.222.52:61076 Accepted
+[Wed Jul 29 10:30:36 2026] 10.247.222.52:62034 [200]: GET /assets/images/logo/logo.svg
+[Wed Jul 29 10:30:36 2026] 10.247.222.52:61076 [200]: GET /assets/js/app.js
+[Wed Jul 29 10:30:36 2026] 10.247.222.52:62034 Closing
+[Wed Jul 29 10:30:36 2026] 10.247.222.52:61076 Closing
+[Wed Jul 29 10:30:36 2026] 10.247.222.52:60760 Accepted
+[Wed Jul 29 10:30:36 2026] 10.247.222.52:60760 [200]: GET /favicon.ico
+[Wed Jul 29 10:30:36 2026] 10.247.222.52:60760 Closing
+[Wed Jul 29 10:31:16 2026] 10.247.222.52:62398 Accepted
+[Wed Jul 29 10:31:16 2026] 10.247.222.52:51635 Accepted
+[Wed Jul 29 10:31:16 2026] 10.247.222.52:62398 [302]: POST /modules/authentication/login.php
+[Wed Jul 29 10:31:16 2026] 10.247.222.52:62398 Closing
+[Wed Jul 29 10:31:16 2026] 10.247.222.52:51635 [200]: GET /modules/authentication/login.php?error=not_found&role=admin
+[Wed Jul 29 10:31:16 2026] 10.247.222.52:51635 Closing
+[Wed Jul 29 10:31:16 2026] 10.247.222.52:58181 Accepted
+[Wed Jul 29 10:31:16 2026] 10.247.222.52:54412 Accepted
+[Wed Jul 29 10:31:16 2026] 10.247.222.52:58181 [200]: GET /assets/css/style.css
+[Wed Jul 29 10:31:16 2026] 10.247.222.52:55604 Accepted
+[Wed Jul 29 10:31:16 2026] 10.247.222.52:54412 [200]: GET /assets/images/logo/logo.svg
+[Wed Jul 29 10:31:16 2026] 10.247.222.52:56119 Accepted
+[Wed Jul 29 10:31:16 2026] 10.247.222.52:55604 [200]: GET /assets/js/validation.js
+[Wed Jul 29 10:31:16 2026] 10.247.222.52:58181 Closing
+[Wed Jul 29 10:31:16 2026] 10.247.222.52:56119 [200]: GET /assets/css/forms.css
+[Wed Jul 29 10:31:16 2026] 10.247.222.52:54412 Closing
+[Wed Jul 29 10:31:16 2026] 10.247.222.52:55604 Closing
+[Wed Jul 29 10:31:16 2026] 10.247.222.52:56119 Closing
+[Wed Jul 29 10:31:16 2026] 10.247.222.52:64456 Accepted
+[Wed Jul 29 10:31:16 2026] 10.247.222.52:64456 [200]: GET /assets/js/app.js
+[Wed Jul 29 10:31:16 2026] 10.247.222.52:64456 Closing
+[Wed Jul 29 10:31:16 2026] 10.247.222.52:59885 Accepted
+[Wed Jul 29 10:31:16 2026] 10.247.222.52:59885 [200]: GET /favicon.ico
+[Wed Jul 29 10:31:16 2026] 10.247.222.52:59885 Closing
+[Wed Jul 29 10:31:41 2026] 10.247.222.52:57700 Accepted
+[Wed Jul 29 10:31:41 2026] 10.247.222.52:57700 [302]: POST /modules/authentication/login.php
+[Wed Jul 29 10:31:41 2026] 10.247.222.52:57700 Closing
+[Wed Jul 29 10:31:41 2026] 10.247.222.52:56479 Accepted
+[Wed Jul 29 10:31:41 2026] 10.247.222.52:56479 [200]: GET /modules/authentication/login.php?error=not_found&role=student
+[Wed Jul 29 10:31:41 2026] 10.247.222.52:56479 Closing
+[Wed Jul 29 10:31:41 2026] 10.247.222.52:62961 Accepted
+[Wed Jul 29 10:31:41 2026] 10.247.222.52:59424 Accepted
+[Wed Jul 29 10:31:41 2026] 10.247.222.52:49376 Accepted
+[Wed Jul 29 10:31:41 2026] 10.247.222.52:62961 [200]: GET /assets/css/style.css
+[Wed Jul 29 10:31:41 2026] 10.247.222.52:49376 [200]: GET /assets/css/forms.css
+[Wed Jul 29 10:31:41 2026] 10.247.222.52:62961 Closing
+[Wed Jul 29 10:31:41 2026] 10.247.222.52:49376 Closing
+[Wed Jul 29 10:31:41 2026] 10.247.222.52:59424 [200]: GET /assets/images/logo/logo.svg
+[Wed Jul 29 10:31:41 2026] 10.247.222.52:59424 Closing
+[Wed Jul 29 10:31:41 2026] 10.247.222.52:63291 Accepted
+[Wed Jul 29 10:31:41 2026] 10.247.222.52:59796 Accepted
+[Wed Jul 29 10:31:41 2026] 10.247.222.52:63291 [200]: GET /assets/js/validation.js
+[Wed Jul 29 10:31:41 2026] 10.247.222.52:59796 [200]: GET /assets/js/app.js
+[Wed Jul 29 10:31:41 2026] 10.247.222.52:63291 Closing
+[Wed Jul 29 10:31:41 2026] 10.247.222.52:59796 Closing
+[Wed Jul 29 10:31:41 2026] 10.247.222.52:55698 Accepted
+[Wed Jul 29 10:31:41 2026] 10.247.222.52:55698 [200]: GET /favicon.ico
+[Wed Jul 29 10:31:41 2026] 10.247.222.52:55698 Closing
+[Wed Jul 29 10:31:57 2026] 10.247.222.52:63528 Accepted
+[Wed Jul 29 10:31:57 2026] 10.247.222.52:64506 Accepted
+[Wed Jul 29 10:31:57 2026] 10.247.222.52:64506 [302]: POST /modules/authentication/login.php
+[Wed Jul 29 10:31:57 2026] 10.247.222.52:64506 Closing
+[Wed Jul 29 10:31:57 2026] 10.247.222.52:63528 [200]: GET /modules/authentication/login.php?error=not_found&role=admin
+[Wed Jul 29 10:31:57 2026] 10.247.222.52:63528 Closing
+[Wed Jul 29 10:31:58 2026] 10.247.222.52:57767 Accepted
+[Wed Jul 29 10:31:58 2026] 10.247.222.52:57767 [200]: GET /assets/css/style.css
+[Wed Jul 29 10:31:58 2026] 10.247.222.52:57767 Closing
+[Wed Jul 29 10:31:58 2026] 10.247.222.52:54168 Accepted
+[Wed Jul 29 10:31:58 2026] 10.247.222.52:54168 [200]: GET /assets/css/forms.css
+[Wed Jul 29 10:31:58 2026] 10.247.222.52:54168 Closing
+[Wed Jul 29 10:31:58 2026] 10.247.222.52:54684 Accepted
+[Wed Jul 29 10:31:58 2026] 10.247.222.52:63142 Accepted
+[Wed Jul 29 10:31:58 2026] 10.247.222.52:51179 Accepted
+[Wed Jul 29 10:31:58 2026] 10.247.222.52:63142 [200]: GET /assets/js/app.js
+[Wed Jul 29 10:31:58 2026] 10.247.222.52:51179 [200]: GET /assets/js/validation.js
+[Wed Jul 29 10:31:58 2026] 10.247.222.52:54684 [200]: GET /assets/images/logo/logo.svg
+[Wed Jul 29 10:31:58 2026] 10.247.222.52:63142 Closing
+[Wed Jul 29 10:31:58 2026] 10.247.222.52:51179 Closing
+[Wed Jul 29 10:31:58 2026] 10.247.222.52:54684 Closing
+[Wed Jul 29 10:31:58 2026] 10.247.222.52:56458 Accepted
+[Wed Jul 29 10:31:58 2026] 10.247.222.52:56458 [200]: GET /favicon.ico
+[Wed Jul 29 10:31:58 2026] 10.247.222.52:56458 Closing
+[Wed Jul 29 10:33:23 2026] 10.247.222.52:58289 Accepted
+[Wed Jul 29 10:33:23 2026] 10.247.222.52:51579 Accepted
+[Wed Jul 29 10:33:23 2026] 10.247.222.52:51579 [302]: POST /modules/authentication/login.php
+[Wed Jul 29 10:33:23 2026] 10.247.222.52:51579 Closing
+[Wed Jul 29 10:33:23 2026] 10.247.222.52:58289 [200]: GET /modules/dashboard/admin-dashboard.php
+[Wed Jul 29 10:33:23 2026] 10.247.222.52:58289 Closing
+[Wed Jul 29 10:33:23 2026] 10.247.222.52:51926 Accepted
+[Wed Jul 29 10:33:23 2026] 10.247.222.52:64927 Accepted
+[Wed Jul 29 10:33:23 2026] 10.247.222.52:51926 [200]: GET /assets/css/style.css
+[Wed Jul 29 10:33:23 2026] 10.247.222.52:56762 Accepted
+[Wed Jul 29 10:33:23 2026] 10.247.222.52:64927 [200]: GET /assets/css/dashboard.css
+[Wed Jul 29 10:33:23 2026] 10.247.222.52:57297 Accepted
+[Wed Jul 29 10:33:23 2026] 10.247.222.52:56762 [200]: GET /assets/images/logo/logo.svg
+[Wed Jul 29 10:33:23 2026] 10.247.222.52:60215 Accepted
+[Wed Jul 29 10:33:23 2026] 10.247.222.52:51926 Closing
+[Wed Jul 29 10:33:23 2026] 10.247.222.52:57297 [200]: GET /assets/js/app.js
+[Wed Jul 29 10:33:23 2026] 10.247.222.52:64927 Closing
+[Wed Jul 29 10:33:23 2026] 10.247.222.52:60215 [200]: GET /assets/js/dashboard.js
+[Wed Jul 29 10:33:23 2026] 10.247.222.52:56762 Closing
+[Wed Jul 29 10:33:23 2026] 10.247.222.52:57297 Closing
+[Wed Jul 29 10:33:23 2026] 10.247.222.52:60215 Closing
+[Wed Jul 29 10:33:24 2026] 10.247.222.52:59141 Accepted
+[Wed Jul 29 10:33:24 2026] 10.247.222.52:59141 [200]: GET /favicon.ico
+[Wed Jul 29 10:33:24 2026] 10.247.222.52:59141 Closing
+[Wed Jul 29 10:35:37 2026] 10.247.222.162:60802 Accepted
+[Wed Jul 29 10:35:37 2026] 10.247.222.162:60802 [302]: GET /modules/authentication/login.php?logout=1
+[Wed Jul 29 10:35:37 2026] 10.247.222.162:60802 Closing
+[Wed Jul 29 10:35:37 2026] 10.247.222.162:60803 Accepted
+[Wed Jul 29 10:35:37 2026] 10.247.222.162:60803 [200]: GET /modules/authentication/login.php
+[Wed Jul 29 10:35:37 2026] 10.247.222.162:60803 Closing
+[Wed Jul 29 10:35:37 2026] 10.247.222.162:60804 Accepted
+[Wed Jul 29 10:35:37 2026] 10.247.222.162:60805 Accepted
+[Wed Jul 29 10:35:37 2026] 10.247.222.162:60806 Accepted
+[Wed Jul 29 10:35:37 2026] 10.247.222.162:60804 [200]: GET /assets/css/style.css
+[Wed Jul 29 10:35:37 2026] 10.247.222.162:60805 [200]: GET /assets/css/forms.css
+[Wed Jul 29 10:35:37 2026] 10.247.222.162:60806 [200]: GET /assets/js/validation.js
+[Wed Jul 29 10:35:37 2026] 10.247.222.162:60804 Closing
+[Wed Jul 29 10:35:37 2026] 10.247.222.162:60805 Closing
+[Wed Jul 29 10:35:37 2026] 10.247.222.162:60806 Closing
+[Wed Jul 29 10:35:37 2026] 10.247.222.162:60808 Accepted
+[Wed Jul 29 10:35:37 2026] 10.247.222.162:60809 Accepted
+[Wed Jul 29 10:35:37 2026] 10.247.222.162:60808 [200]: GET /assets/js/app.js
+[Wed Jul 29 10:35:37 2026] 10.247.222.162:60809 [200]: GET /assets/images/logo/logo.svg
+[Wed Jul 29 10:35:37 2026] 10.247.222.162:60808 Closing
+[Wed Jul 29 10:35:37 2026] 10.247.222.162:60809 Closing
+[Wed Jul 29 10:35:38 2026] 10.247.222.162:60815 Accepted
+[Wed Jul 29 10:35:38 2026] 10.247.222.162:60815 [200]: GET /favicon.ico
+[Wed Jul 29 10:35:38 2026] 10.247.222.162:60815 Closing
+[Wed Jul 29 10:35:56 2026] 10.247.222.162:60818 Accepted
+[Wed Jul 29 10:35:56 2026] 10.247.222.162:60818 [302]: POST /modules/authentication/login.php
+[Wed Jul 29 10:35:56 2026] 10.247.222.162:60818 Closing
+[Wed Jul 29 10:35:56 2026] 10.247.222.162:60819 Accepted
+[Wed Jul 29 10:35:56 2026] 10.247.222.162:60819 [200]: GET /modules/dashboard/admin-dashboard.php
+[Wed Jul 29 10:35:56 2026] 10.247.222.162:60819 Closing
+[Wed Jul 29 10:35:56 2026] 10.247.222.162:60820 Accepted
+[Wed Jul 29 10:35:56 2026] 10.247.222.162:60821 Accepted
+[Wed Jul 29 10:35:56 2026] 10.247.222.162:60822 Accepted
+[Wed Jul 29 10:35:56 2026] 10.247.222.162:60820 [200]: GET /assets/css/style.css
+[Wed Jul 29 10:35:56 2026] 10.247.222.162:60821 [200]: GET /assets/css/dashboard.css
+[Wed Jul 29 10:35:56 2026] 10.247.222.162:60820 Closing
+[Wed Jul 29 10:35:56 2026] 10.247.222.162:60821 Closing
+[Wed Jul 29 10:35:56 2026] 10.247.222.162:60822 [200]: GET /assets/js/dashboard.js
+[Wed Jul 29 10:35:56 2026] 10.247.222.162:60822 Closing
+[Wed Jul 29 10:35:56 2026] 10.247.222.162:60824 Accepted
+[Wed Jul 29 10:35:56 2026] 10.247.222.162:60825 Accepted
+[Wed Jul 29 10:35:56 2026] 10.247.222.162:60824 [200]: GET /assets/js/app.js
+[Wed Jul 29 10:35:56 2026] 10.247.222.162:60825 [200]: GET /assets/images/logo/logo.svg
+[Wed Jul 29 10:35:56 2026] 10.247.222.162:60824 Closing
+[Wed Jul 29 10:35:56 2026] 10.247.222.162:60825 Closing
+[Wed Jul 29 10:35:56 2026] 10.247.222.162:60826 Accepted
+[Wed Jul 29 10:35:56 2026] 10.247.222.162:60826 [200]: GET /favicon.ico
+[Wed Jul 29 10:35:56 2026] 10.247.222.162:60826 Closing
+[Wed Jul 29 10:35:59 2026] 10.247.222.162:60829 Accepted
+[Wed Jul 29 10:35:59 2026] 10.247.222.162:60829 [200]: GET /users/admin-faculty.php
+[Wed Jul 29 10:35:59 2026] 10.247.222.162:60829 Closing
+[Wed Jul 29 10:35:59 2026] 10.247.222.162:60830 Accepted
+[Wed Jul 29 10:35:59 2026] 10.247.222.162:60830 [200]: GET /assets/css/style.css
+[Wed Jul 29 10:35:59 2026] 10.247.222.162:60831 Accepted
+[Wed Jul 29 10:35:59 2026] 10.247.222.162:60832 Accepted
+[Wed Jul 29 10:35:59 2026] 10.247.222.162:60830 Closing
+[Wed Jul 29 10:35:59 2026] 10.247.222.162:60831 [200]: GET /assets/css/dashboard.css
+[Wed Jul 29 10:35:59 2026] 10.247.222.162:60831 Closing
+[Wed Jul 29 10:35:59 2026] 10.247.222.162:60832 [200]: GET /assets/js/dashboard.js
+[Wed Jul 29 10:35:59 2026] 10.247.222.162:60832 Closing
+[Wed Jul 29 10:35:59 2026] 10.247.222.162:60833 Accepted
+[Wed Jul 29 10:35:59 2026] 10.247.222.162:60834 Accepted
+[Wed Jul 29 10:35:59 2026] 10.247.222.162:60833 [200]: GET /assets/js/app.js
+[Wed Jul 29 10:35:59 2026] 10.247.222.162:60834 [200]: GET /assets/images/logo/logo.svg
+[Wed Jul 29 10:35:59 2026] 10.247.222.162:60833 Closing
+[Wed Jul 29 10:35:59 2026] 10.247.222.162:60834 Closing
+[Wed Jul 29 10:35:59 2026] 10.247.222.162:60835 Accepted
+[Wed Jul 29 10:35:59 2026] 10.247.222.162:60835 [200]: GET /favicon.ico
+[Wed Jul 29 10:35:59 2026] 10.247.222.162:60835 Closing
+[Wed Jul 29 10:36:44 2026] 10.247.222.162:60838 Accepted
+[Wed Jul 29 10:36:44 2026] 10.247.222.162:60839 Accepted
+[Wed Jul 29 10:36:44 2026] 10.247.222.162:60838 [302]: POST /users/admin-faculty.php
+[Wed Jul 29 10:36:44 2026] 10.247.222.162:60838 Closing
+[Wed Jul 29 10:36:44 2026] 10.247.222.162:60839 [200]: GET /users/admin-faculty.php
+[Wed Jul 29 10:36:44 2026] 10.247.222.162:60839 Closing
+[Wed Jul 29 10:36:44 2026] 10.247.222.162:60840 Accepted
+[Wed Jul 29 10:36:44 2026] 10.247.222.162:60841 Accepted
+[Wed Jul 29 10:36:44 2026] 10.247.222.162:60842 Accepted
+[Wed Jul 29 10:36:44 2026] 10.247.222.162:60840 [200]: GET /assets/css/style.css
+[Wed Jul 29 10:36:44 2026] 10.247.222.162:60841 [200]: GET /assets/css/dashboard.css
+[Wed Jul 29 10:36:44 2026] 10.247.222.162:60842 [200]: GET /assets/js/dashboard.js
+[Wed Jul 29 10:36:44 2026] 10.247.222.162:60840 Closing
+[Wed Jul 29 10:36:44 2026] 10.247.222.162:60841 Closing
+[Wed Jul 29 10:36:44 2026] 10.247.222.162:60842 Closing
+[Wed Jul 29 10:36:44 2026] 10.247.222.162:60843 Accepted
+[Wed Jul 29 10:36:44 2026] 10.247.222.162:60844 Accepted
+[Wed Jul 29 10:36:44 2026] 10.247.222.162:60843 [200]: GET /assets/js/app.js
+[Wed Jul 29 10:36:44 2026] 10.247.222.162:60844 [200]: GET /assets/images/logo/logo.svg
+[Wed Jul 29 10:36:44 2026] 10.247.222.162:60843 Closing
+[Wed Jul 29 10:36:44 2026] 10.247.222.162:60844 Closing
+[Wed Jul 29 10:36:44 2026] 10.247.222.162:60846 Accepted
+[Wed Jul 29 10:36:44 2026] 10.247.222.162:60846 [200]: GET /favicon.ico
+[Wed Jul 29 10:36:44 2026] 10.247.222.162:60846 Closing
+[Wed Jul 29 10:36:54 2026] 10.247.222.162:60850 Accepted
+[Wed Jul 29 10:36:54 2026] 10.247.222.162:60850 [302]: GET /modules/authentication/login.php?logout=1
+[Wed Jul 29 10:36:54 2026] 10.247.222.162:60850 Closing
+[Wed Jul 29 10:36:54 2026] 10.247.222.162:60851 Accepted
+[Wed Jul 29 10:36:54 2026] 10.247.222.162:60851 [200]: GET /modules/authentication/login.php
+[Wed Jul 29 10:36:54 2026] 10.247.222.162:60851 Closing
+[Wed Jul 29 10:36:54 2026] 10.247.222.162:60852 Accepted
+[Wed Jul 29 10:36:54 2026] 10.247.222.162:60853 Accepted
+[Wed Jul 29 10:36:54 2026] 10.247.222.162:60852 [200]: GET /assets/css/style.css
+[Wed Jul 29 10:36:54 2026] 10.247.222.162:60852 Closing
+[Wed Jul 29 10:36:54 2026] 10.247.222.162:60854 Accepted
+[Wed Jul 29 10:36:54 2026] 10.247.222.162:60853 [200]: GET /assets/css/forms.css
+[Wed Jul 29 10:36:54 2026] 10.247.222.162:60854 [200]: GET /assets/js/validation.js
+[Wed Jul 29 10:36:54 2026] 10.247.222.162:60853 Closing
+[Wed Jul 29 10:36:54 2026] 10.247.222.162:60854 Closing
+[Wed Jul 29 10:36:54 2026] 10.247.222.162:60855 Accepted
+[Wed Jul 29 10:36:54 2026] 10.247.222.162:60855 [200]: GET /assets/js/app.js
+[Wed Jul 29 10:36:54 2026] 10.247.222.162:60855 Closing
+[Wed Jul 29 10:36:54 2026] 10.247.222.162:60856 Accepted
+[Wed Jul 29 10:36:54 2026] 10.247.222.162:60856 [200]: GET /assets/images/logo/logo.svg
+[Wed Jul 29 10:36:54 2026] 10.247.222.162:60856 Closing
+[Wed Jul 29 10:36:54 2026] 10.247.222.162:60857 Accepted
+[Wed Jul 29 10:36:54 2026] 10.247.222.162:60857 [200]: GET /favicon.ico
+[Wed Jul 29 10:36:54 2026] 10.247.222.162:60857 Closing
+[Wed Jul 29 10:37:09 2026] 10.247.222.162:60868 Accepted
+[Wed Jul 29 10:37:09 2026] 10.247.222.162:60868 [302]: POST /modules/authentication/login.php
+[Wed Jul 29 10:37:09 2026] 10.247.222.162:60868 Closing
+[Wed Jul 29 10:37:09 2026] 10.247.222.162:60869 Accepted
+[Wed Jul 29 10:37:09 2026] 10.247.222.162:60869 [200]: GET /modules/dashboard/faculty-dashboard.php
+[Wed Jul 29 10:37:09 2026] 10.247.222.162:60869 Closing
+[Wed Jul 29 10:37:09 2026] 10.247.222.162:60870 Accepted
+[Wed Jul 29 10:37:09 2026] 10.247.222.162:60871 Accepted
+[Wed Jul 29 10:37:09 2026] 10.247.222.162:60870 [200]: GET /assets/css/style.css
+[Wed Jul 29 10:37:09 2026] 10.247.222.162:60870 Closing
+[Wed Jul 29 10:37:09 2026] 10.247.222.162:60871 [200]: GET /assets/css/dashboard.css
+[Wed Jul 29 10:37:09 2026] 10.247.222.162:60871 Closing
+[Wed Jul 29 10:37:09 2026] 10.247.222.162:60873 Accepted
+[Wed Jul 29 10:37:09 2026] 10.247.222.162:60874 Accepted
+[Wed Jul 29 10:37:09 2026] 10.247.222.162:60875 Accepted
+[Wed Jul 29 10:37:09 2026] 10.247.222.162:60873 [200]: GET /assets/js/dashboard.js
+[Wed Jul 29 10:37:09 2026] 10.247.222.162:60874 [200]: GET /assets/js/app.js
+[Wed Jul 29 10:37:09 2026] 10.247.222.162:60875 [200]: GET /assets/images/logo/logo.svg
+[Wed Jul 29 10:37:09 2026] 10.247.222.162:60873 Closing
+[Wed Jul 29 10:37:09 2026] 10.247.222.162:60874 Closing
+[Wed Jul 29 10:37:09 2026] 10.247.222.162:60875 Closing
+[Wed Jul 29 10:37:09 2026] 10.247.222.162:60876 Accepted
+[Wed Jul 29 10:37:09 2026] 10.247.222.162:60876 [200]: GET /favicon.ico
+[Wed Jul 29 10:37:09 2026] 10.247.222.162:60876 Closing
+[Wed Jul 29 10:37:17 2026] 10.247.222.162:60886 Accepted
+[Wed Jul 29 10:37:17 2026] 10.247.222.162:60887 Accepted
+[Wed Jul 29 10:37:17 2026] 10.247.222.162:60886 [200]: GET /assets/css/style.css
+[Wed Jul 29 10:37:17 2026] 10.247.222.162:60887 [200]: GET /assets/css/dashboard.css
+[Wed Jul 29 10:37:17 2026] 10.247.222.162:60886 Closing
+[Wed Jul 29 10:37:17 2026] 10.247.222.162:60887 Closing
+[Wed Jul 29 10:41:23 2026] 10.247.222.162:61166 Accepted
+[Wed Jul 29 10:41:23 2026] 10.247.222.162:61166 [302]: GET /modules/authentication/login.php?logout=1
+[Wed Jul 29 10:41:23 2026] 10.247.222.162:61166 Closing
+[Wed Jul 29 10:41:23 2026] 10.247.222.162:61167 Accepted
+[Wed Jul 29 10:41:23 2026] 10.247.222.162:61167 [200]: GET /modules/authentication/login.php
+[Wed Jul 29 10:41:23 2026] 10.247.222.162:61167 Closing
+[Wed Jul 29 10:41:23 2026] 10.247.222.162:61168 Accepted
+[Wed Jul 29 10:41:23 2026] 10.247.222.162:61169 Accepted
+[Wed Jul 29 10:41:23 2026] 10.247.222.162:61170 Accepted
+[Wed Jul 29 10:41:23 2026] 10.247.222.162:61168 [200]: GET /assets/css/style.css
+[Wed Jul 29 10:41:23 2026] 10.247.222.162:61169 [200]: GET /assets/css/forms.css
+[Wed Jul 29 10:41:23 2026] 10.247.222.162:61170 [200]: GET /assets/js/validation.js
+[Wed Jul 29 10:41:23 2026] 10.247.222.162:61168 Closing
+[Wed Jul 29 10:41:23 2026] 10.247.222.162:61169 Closing
+[Wed Jul 29 10:41:23 2026] 10.247.222.162:61170 Closing
+[Wed Jul 29 10:41:23 2026] 10.247.222.162:61172 Accepted
+[Wed Jul 29 10:41:23 2026] 10.247.222.162:61172 [200]: GET /assets/js/app.js
+[Wed Jul 29 10:41:23 2026] 10.247.222.162:61173 Accepted
+[Wed Jul 29 10:41:23 2026] 10.247.222.162:61173 [200]: GET /assets/images/logo/logo.svg
+[Wed Jul 29 10:41:23 2026] 10.247.222.162:61172 Closing
+[Wed Jul 29 10:41:23 2026] 10.247.222.162:61173 Closing
+[Wed Jul 29 10:41:23 2026] 10.247.222.162:61176 Accepted
+[Wed Jul 29 10:41:23 2026] 10.247.222.162:61176 [200]: GET /favicon.ico
+[Wed Jul 29 10:41:23 2026] 10.247.222.162:61176 Closing
+[Wed Jul 29 10:41:42 2026] 10.247.222.162:61178 Accepted
+[Wed Jul 29 10:41:42 2026] 10.247.222.162:61179 Accepted
+[Wed Jul 29 10:41:42 2026] 10.247.222.162:61178 [302]: POST /modules/authentication/login.php
+[Wed Jul 29 10:41:42 2026] 10.247.222.162:61178 Closing
+[Wed Jul 29 10:41:42 2026] 10.247.222.162:61179 [200]: GET /modules/dashboard/admin-dashboard.php
+[Wed Jul 29 10:41:42 2026] 10.247.222.162:61179 Closing
+[Wed Jul 29 10:41:42 2026] 10.247.222.162:61180 Accepted
+[Wed Jul 29 10:41:42 2026] 10.247.222.162:61181 Accepted
+[Wed Jul 29 10:41:42 2026] 10.247.222.162:61182 Accepted
+[Wed Jul 29 10:41:42 2026] 10.247.222.162:61180 [200]: GET /assets/css/style.css
+[Wed Jul 29 10:41:42 2026] 10.247.222.162:61181 [200]: GET /assets/css/dashboard.css
+[Wed Jul 29 10:41:42 2026] 10.247.222.162:61182 [200]: GET /assets/js/dashboard.js
+[Wed Jul 29 10:41:42 2026] 10.247.222.162:61180 Closing
+[Wed Jul 29 10:41:42 2026] 10.247.222.162:61181 Closing
+[Wed Jul 29 10:41:42 2026] 10.247.222.162:61182 Closing
+[Wed Jul 29 10:41:42 2026] 10.247.222.162:61184 Accepted
+[Wed Jul 29 10:41:42 2026] 10.247.222.162:61185 Accepted
+[Wed Jul 29 10:41:42 2026] 10.247.222.162:61184 [200]: GET /assets/js/app.js
+[Wed Jul 29 10:41:42 2026] 10.247.222.162:61185 [200]: GET /assets/images/logo/logo.svg
+[Wed Jul 29 10:41:42 2026] 10.247.222.162:61184 Closing
+[Wed Jul 29 10:41:42 2026] 10.247.222.162:61185 Closing
+[Wed Jul 29 10:41:43 2026] 10.247.222.162:61186 Accepted
+[Wed Jul 29 10:41:43 2026] 10.247.222.162:61186 [200]: GET /favicon.ico
+[Wed Jul 29 10:41:43 2026] 10.247.222.162:61186 Closing
+[Wed Jul 29 10:41:57 2026] 10.247.222.162:61194 Accepted
+[Wed Jul 29 10:41:57 2026] 10.247.222.162:61195 Accepted
+[Wed Jul 29 10:41:57 2026] 10.247.222.162:61194 [200]: GET /assets/css/style.css
+[Wed Jul 29 10:41:57 2026] 10.247.222.162:61195 [200]: GET /assets/css/dashboard.css
+[Wed Jul 29 10:41:57 2026] 10.247.222.162:61194 Closing
+[Wed Jul 29 10:41:57 2026] 10.247.222.162:61195 Closing
+[Wed Jul 29 11:15:25 2026] 10.247.222.162:62327 Accepted
+[Wed Jul 29 11:15:25 2026] 10.247.222.162:62327 [302]: GET /modules/authentication/login.php?logout=1
+[Wed Jul 29 11:15:25 2026] 10.247.222.162:62327 Closing
+[Wed Jul 29 11:15:25 2026] 10.247.222.162:62328 Accepted
+[Wed Jul 29 11:15:25 2026] 10.247.222.162:62328 [200]: GET /modules/authentication/login.php
+[Wed Jul 29 11:15:25 2026] 10.247.222.162:62328 Closing
+[Wed Jul 29 11:15:25 2026] 10.247.222.162:62329 Accepted
+[Wed Jul 29 11:15:25 2026] 10.247.222.162:62330 Accepted
+[Wed Jul 29 11:15:25 2026] 10.247.222.162:62331 Accepted
+[Wed Jul 29 11:15:25 2026] 10.247.222.162:62329 [200]: GET /assets/css/style.css
+[Wed Jul 29 11:15:25 2026] 10.247.222.162:62330 [200]: GET /assets/css/forms.css
+[Wed Jul 29 11:15:25 2026] 10.247.222.162:62331 [200]: GET /assets/js/validation.js
+[Wed Jul 29 11:15:25 2026] 10.247.222.162:62329 Closing
+[Wed Jul 29 11:15:25 2026] 10.247.222.162:62330 Closing
+[Wed Jul 29 11:15:25 2026] 10.247.222.162:62331 Closing
+[Wed Jul 29 11:15:26 2026] 10.247.222.162:62333 Accepted
+[Wed Jul 29 11:15:26 2026] 10.247.222.162:62334 Accepted
+[Wed Jul 29 11:15:26 2026] 10.247.222.162:62333 [200]: GET /assets/js/app.js
+[Wed Jul 29 11:15:26 2026] 10.247.222.162:62334 [200]: GET /assets/images/logo/logo.svg
+[Wed Jul 29 11:15:26 2026] 10.247.222.162:62333 Closing
+[Wed Jul 29 11:15:26 2026] 10.247.222.162:62334 Closing
+[Wed Jul 29 11:15:27 2026] 10.247.222.162:62339 Accepted
+[Wed Jul 29 11:15:27 2026] 10.247.222.162:62339 [200]: GET /favicon.ico
+[Wed Jul 29 11:15:27 2026] 10.247.222.162:62339 Closing

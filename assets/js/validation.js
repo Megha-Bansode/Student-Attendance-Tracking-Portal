@@ -181,12 +181,10 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    // Form Submit handling (For backend readiness - log role and prevent default for mock demo, but let submit proceed if needed)
+    // Form Submit handling
     const forms = document.querySelectorAll('.split-login-form');
     forms.forEach(form => {
         form.addEventListener('submit', function (e) {
-            // Note: In real backend integration, this event listener can be removed or used for async login.
-            // For now, we simulate authentication transition.
             e.preventDefault();
 
             const submitBtn = this.querySelector('button[type="submit"]');
@@ -196,26 +194,8 @@ document.addEventListener('DOMContentLoaded', function () {
             submitBtn.innerHTML = `<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span> Authenticating...`;
 
             setTimeout(() => {
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = origHtml;
-
-                if (activeRole === 'admin') {
-                    window.location.href = '../dashboard/admin-dashboard.php';
-                } else if (activeRole === 'faculty') {
-                    const idInput = document.getElementById('facultyId');
-                    const passInput = document.getElementById('facultyPassword');
-                    const idVal = idInput ? idInput.value.trim().toLowerCase() : '';
-                    const passVal = passInput ? passInput.value.trim() : '';
-
-                    if (idVal === 'faculty@login' && (passVal === 'faculty@123' || passVal === 'faculty123')) {
-                        window.location.href = '../dashboard/faculty-dashboard.php';
-                    } else {
-                        window.location.href = '../dashboard/faculty-dashboard.php';
-                    }
-                } else if (activeRole === 'student') {
-                    showToast(`❌ Invalid Student ZPRN or Password.`, true);
-                }
-            }, 1000);
+                form.submit();
+            }, 600);
         });
     });
 
@@ -236,6 +216,41 @@ document.addEventListener('DOMContentLoaded', function () {
         setTimeout(() => {
             toastElem.classList.remove('show');
         }, 3000);
+    }
+
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.has('error')) {
+        const errorType = urlParams.get('error');
+        const role = urlParams.get('role');
+        
+        let errorMsg = '❌ Invalid credentials provided.';
+        
+        if (errorType === 'not_found') {
+            if (role === 'student') {
+                errorMsg = '❌ Student PRN not found in system.';
+            } else if (role === 'faculty') {
+                errorMsg = '❌ Faculty ID not found in directory.';
+            } else if (role === 'admin') {
+                errorMsg = '❌ Admin account not found.';
+            } else {
+                errorMsg = '❌ Account not found.';
+            }
+        } else if (errorType === 'wrong_password') {
+            if (role === 'student') {
+                errorMsg = '❌ Incorrect password for this student account.';
+            } else if (role === 'faculty') {
+                errorMsg = '❌ Incorrect password for this faculty account.';
+            } else if (role === 'admin') {
+                errorMsg = '❌ Incorrect password for Admin account.';
+            } else {
+                errorMsg = '❌ Incorrect password.';
+            }
+        } else {
+            // Fallback for legacy generic error=1
+            errorMsg = '❌ Invalid username, PRN or password.';
+        }
+        
+        showToast(errorMsg, true);
     }
 
     // 2. Interactive Background Motion Dots (Starfield Canvas)
